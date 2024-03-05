@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+  background: url("../public/background.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+} */
+
+.sidebar {
+  @apply w-64 h-screen text-white bg-[#7054f6];
+}
+
+input {
+  @apply block w-full rounded-md border p-2;
+}
+
+.sidebar > ul {
+  @apply mt-8 list-none;
+}
+
+.sidebar ul div {
+  @apply p-4 font-semibold flex items-center gap-2  cursor-pointer;
+}
+
+.topbar {
+  @apply p-4 flex items-center justify-between;
+}
+
+.chart-container {
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f3f4f6;
+  @apply shadow shadow-sm;
+}
