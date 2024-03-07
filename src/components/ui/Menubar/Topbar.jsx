@@ -2,10 +2,20 @@
 import { RxCodesandboxLogo } from "react-icons/rx";
 import { FaRegUser } from "react-icons/fa6";
 import { RiMenu3Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { useSidebarContext } from "../../../context/SidebarContext";
+import secureLocalStorage from "react-secure-storage";
 
 const Topbar = () => {
   const { state, dispatch } = useSidebarContext();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // remove the access token from secureLocalStorage
+    secureLocalStorage.removeItem("accessToken");
+    secureLocalStorage.removeItem("refreshToken");
+    navigate("/login");
+  };
   return (
     <div className="topbar">
       <h3 className="text-2xl font-bold text-center my-4 flex items-center justify-center gap-2">
@@ -26,7 +36,10 @@ const Topbar = () => {
           Hello! 👋 huzaifawaqar77@gmail.com{" "}
           <FaRegUser className="text-[#7054f6] w-6 h-6" />
         </span>
-        <span className="px-4 py-2 rounded-md bg-[#7054f6] text-white font-semibold">
+        <span
+          className="px-4 py-2 rounded-md bg-[#7054f6] text-white font-semibold cursor-pointer hover:shadow hover:shadow-lg"
+          onClick={handleLogout}
+        >
           Logout
         </span>
       </div>

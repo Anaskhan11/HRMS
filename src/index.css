@@ -36,3 +36,11 @@ input {
   background-color: #f3f4f6;
   @apply shadow shadow-sm;
 }
+
+.login-form {
+  background: url("../public//login-image.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}

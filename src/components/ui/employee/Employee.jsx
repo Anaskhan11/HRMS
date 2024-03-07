@@ -1,20 +1,16 @@
 //Libs
-
 import { useQuery } from "react-query";
-import { useEffect } from "react";
+import axiosInstance from "../../../api/axios";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Employee = () => {
   // /api/employee/getAllEmployees
 
   const getAllEmployees = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_APP_BASE_URL}/api/employee/getAllEmployees`
-    );
-    if (!response.ok) {
-      throw new Error("Something went wrong");
-    }
-    if (!response.ok) throw new Error("Network response was not ok");
-    return response.json();
+    const response = await axiosInstance.get("/api/employee/getAllEmployees");
+    return response.data;
   };
 
   const {
@@ -25,7 +21,12 @@ const Employee = () => {
   } = useQuery("employees", getAllEmployees);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className="p-4 my-6 h-screen">
+        <Skeleton height={40} />
+        <Skeleton count={5} />
+      </section>
+    );
   }
 
   if (isError) {

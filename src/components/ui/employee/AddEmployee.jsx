@@ -60,9 +60,9 @@ const AddEmployee = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="my-6 rounded-lg overflow-hidden"
+        className="my-6 rounded-lg"
       >
-        <div className="p-6 md:p-8 shadow shadow-md rounded-md shadow-violet-400 border border-violet-400 card">
+        <div className="p-6 md:p-8 shadow shadow-sm rounded-md shadow-gray-400 card">
           <form onSubmit={handleSubmit}>
             <div className="grid p-2 grid-cols-1 md:grid-cols-2 gap-6 mb-6 ">
               {/** Input fields are encapsulated within their individual div for layout */}
@@ -71,7 +71,7 @@ const AddEmployee = () => {
                   Name
                 </label>
                 <input
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full shadow shadow-sm mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   id="name"
                   name="name"
                   type="text"
@@ -106,7 +106,7 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="role">
+                <label className="text-gray-700 font-medium" htmlFor="role">
                   Role
                 </label>
                 <input
@@ -119,7 +119,10 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="fatherName">
+                <label
+                  className="text-gray-700 font-medium"
+                  htmlFor="fatherName"
+                >
                   Father's Name
                 </label>
                 <input
@@ -132,7 +135,7 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="gender">
+                <label className="text-gray-700 font-medium" htmlFor="gender">
                   Gender
                 </label>
                 <input
@@ -143,7 +146,7 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="address">
+                <label className="text-gray-700 font-medium" htmlFor="address">
                   Address
                 </label>
                 <input
@@ -156,7 +159,10 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="date_of_birth">
+                <label
+                  className="text-gray-700 font-medium"
+                  htmlFor="date_of_birth"
+                >
                   Date of Birth
                 </label>
                 <input
@@ -169,7 +175,7 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="religion">
+                <label className="text-gray-700 font-medium" htmlFor="religion">
                   Religion
                 </label>
                 <input
@@ -182,7 +188,10 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="phoneNumber">
+                <label
+                  className="text-gray-700 font-medium"
+                  htmlFor="phoneNumber"
+                >
                   Phone Number
                 </label>
                 <input
@@ -195,7 +204,10 @@ const AddEmployee = () => {
                 />
               </div>
               <div>
-                <label className="text-gray-700" htmlFor="emergencyContact">
+                <label
+                  className="text-gray-700 font-medium"
+                  htmlFor="emergencyContact"
+                >
                   Emergency Contact
                 </label>
                 <input

@@ -22,12 +22,12 @@ const Sidebar = () => {
     <>
       <div className="sidebar fixed sm:static top-0 left-0 z-10">
         <IsScrollable>
-          <div className="my-2 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2">
+          <div
+            className="my-2 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2 cursor-pointer"
+            onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
+          >
             <span>Close</span>
-            <RxCross2
-              className="w-6 h-6 text-white cursor-pointer"
-              onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
-            />
+            <RxCross2 className="w-6 h-6 text-white" />
           </div>
           <ul className="my-12">
             <div>

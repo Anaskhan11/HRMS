@@ -10,6 +10,7 @@ import EmployeeAgePieChart from "../employee/EmployeeAgePieChart";
 import IsScrollable from "../common/Scrollable";
 
 const Dashboard = () => {
+  console.log("Dashboard page");
   return (
     <section className="p-4 h-[86vh]">
       <IsScrollable>
