@@ -1,12 +1,11 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-
 import secureLocalStorage from "react-secure-storage";
 
 const PublicRoute = ({ children }) => {
-  const auth = secureLocalStorage.getItem("accessToken");
+  const accessToken = secureLocalStorage.getItem("accessToken");
 
-  return auth ? <Navigate to="/" /> : children;
+  return accessToken ? <Navigate to="/" /> : children;
 };
 
 export default PublicRoute;

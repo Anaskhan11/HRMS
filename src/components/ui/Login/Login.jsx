@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import secureLocalStorage from "react-secure-storage";
 
 // Icons
@@ -23,6 +24,13 @@ const LoginUser = async (data) => {
   if (!response.ok) {
     throw new Error("Something went wrong");
   }
+
+  toast.success(`Login`, {
+    style: {
+      background: "#555",
+      color: "#ffffff",
+    },
+  });
   return response.json();
 };
 
@@ -36,6 +44,7 @@ const Login = () => {
       // Assuming `data.accessToken` is the correct path to access the token
       secureLocalStorage.setItem("accessToken", data.accessToken);
       secureLocalStorage.setItem("refreshToken", data.refreshToken);
+      secureLocalStorage.setItem("user", data.user);
       setEmail("");
       setPassword("");
       // Optionally navigate to another page upon successful login

@@ -1,19 +1,31 @@
-// Logo Icon
-import { RxCodesandboxLogo } from "react-icons/rx";
-import { FaRegUser } from "react-icons/fa6";
-import { RiMenu3Line } from "react-icons/ri";
+// libs
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSidebarContext } from "../../../context/SidebarContext";
 import secureLocalStorage from "react-secure-storage";
 
+// Logo Icon
+import { RxCodesandboxLogo } from "react-icons/rx";
+import { FaRegUser } from "react-icons/fa6";
+import { RiMenu3Line } from "react-icons/ri";
+
 const Topbar = () => {
   const { state, dispatch } = useSidebarContext();
+  const [user, setUser] = useState(secureLocalStorage.getItem("user"));
+
+  useEffect(() => {
+    console.log("Topbar User:", secureLocalStorage.getItem("user"));
+    setUser(secureLocalStorage.getItem("user"));
+  }, []);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // remove the access token from secureLocalStorage
     secureLocalStorage.removeItem("accessToken");
     secureLocalStorage.removeItem("refreshToken");
+    secureLocalStorage.removeItem("user");
+
     navigate("/login");
   };
   return (
@@ -33,7 +45,7 @@ const Topbar = () => {
 
       <div className="flex items-center gap-4 ">
         <span className="hidden sm:flex items-center gap-2 p-2 font-bold rounded-md border border-[#7054f6] text-[#7054f6]">
-          Hello! 👋 huzaifawaqar77@gmail.com{" "}
+          Hello! 👋 {user?.email}{" "}
           <FaRegUser className="text-[#7054f6] w-6 h-6" />
         </span>
         <span

@@ -44,3 +44,8 @@ input {
   background-attachment: fixed;
   background-position: center;
 }
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

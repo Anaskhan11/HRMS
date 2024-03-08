@@ -5,7 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import { SidebarContextProvider } from "./context/SidebarContext.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./index.css";
-import Login from "./components/ui/Login/Login.jsx";
 
 const queryClient = new QueryClient();
 
