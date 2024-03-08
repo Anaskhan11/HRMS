@@ -4,18 +4,20 @@ import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Employee = () => {
-  const getAllEmployees = async () => {
-    const response = await axiosInstance.get("/api/employee/getAllEmployees");
+const Department = () => {
+  const getAllDepartments = async () => {
+    const response = await axiosInstance.get(
+      "/api/department/getAllDepartment"
+    );
     return response.data;
   };
 
   const {
-    data: employees,
+    data: departments,
     isLoading,
     error,
     isError,
-  } = useQuery("employees", getAllEmployees);
+  } = useQuery("departments", getAllDepartments);
 
   if (isLoading) {
     return (
@@ -32,7 +34,7 @@ const Employee = () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold text-[#7054f6]">Employee</h1>
+      <h1 className="text-xl font-semibold text-[#7054f6]">Departments</h1>
       <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -45,35 +47,7 @@ const Employee = () => {
               </th>
 
               <th scope="col" className="py-3 px-6">
-                Email
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Role
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Father Name
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Gender
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Religion
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Address
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Phone Number
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Emergency Contact
+                Description
               </th>
 
               <th scope="col" className="py-3 px-6">
@@ -83,20 +57,14 @@ const Employee = () => {
           </thead>
 
           <tbody>
-            {employees.result.map((employee) => (
+            {departments.result.map((department) => (
               <tr
                 className="bg-white border-b light:bg-gray-200 light:border-gray-200"
-                key={employee.employee_id}
+                key={department.department_id}
               >
-                <td className="py-4 px-6">{employee.name}</td>
-                <td className="py-4 px-6">{employee.email}</td>
-                <td className="py-4 px-6">{employee.role}</td>
-                <td className="py-4 px-6">{employee.father_name}</td>
-                <td className="py-4 px-6">{employee.gender}</td>
-                <td className="py-4 px-6">{employee.religion}</td>
-                <td className="py-4 px-6">{employee.address}</td>
-                <td className="py-4 px-6">{employee.phone_number}</td>
-                <td className="py-4 px-6">{employee.emergency_contact}</td>
+                <td className="py-4 px-6">{department.name}</td>
+                <td className="py-4 px-6">{department.description}</td>
+
                 <td className="py-4 px-6">
                   <a
                     href="#"
@@ -114,4 +82,4 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+export default Department;

@@ -18,7 +18,11 @@ import { useSidebarContext } from "./context/SidebarContext";
 import Dashboard from "./components/ui/Dashboard/Dashboard";
 import Employee from "./components/ui/employee/Employee";
 import AddEmployee from "./components/ui/employee/AddEmployee";
+import Department from "./components/ui/departments/Department";
+import AddDepartment from "./components/ui/departments/AddDepartment";
 import Login from "./components/ui/Login/Login";
+import Position from "./components/ui/positions/Position";
+import AddPosition from "./components/ui/positions/AddPosition";
 
 function App() {
   const { state } = useSidebarContext();
@@ -31,6 +35,10 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="employee" element={<Employee />} />
             <Route path="employee/add" element={<AddEmployee />} />
+            <Route path="department" element={<Department />} />
+            <Route path="department/add" element={<AddDepartment />} />
+            <Route path="position" element={<Position />} />
+            <Route path="position/add" element={<AddPosition />} />
           </Route>
         </Route>
         <Route
@@ -50,6 +58,10 @@ function App() {
 function MainLayout({ sidebar }) {
   const sectionStyle = {
     width: sidebar ? "calc(100% - 16rem)" : "100%", // Adjust '16rem' to match your sidebar's width
+    height: "100%",
+    overflowY: "scroll",
+    scrollbarWidth: "thin",
+    scrollbarColor: "transparent transparent", // Set the scrollbar color to transparent
   };
 
   return (

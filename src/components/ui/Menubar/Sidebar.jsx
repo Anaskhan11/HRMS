@@ -1,3 +1,10 @@
+// libs
+import { useSidebarContext } from "../../../context/SidebarContext";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import IsScrollable from "../common/Scrollable";
+
+// Icons
 import { RxDashboard } from "react-icons/rx";
 import { GrUserWorker } from "react-icons/gr";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -9,15 +16,16 @@ import { TbListDetails } from "react-icons/tb";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { IoChevronDownOutline } from "react-icons/io5";
+import { BsBuildings } from "react-icons/bs";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
-
-import { useSidebarContext } from "../../../context/SidebarContext";
-import { useState } from "react";
-import IsScrollable from "../common/Scrollable";
 
 const Sidebar = () => {
   const [showEmployees, setShowEmployees] = useState(false);
-  const { state, dispatch } = useSidebarContext();
+  const [showDepartments, setShowDepartments] = useState(false);
+  const [showPositions, setShowPositions] = useState(false);
+  const { dispatch } = useSidebarContext();
+
   return (
     <>
       <div className="sidebar fixed sm:static top-0 left-0 z-10">
@@ -32,7 +40,7 @@ const Sidebar = () => {
           <ul className="my-12">
             <div>
               <RxDashboard className="w-6 h-6" />
-              <a href={"/"}>Dashboard</a>
+              <Link to="/">Dashboard</Link>
             </div>
             <div onClick={() => setShowEmployees(!showEmployees)}>
               <GrUserWorker className="w-6 h-6" />
@@ -49,15 +57,61 @@ const Sidebar = () => {
               <ul className="p-2 bg-violet-400">
                 <div>
                   <CiViewList className="w-6 h-6" />
-                  <a href="/employee">Employee List</a>
+                  <Link to="/employee">Employee List</Link>
                 </div>
                 <div>
                   <TbListDetails className="w-6 h-6" />
-                  <a href="/employee/details">Employee Details</a>
+                  <Link to="/employee/details">Employee Details</Link>
                 </div>
                 <div>
                   <IoPersonAddOutline className="w-6 h-6" />
-                  <a href="/employee/add">Add Employee</a>
+                  <Link to="/employee/add">Add Employee</Link>
+                </div>
+              </ul>
+            )}
+            <div onClick={() => setShowDepartments(!showDepartments)}>
+              <BsBuildings className="w-6 h-6" />
+              <span className="flex items-center">
+                Departments{" "}
+                {!showDepartments ? (
+                  <MdOutlineChevronRight className="w-6 h-6" />
+                ) : (
+                  <IoChevronDownOutline className="w-6 h-6" />
+                )}
+              </span>
+            </div>
+            {showDepartments && (
+              <ul className="p-2 bg-violet-400">
+                <div>
+                  <CiViewList className="w-6 h-6" />
+                  <Link to="/department">Departments List</Link>
+                </div>
+                <div>
+                  <BsBuildings className="w-6 h-6" />
+                  <Link to="/department/add">Add Department</Link>
+                </div>
+              </ul>
+            )}
+            <div onClick={() => setShowPositions(!showPositions)}>
+              <BsPersonWorkspace className="w-6 h-6" />
+              <span className="flex items-center">
+                Positions{" "}
+                {!showPositions ? (
+                  <MdOutlineChevronRight className="w-6 h-6" />
+                ) : (
+                  <IoChevronDownOutline className="w-6 h-6" />
+                )}
+              </span>
+            </div>
+            {showPositions && (
+              <ul className="p-2 bg-violet-400">
+                <div>
+                  <CiViewList className="w-6 h-6" />
+                  <Link to="/position">Position List</Link>
+                </div>
+                <div>
+                  <BsBuildings className="w-6 h-6" />
+                  <Link to="/position/add">Add Position</Link>
                 </div>
               </ul>
             )}

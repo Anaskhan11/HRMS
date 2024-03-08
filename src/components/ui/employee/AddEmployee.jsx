@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../api/axios";
 
-// create User & Employee function
 const createUser = async (data) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_BASE_URL}/api/employee/createEmployee`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const response = await axiosInstance.post(
+      "/api/employee/createEmployee",
+      data
+    );
+
+    toast.success(`Employee Created Successfully`, {
+      style: {
+        background: "#555",
+        color: "#ffffff",
       },
-      body: JSON.stringify(data),
-    }
-  );
-  if (!response.ok) {
+    });
+
+    return response.data;
+  } catch (error) {
     throw new Error("Something went wrong");
   }
-  return response.json();
 };
 
 const AddEmployee = () => {
@@ -32,11 +37,48 @@ const AddEmployee = () => {
   const [religion, setReligion] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [department_id, setDepartmentId] = useState("");
+  const [positions, setPositions] = useState([]);
+  const [position_id, setPositionId] = useState("");
 
-  const mutation = useMutation(createUser);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAllDepartments = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "/api/department/getAllDepartment"
+        );
+        setDepartments(response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const getAllPositions = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "/api/position/getAllPositions"
+        );
+        setPositions(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getAllDepartments();
+    getAllPositions();
+  }, []);
+
+  const mutation = useMutation(createUser, {
+    onSuccess: () => {
+      navigate("/employee");
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(name, email, password, role, fatherName, gender);
     mutation.mutate({
       name,
       email,
@@ -49,6 +91,8 @@ const AddEmployee = () => {
       religion,
       phoneNumber,
       emergencyContact,
+      department_id: 1,
+      position_id: 1,
     });
   };
   return (
@@ -77,6 +121,7 @@ const AddEmployee = () => {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -90,6 +135,7 @@ const AddEmployee = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -103,20 +149,27 @@ const AddEmployee = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div>
                 <label className="text-gray-700 font-medium" htmlFor="role">
                   Role
                 </label>
-                <input
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  type="text"
+                <select
                   id="role"
                   name="role"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                />
+                  className="w-full mt-1 px-4 py-2 border bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  required
+                >
+                  <option value="" disabled>
+                    Select Role
+                  </option>
+                  <option value="admin">Admin</option>
+                  <option value="employee">Employee</option>
+                </select>
               </div>
               <div>
                 <label
@@ -132,19 +185,30 @@ const AddEmployee = () => {
                   name="fatherName"
                   value={fatherName}
                   onChange={(e) => setFatherName(e.target.value)}
+                  required
                 />
               </div>
               <div>
                 <label className="text-gray-700 font-medium" htmlFor="gender">
                   Gender
                 </label>
-                <input
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  type="text"
+                <select
+                  id="gender"
+                  name="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                />
+                  className="w-full mt-1 px-4 py-2 border bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  required
+                >
+                  <option value="" disabled>
+                    Select Gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
+
               <div>
                 <label className="text-gray-700 font-medium" htmlFor="address">
                   Address
@@ -156,6 +220,7 @@ const AddEmployee = () => {
                   name="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -172,6 +237,7 @@ const AddEmployee = () => {
                   name="date_of_birth"
                   value={date_of_birth}
                   onChange={(e) => setDate_of_birth(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -185,6 +251,7 @@ const AddEmployee = () => {
                   name="religion"
                   value={religion}
                   onChange={(e) => setReligion(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -201,6 +268,7 @@ const AddEmployee = () => {
                   name="phoneNumber"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -217,7 +285,57 @@ const AddEmployee = () => {
                   name="emergencyContact"
                   value={emergencyContact}
                   onChange={(e) => setEmergencyContact(e.target.value)}
+                  required
                 />
+              </div>
+              <div>
+                <label
+                  className="text-gray-700 font-medium"
+                  htmlFor="department"
+                >
+                  Department
+                </label>
+                <select
+                  name="department"
+                  id="department"
+                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  value={department_id}
+                  onChange={(e) => setDepartmentId(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    {" "}
+                    Select a Department
+                  </option>
+                  {departments.map((department) => (
+                    <option value={department.department_id}>
+                      {department.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-gray-700 font-medium" htmlFor="position">
+                  Position
+                </label>
+                <select
+                  name="position"
+                  id="position"
+                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  value={position_id}
+                  onChange={(e) => setPositionId(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    {" "}
+                    Select a Position
+                  </option>
+                  {positions.map((position) => (
+                    <option value={position.position_id}>
+                      {position.title}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <button
@@ -235,8 +353,12 @@ const AddEmployee = () => {
               transition={{ duration: 0.5 }}
             >
               {mutation.isLoading && <p>Loading...</p>}
-              {mutation.isSuccess && <p>User created successfully!</p>}
-              {mutation.isError && <p>Error: {mutation.error.message}</p>}
+              {mutation.isSuccess && (
+                <p className="success">User created successfully!</p>
+              )}
+              {mutation.isError && (
+                <p className="error">Error: {mutation.error.message}</p>
+              )}
             </motion.div>
           )}
         </div>
