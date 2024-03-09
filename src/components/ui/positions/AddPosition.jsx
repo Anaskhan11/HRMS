@@ -91,7 +91,7 @@ const AddPosition = () => {
             </div>
             <button
               disabled={mutation.isLoading}
-              className="w-fit px-4 py-3 mt-6 text-white bg-[#7054f6] rounded-lg"
+              className="w-fit px-4 py-3 mt-6 text-white bg-primary rounded-lg"
               type="submit"
             >
               Create Position

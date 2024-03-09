@@ -3,7 +3,7 @@ import { createContext, useReducer, useContext } from "react";
 const SidebarContext = createContext();
 
 const initialState = {
-  sidebar: false,
+  sidebar: true,
 };
 
 const sidebarReducer = (state, action) => {

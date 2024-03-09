@@ -10,12 +10,14 @@
   background-position: center;
 } */
 
-.sidebar {
-  @apply w-64 h-screen text-white bg-[#7054f6];
+body {
+  @apply bg-[#e7e0d8];
 }
-
 input {
   @apply block w-full rounded-md border p-2;
+}
+.sidebar {
+  @apply z-20 h-screen text-white bg-primary;
 }
 
 .sidebar > ul {
@@ -27,13 +29,13 @@ input {
 }
 
 .topbar {
-  @apply p-4 flex items-center justify-between;
+  @apply p-4 flex items-center justify-between sticky top-0 z-10;
 }
 
 .chart-container {
   padding: 20px;
   border-radius: 20px;
-  background-color: #f3f4f6;
+  background-color: rgba(255, 255, 255, 0);
   @apply shadow shadow-sm;
 }
 

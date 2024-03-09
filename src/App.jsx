@@ -57,7 +57,7 @@ function App() {
 
 function MainLayout({ sidebar }) {
   const sectionStyle = {
-    width: sidebar ? "calc(100% - 16rem)" : "100%", // Adjust '16rem' to match your sidebar's width
+    width: "100%", // Adjust '16rem' to match your sidebar's width
     height: "100%",
     overflowY: "scroll",
     scrollbarWidth: "thin",
@@ -66,7 +66,7 @@ function MainLayout({ sidebar }) {
 
   return (
     <main className="flex h-screen">
-      {sidebar ? <Sidebar /> : null}
+      {<Sidebar />}
       <section style={sectionStyle} className="flex flex-col">
         <Topbar />
         <Outlet /> {/* This is where nested routes will be rendered */}

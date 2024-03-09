@@ -45,6 +45,7 @@ const Login = () => {
       secureLocalStorage.setItem("accessToken", data.accessToken);
       secureLocalStorage.setItem("refreshToken", data.refreshToken);
       secureLocalStorage.setItem("user", data.user);
+      console.log("Login user data: ", data);
       setEmail("");
       setPassword("");
       // Optionally navigate to another page upon successful login
@@ -72,7 +73,7 @@ const Login = () => {
           <img
             src="./logo.svg"
             alt="company logo"
-            className="h-20 w-auto sm:h-30 "
+            className="h-20 w-auto sm:h-30"
           />
         </div>
         <div className="border-l border-primary h-96 hidden sm:block"></div>
@@ -86,7 +87,7 @@ const Login = () => {
                 >
                   Email
                 </label>
-                <div className="flex items-center p-1 rounded-md bg-white">
+                <div className="flex items-center p-1 rounded-md bg-white border-2 border-primary">
                   <HiOutlineMailOpen className=" text-primary  h-8 w-8" />
                   <input
                     type="email"
@@ -107,7 +108,7 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <div className="flex items-center p-1 rounded-md bg-white">
+                <div className="flex items-center p-1 rounded-md bg-white border-2 border-primary">
                   <RiLockPasswordLine className=" text-primary  h-8 w-8" />
 
                   <input

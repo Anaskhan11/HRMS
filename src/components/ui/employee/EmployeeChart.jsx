@@ -42,13 +42,13 @@ export default function EmployeeChart() {
         font: {
           size: 14,
         },
-        fontColor: "#7054f6",
+        fontColor: "#4E8397",
       },
       tooltip: {
         enabled: true,
         mode: "index",
         intersect: false,
-        backgroundColor: "#7054f6",
+        backgroundColor: "#4E8397",
         titleFont: {
           size: 14,
           weight: "bold",
@@ -82,7 +82,7 @@ export default function EmployeeChart() {
     elements: {
       bar: {
         borderWidth: 1,
-        backgroundColor: "#7054f6",
+        backgroundColor: "#4E8397",
         borderRadius: 50,
       },
     },
@@ -97,14 +97,14 @@ export default function EmployeeChart() {
       {
         label: "John",
         data: [10, 5],
-        backgroundColor: "#7054f6",
-        borderColor: "#7054f6",
+        backgroundColor: "#4E8397",
+        borderColor: "#4E8397",
       },
       {
         label: "Alexa",
         data: [20, 12],
-        backgroundColor: "#7054f6",
-        borderColor: "#7054f6",
+        backgroundColor: "#4E8397",
+        borderColor: "#4E8397",
       },
     ],
   };

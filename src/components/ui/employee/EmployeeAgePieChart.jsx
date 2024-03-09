@@ -72,8 +72,8 @@ const data = {
       label: "Age Distribution",
       data: [20, 30, 25, 15, 10],
       fill: true, // Required for the area under the line to be filled
-      backgroundColor: "rgba(83, 51, 237, 0.7)", // Purple with 70% opacity
-      borderColor: "rgb(83, 51, 237)",
+      backgroundColor: "#4E8397", // Purple with 70% opacity
+      borderColor: "#4E8397",
     },
   ],
 };

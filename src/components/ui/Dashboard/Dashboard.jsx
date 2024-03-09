@@ -10,38 +10,37 @@ import EmployeeAgePieChart from "../employee/EmployeeAgePieChart";
 import IsScrollable from "../common/Scrollable";
 
 const Dashboard = () => {
-  console.log("Dashboard page");
   return (
     <section className="p-4 h-[86vh]">
       <IsScrollable>
-        <h1 className="text-xl font-semibold text-[#7054f6]">Dashboard</h1>
+        <h1 className="text-xl font-semibold text-primary">Admin Dashboard</h1>
         <div className="my-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-white">
-          <div className="bg-[#7054f6] rounded-md shadow-md shadow-[#7054f6] flex gap-4 flex-col items-center justify-center p-4">
+          <div className="bg-primary rounded-md shadow-md shadow-primary flex gap-4 flex-col items-center justify-center p-4">
             <h2 className="text-md font-semibold">Total Admins</h2>
             <GrUserAdmin className="w-8 h-8" />
-            <h2 className="text-3xl font-bold">14k Admins</h2>
+            <h2 className="text-3xl font-bold text-center">14k Admins</h2>
           </div>
-          <div className="bg-[#7054f6] rounded-md shadow-md shadow-[#7054f6] flex gap-4 flex-col items-center justify-center p-4">
+          <div className="bg-primary rounded-md shadow-md shadow-primary flex gap-4 flex-col items-center justify-center p-4">
             <h2 className="text-md font-semibold">Total Employees</h2>
             <FaRegUser className="w-8 h-8" />
-            <h2 className="text-3xl font-bold">14k Employees</h2>
+            <h2 className="text-3xl font-bold text-center">14k Employees</h2>
           </div>
-          <div className="bg-[#7054f6] rounded-md shadow-md shadow-[#7054f6] flex gap-4 flex-col items-center justify-center p-4">
-            <h2 className="text-md font-semibold">Total Projects</h2>
+          <div className="bg-primary rounded-md shadow-md shadow-primary flex gap-4 flex-col items-center justify-center p-4">
+            <h2 className="text-md font-semibold ">Total Projects</h2>
             <GoProject className="w-8 h-8" />
-            <h2 className="text-3xl font-bold">100+ Projects</h2>
+            <h2 className="text-3xl font-bold text-center">100+ Projects</h2>
           </div>
-          <div className="bg-[#7054f6] rounded-md shadow-md shadow-[#7054f6] flex gap-4 flex-col items-center justify-center p-4">
+          <div className="bg-primary rounded-md shadow-md shadow-primary flex gap-4 flex-col items-center justify-center p-4">
             <h2 className="text-md font-semibold">Total Departments</h2>
             <BsBuildings className="w-8 h-8" />
-            <h2 className="text-3xl font-bold">20 Departments</h2>
+            <h2 className="text-3xl font-bold text-center">20 Departments</h2>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 h-[400px]">
-          <div className="chart-container w-full my-4 h-full flex-1 card">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 h-full">
+          <div className="flex items-center justify-center h-full p-4 rounded shadow">
             <EmployeeChart />
           </div>
-          <div className="chart-container flex-1 flex items-center justify-center h-full card">
+          <div className="flex items-center justify-center h-full p-4 rounded shadow">
             <EmployeeAgePieChart />
           </div>
         </div>

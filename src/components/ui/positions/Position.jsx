@@ -32,13 +32,13 @@ const Position = () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold text-[#7054f6]">Positions</h1>
+      <h1 className="text-xl font-semibold text-primary">Positions</h1>
       <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           {/* Table contents */}
 
-          <thead className="text-xs text-white uppercase bg-[#7054f6]">
+          <thead className="text-xs text-white uppercase bg-primary">
             <tr>
               <th scope="col" className="py-3 px-6">
                 Title
@@ -66,7 +66,7 @@ const Position = () => {
                 <td className="py-4 px-6">
                   <a
                     href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="font-medium text-primary hover:underline"
                   >
                     Edit
                   </a>
