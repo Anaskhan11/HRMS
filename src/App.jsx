@@ -1,6 +1,8 @@
 // libs
+import { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import secureLocalStorage from "react-secure-storage";
 import "react-toastify/dist/ReactToastify.css";
 
 // Require Auth
@@ -11,11 +13,9 @@ import PublicRoute from "./ProtectedRoutes/PublicRoute";
 import Topbar from "./components/ui/Menubar/Topbar";
 import Sidebar from "./components/ui/Menubar/Sidebar";
 
-// context
-import { useSidebarContext } from "./context/SidebarContext";
-
 // Page Components
 import Dashboard from "./components/ui/Dashboard/Dashboard";
+import EmployeeDashboard from "./components/ui/Dashboard/EmployeeDashboard";
 import Employee from "./components/ui/employee/Employee";
 import AddEmployee from "./components/ui/employee/AddEmployee";
 import Department from "./components/ui/departments/Department";
@@ -25,14 +25,24 @@ import Position from "./components/ui/positions/Position";
 import AddPosition from "./components/ui/positions/AddPosition";
 
 function App() {
-  const { state } = useSidebarContext();
+  const [role, setRole] = useState(null);
 
+  useEffect(() => {
+    const user = secureLocalStorage.getItem("user");
+    if (user) {
+      setRole(user.role);
+    }
+    console.log(user.role);
+  }, []);
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout sidebar={state.sidebar} />}>
+        <Route path="/" element={<MainLayout />}>
           <Route element={<RequireAuth />}>
-            <Route index element={<Dashboard />} />
+            <Route
+              index
+              element={role === "admin" ? <Dashboard /> : <EmployeeDashboard />}
+            />
             <Route path="employee" element={<Employee />} />
             <Route path="employee/add" element={<AddEmployee />} />
             <Route path="department" element={<Department />} />
@@ -55,7 +65,7 @@ function App() {
   );
 }
 
-function MainLayout({ sidebar }) {
+function MainLayout() {
   const sectionStyle = {
     width: "100%", // Adjust '16rem' to match your sidebar's width
     height: "100%",

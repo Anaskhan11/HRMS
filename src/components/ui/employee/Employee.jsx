@@ -33,7 +33,7 @@ const Employee = () => {
   return (
     <section className="p-4">
       <h1 className="text-xl font-semibold text-primary">Employee</h1>
-      <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
+      <div className="my-6 overflow-x-auto rounded-md table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           {/* Table contents */}

@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-  background: url("../public/background.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-} */
-
 body {
   @apply bg-[#e7e0d8];
 }
@@ -29,7 +21,10 @@ input {
 }
 
 .topbar {
-  @apply p-4 flex items-center justify-between sticky top-0 z-10;
+  @apply p-4 flex items-center justify-between sticky top-0 right-0 z-10 bg-[#e7e0d8];
+  position: sticky; /* Ensuring position is sticky */
+  top: 0; /* Sticks to the top */
+  z-index: 10; /* Higher z-index */
 }
 
 .chart-container {
