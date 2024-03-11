@@ -9,7 +9,7 @@ import { GoDotFill } from "react-icons/go";
 const AttendanceDetails = () => {
   const getAllAttendance = async () => {
     const response = await axiosInstance.get(
-      "/api/attendance/getAllAttendance"
+      "/api/attendance/getAllEmployeeAttendance"
     );
     console.log(response.data);
     return response.data;
