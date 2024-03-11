@@ -48,6 +48,9 @@ const Login = () => {
       console.log("Login user data: ", data);
       setEmail("");
       setPassword("");
+
+      //reload the page after successful login to get the user role
+      window.location.reload();
       // Optionally navigate to another page upon successful login
       // You'll need to use the `useNavigate` hook from 'react-router-dom'
       navigate("/");

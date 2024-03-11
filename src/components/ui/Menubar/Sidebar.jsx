@@ -16,6 +16,7 @@ import { MdOutlineChevronRight } from "react-icons/md";
 import { BsBuildings, BsPersonWorkspace } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import secureLocalStorage from "react-secure-storage";
+import MenuBar from "../common/MenuBar";
 
 // Adjust these variants according to your desired stiffness and damping for a bouncy effect
 const sidebarVariants = {
@@ -80,12 +81,16 @@ const Sidebar = () => {
             className="my-2 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2 cursor-pointer"
           >
             {displayText && <span>Close</span>}
-            <RxCross2 className="w-6 h-6 text-white" />
+            {!displayText ? (
+              <MenuBar />
+            ) : (
+              <RxCross2 className="w-6 h-6 text-white" />
+            )}
           </div>
           {/* Adjust ul and div structure for proper rendering */}
           <ul className="my-12">
             {/* Example entry with conditional rendering based on displayText */}
-            <div>
+            <div className="sidebar-item">
               <RxDashboard className="w-6 h-6" />
               {displayText && role === "admin" && <Link to="/">Dashboard</Link>}
               {displayText && role === "employee" && (
@@ -95,7 +100,10 @@ const Sidebar = () => {
             {/* Extend the same conditional rendering approach to other list items */}
 
             {role === "admin" && (
-              <div onClick={() => setShowEmployees(!showEmployees)}>
+              <div
+                className="sidebar-item"
+                onClick={() => setShowEmployees(!showEmployees)}
+              >
                 <GrUserWorker className="w-6 h-6" />
                 {displayText && (
                   <span className="flex items-center">
@@ -140,7 +148,10 @@ const Sidebar = () => {
             </AnimatePresence>
 
             {role === "admin" && (
-              <div onClick={() => setShowDepartments(!showDepartments)}>
+              <div
+                className="sidebar-item"
+                onClick={() => setShowDepartments(!showDepartments)}
+              >
                 <BsBuildings className="w-6 h-6" />
                 {displayText && (
                   <span className="flex items-center">
@@ -180,7 +191,10 @@ const Sidebar = () => {
             </AnimatePresence>
 
             {role === "admin" && (
-              <div onClick={(e) => setShowPositions(!showPositions)}>
+              <div
+                className="sidebar-item"
+                onClick={(e) => setShowPositions(!showPositions)}
+              >
                 <BsPersonWorkspace className="w-6 h-6" />
                 {displayText && (
                   <span className="flex items-center">
@@ -218,22 +232,22 @@ const Sidebar = () => {
               )}
             </AnimatePresence>
 
-            <div>
+            <div className="sidebar-item">
               <TbReportAnalytics className="w-6 h-6" />
               {displayText && <li>Reports</li>}
             </div>
 
-            <div>
+            <div className="sidebar-item">
               <TbNotebook className="w-6 h-6" />
               {displayText && <li>Attendance</li>}
             </div>
 
-            <div>
+            <div className="sidebar-item">
               <GoProjectSymlink className="w-6 h-6" />
               {displayText && <li>Projects</li>}
             </div>
 
-            <div>
+            <div className="sidebar-item">
               <LuSettings className="w-6 h-6" />
               {displayText && <li>Settings</li>}
             </div>

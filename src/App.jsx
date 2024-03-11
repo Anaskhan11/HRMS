@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 import secureLocalStorage from "react-secure-storage";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -26,13 +28,14 @@ import AddPosition from "./components/ui/positions/AddPosition";
 
 function App() {
   const [role, setRole] = useState(null);
+  const { state } = useContext(AuthContext);
+  console.log("USER_ROLE_STATE:", state);
 
   useEffect(() => {
     const user = secureLocalStorage.getItem("user");
     if (user) {
       setRole(user.role);
     }
-    console.log(user.role);
   }, []);
   return (
     <>
