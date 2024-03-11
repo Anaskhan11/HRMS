@@ -56,6 +56,7 @@ const Sidebar = () => {
   const [showEmployees, setShowEmployees] = useState(false);
   const [showDepartments, setShowDepartments] = useState(false);
   const [showPositions, setShowPositions] = useState(false);
+  const [showAttendance, setShowAttendance] = useState(false);
   const [displayText, setDisplayText] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -237,10 +238,49 @@ const Sidebar = () => {
               {displayText && <li>Reports</li>}
             </div>
 
-            <div className="sidebar-item">
-              <TbNotebook className="w-6 h-6" />
-              {displayText && <li>Attendance</li>}
-            </div>
+            {role === "admin" && (
+              <div
+                className="sidebar-item"
+                onClick={(e) => setShowAttendance(!showAttendance)}
+              >
+                <TbNotebook className="w-6 h-6" />
+                {displayText && (
+                  <>
+                    <span className="flex items-center">Attendance </span>
+                    {!showAttendance ? (
+                      <MdOutlineChevronRight className="w-6 h-6" />
+                    ) : (
+                      <IoChevronDownOutline className="w-6 h-6" />
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
+            <AnimatePresence>
+              {showAttendance && (
+                <motion.ul
+                  className={dropdownStyle}
+                  variants={dropdownVariants}
+                  initial={"closed"}
+                  animate={"opened"}
+                  exit={"closed"}
+                >
+                  <div>
+                    <CiViewList className="w-6 h-6" />
+                    {displayText && (
+                      <Link to="/attendance/details">Attendance Details</Link>
+                    )}
+                  </div>
+                  <div>
+                    <BsBuildings className="w-6 h-6" />
+                    {displayText && (
+                      <Link to="/attendance">Mark Attendance</Link>
+                    )}
+                  </div>
+                </motion.ul>
+              )}
+            </AnimatePresence>
 
             <div className="sidebar-item">
               <GoProjectSymlink className="w-6 h-6" />

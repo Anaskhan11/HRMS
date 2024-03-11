@@ -1,8 +1,33 @@
-# React + Vite
+# HRMS Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
 
-Currently, two official plugins are available:
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Introduction
+
+Welcome to the HRMS (Human Resource Management System) website! This website is designed to streamline and automate various HR processes within your organization. It provides a user-friendly interface for managing employee information, attendance, leave requests, payroll, and more.
+
+## Features
+
+- Employee management: Add, edit, and delete employee records with ease.
+- Attendance tracking: Keep track of employee attendance and generate reports.
+- Leave management: Manage employee leave requests and track leave balances.
+- Payroll processing: Calculate and manage employee salaries and generate pay slips.
+- Performance evaluation: Conduct performance reviews and track employee performance.
+- Document management: Store and manage important HR documents securely.
+- Notifications: Receive notifications for important HR events and deadlines.
+
+## Installation
+
+To install and run the HRMS website locally, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/hrms-website.git
+   ```

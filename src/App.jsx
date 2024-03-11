@@ -25,6 +25,8 @@ import AddDepartment from "./components/ui/departments/AddDepartment";
 import Login from "./components/ui/Login/Login";
 import Position from "./components/ui/positions/Position";
 import AddPosition from "./components/ui/positions/AddPosition";
+import Attendance from "./components/ui/attendance/Attendance";
+import AttendanceDetails from "./components/ui/attendance/AttendanceDetails";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -52,6 +54,8 @@ function App() {
             <Route path="department/add" element={<AddDepartment />} />
             <Route path="position" element={<Position />} />
             <Route path="position/add" element={<AddPosition />} />
+            <Route path="attendance" element={<Attendance />} />
+            <Route path="attendance/details" element={<AttendanceDetails />} />
           </Route>
         </Route>
         <Route
