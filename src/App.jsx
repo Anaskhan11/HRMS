@@ -27,6 +27,9 @@ import Position from "./components/ui/positions/Position";
 import AddPosition from "./components/ui/positions/AddPosition";
 import Attendance from "./components/ui/attendance/Attendance";
 import AttendanceDetails from "./components/ui/attendance/AttendanceDetails";
+import RequestLeave from "./components/ui/leaves/RequestLeave";
+import Leave from "./components/ui/leaves/Leave";
+import ManagerDashboard from "./components/ui/Dashboard/ManagerDashboard";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -46,7 +49,15 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route
               index
-              element={role === "admin" ? <Dashboard /> : <EmployeeDashboard />}
+              element={
+                role === "admin" ? (
+                  <Dashboard />
+                ) : role === "manager" ? (
+                  <ManagerDashboard />
+                ) : (
+                  <EmployeeDashboard />
+                )
+              }
             />
             <Route path="employee" element={<Employee />} />
             <Route path="employee/add" element={<AddEmployee />} />
@@ -56,6 +67,8 @@ function App() {
             <Route path="position/add" element={<AddPosition />} />
             <Route path="attendance" element={<Attendance />} />
             <Route path="attendance/details" element={<AttendanceDetails />} />
+            <Route path="/leave/details" element={<Leave />} />
+            <Route path="/leave" element={<RequestLeave />} />
           </Route>
         </Route>
         <Route

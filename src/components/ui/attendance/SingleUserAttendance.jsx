@@ -23,18 +23,16 @@ const SingleUserAttendance = ({ employee_id }) => {
         body: JSON.stringify(data),
       }
     );
-    console.log(response);
+
+    if (response.ok) {
+      toast.success(`Attendance Marked`);
+    }
+    if (!response.ok) {
+      toast.error(`Failed to mark attendance`);
+    }
   };
 
-  const mutation = useMutation(handleAttendance, {
-    onSuccess: () => {
-      toast.success(`Attendance Marked`);
-    },
-
-    onError: (error) => {
-      toast.error(`Error: ${error.message}`);
-    },
-  });
+  const mutation = useMutation(handleAttendance);
 
   const handleSubmit = (e) => {
     e.preventDefault();

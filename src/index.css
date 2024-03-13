@@ -7,7 +7,7 @@ body {
 }
 input,
 textarea {
-  @apply block w-full rounded-md border border-slate-300 p-2 bg-slate-50;
+  @apply block w-full rounded-md border border-slate-300 p-2 bg-slate-100;
 }
 .sidebar {
   @apply z-20 h-screen text-white bg-primary;
@@ -72,4 +72,19 @@ textarea {
   background-color: #f8d7da;
   color: #842029;
   border-color: #f5c2c7;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures the rounded corners are visible */
+}
+
+tbody > tr:hover {
+  background-color: #f2f2f2; /* Light grey */
+  cursor: pointer;
+}
+table {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

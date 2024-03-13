@@ -1,8 +1,12 @@
+// Libs
 import React from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
+// Icons
+import { TbEdit } from "react-icons/tb";
 
 const Employee = () => {
   const getAllEmployees = async () => {
@@ -38,7 +42,7 @@ const Employee = () => {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           {/* Table contents */}
 
-          <thead className="text-xs text-white uppercase bg-primary">
+          <thead className="text-xs text-white uppercase bg-primary h-8">
             <tr>
               <th scope="col" className="py-3 px-6">
                 Name
@@ -102,7 +106,7 @@ const Employee = () => {
                     href="#"
                     className="font-medium text-primary hover:underline"
                   >
-                    Edit
+                    <TbEdit className="w-6 h-6" />
                   </a>
                 </td>
               </tr>

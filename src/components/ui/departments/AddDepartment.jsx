@@ -57,7 +57,7 @@ const AddDepartment = () => {
         transition={{ duration: 0.5 }}
         className="my-6 rounded-lg"
       >
-        <div className="p-6 md:p-8 shadow shadow-sm rounded-md shadow-gray-400 card">
+        <div className="p-6 md:p-8 shadow shadow-sm rounded-md shadow-gray-400 bg-slate-50">
           <form onSubmit={handleSubmit}>
             <div className="grid p-2 grid-cols-1 gap-6 mb-6">
               {/** Input fields are encapsulated within their individual div for layout */}

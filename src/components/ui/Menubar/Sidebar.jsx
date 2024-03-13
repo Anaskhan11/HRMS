@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import IsScrollable from "../common/Scrollable";
+import secureLocalStorage from "react-secure-storage";
+import MenuBar from "../common/MenuBar";
 
 //Icons
 import { RxDashboard } from "react-icons/rx";
@@ -15,8 +17,7 @@ import { IoPersonAddOutline, IoChevronDownOutline } from "react-icons/io5";
 import { MdOutlineChevronRight } from "react-icons/md";
 import { BsBuildings, BsPersonWorkspace } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
-import secureLocalStorage from "react-secure-storage";
-import MenuBar from "../common/MenuBar";
+import { LiaNewspaperSolid } from "react-icons/lia";
 
 // Adjust these variants according to your desired stiffness and damping for a bouncy effect
 const sidebarVariants = {
@@ -57,6 +58,7 @@ const Sidebar = () => {
   const [showDepartments, setShowDepartments] = useState(false);
   const [showPositions, setShowPositions] = useState(false);
   const [showAttendance, setShowAttendance] = useState(false);
+  const [showLeave, setShowLeave] = useState(false);
   const [displayText, setDisplayText] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -93,14 +95,16 @@ const Sidebar = () => {
             {/* Example entry with conditional rendering based on displayText */}
             <div className="sidebar-item">
               <RxDashboard className="w-6 h-6" />
-              {displayText && role === "admin" && <Link to="/">Dashboard</Link>}
+              {((displayText && role === "admin") || role === "manager") && (
+                <Link to="/">Dashboard</Link>
+              )}
               {displayText && role === "employee" && (
                 <Link to="/">Employee Dashboard</Link>
               )}
             </div>
             {/* Extend the same conditional rendering approach to other list items */}
 
-            {role === "admin" && (
+            {(role === "admin" || role === "manager") && (
               <div
                 className="sidebar-item"
                 onClick={() => setShowEmployees(!showEmployees)}
@@ -148,7 +152,7 @@ const Sidebar = () => {
               )}
             </AnimatePresence>
 
-            {role === "admin" && (
+            {(role === "admin" || role === "manager") && (
               <div
                 className="sidebar-item"
                 onClick={() => setShowDepartments(!showDepartments)}
@@ -191,7 +195,7 @@ const Sidebar = () => {
               )}
             </AnimatePresence>
 
-            {role === "admin" && (
+            {(role === "admin" || role === "manager") && (
               <div
                 className="sidebar-item"
                 onClick={(e) => setShowPositions(!showPositions)}
@@ -238,7 +242,7 @@ const Sidebar = () => {
               {displayText && <li>Reports</li>}
             </div>
 
-            {role === "admin" && (
+            {(role === "admin" || role === "manager") && (
               <div
                 className="sidebar-item"
                 onClick={(e) => setShowAttendance(!showAttendance)}
@@ -278,6 +282,51 @@ const Sidebar = () => {
                       <Link to="/attendance">Mark Attendance</Link>
                     )}
                   </div>
+                </motion.ul>
+              )}
+            </AnimatePresence>
+
+            <div
+              className="sidebar-item"
+              onClick={(e) => setShowLeave(!showLeave)}
+            >
+              <LiaNewspaperSolid className="w-6 h-6" />
+              {displayText && (
+                <>
+                  <span className="flex items-center">Leaves </span>
+                  {!showLeave ? (
+                    <MdOutlineChevronRight className="w-6 h-6" />
+                  ) : (
+                    <IoChevronDownOutline className="w-6 h-6" />
+                  )}
+                </>
+              )}
+            </div>
+
+            <AnimatePresence>
+              {showLeave && (
+                <motion.ul
+                  className={dropdownStyle}
+                  variants={dropdownVariants}
+                  initial={"closed"}
+                  animate={"opened"}
+                  exit={"closed"}
+                >
+                  {role === "admin" ||
+                    (role === "manager" && (
+                      <div>
+                        <CiViewList className="w-6 h-6" />
+                        {displayText && (
+                          <Link to="/leave/details">Leave Details</Link>
+                        )}
+                      </div>
+                    ))}
+                  {role === "employee" && (
+                    <div>
+                      <BsBuildings className="w-6 h-6" />
+                      {displayText && <Link to="/leave">Request Leave</Link>}
+                    </div>
+                  )}
                 </motion.ul>
               )}
             </AnimatePresence>
