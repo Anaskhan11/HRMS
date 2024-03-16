@@ -18,6 +18,8 @@ import { MdOutlineChevronRight } from "react-icons/md";
 import { BsBuildings, BsPersonWorkspace } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { LiaNewspaperSolid } from "react-icons/lia";
+import { HiOutlineFolderAdd } from "react-icons/hi";
+import { LuTableProperties } from "react-icons/lu";
 
 // Adjust these variants according to your desired stiffness and damping for a bouncy effect
 const sidebarVariants = {
@@ -51,7 +53,7 @@ const dropdownVariants = {
 };
 
 // Example for good contrast styling (feel free to adjust)
-const dropdownStyle = "bg-[#6fa2b5] text-white p-2 mt-2 rounded-md";
+const dropdownStyle = "bg-[#ff902f] text-white p-2 mt-2 rounded-md";
 
 const Sidebar = () => {
   const [showEmployees, setShowEmployees] = useState(false);
@@ -59,6 +61,7 @@ const Sidebar = () => {
   const [showPositions, setShowPositions] = useState(false);
   const [showAttendance, setShowAttendance] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
+  const [showProject, setShowProject] = useState(false);
   const [displayText, setDisplayText] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -228,7 +231,7 @@ const Sidebar = () => {
                     {displayText && <Link to="/position">Position List</Link>}
                   </div>
                   <div>
-                    <BsBuildings className="w-6 h-6" />
+                    <HiOutlineFolderAdd className="w-6 h-6" />
                     {displayText && (
                       <Link to="/position/add">Add Position</Link>
                     )}
@@ -277,7 +280,7 @@ const Sidebar = () => {
                     )}
                   </div>
                   <div>
-                    <BsBuildings className="w-6 h-6" />
+                    <HiOutlineFolderAdd className="w-6 h-6" />
                     {displayText && (
                       <Link to="/attendance">Mark Attendance</Link>
                     )}
@@ -312,18 +315,32 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  {role === "admin" ||
-                    (role === "manager" && (
-                      <div>
-                        <CiViewList className="w-6 h-6" />
-                        {displayText && (
-                          <Link to="/leave/details">Leave Details</Link>
-                        )}
-                      </div>
-                    ))}
+                  {
+                    <>
+                      {role === "manager" ||
+                        (role === "admin" && (
+                          <div>
+                            <CiViewList className="w-6 h-6" />
+                            {displayText && (
+                              <Link to="/leave/details">Leave Details</Link>
+                            )}
+                          </div>
+                        ))}
+                      {role === "employee" && (
+                        <div>
+                          <LuTableProperties className="w-6 h-6" />
+                          {displayText && (
+                            <Link to="/leave/employeeleavedetail">
+                              Employee Leaves
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  }
                   {role === "employee" && (
                     <div>
-                      <BsBuildings className="w-6 h-6" />
+                      <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <Link to="/leave">Request Leave</Link>}
                     </div>
                   )}
@@ -331,10 +348,54 @@ const Sidebar = () => {
               )}
             </AnimatePresence>
 
-            <div className="sidebar-item">
-              <GoProjectSymlink className="w-6 h-6" />
-              {displayText && <li>Projects</li>}
-            </div>
+            {role === "manager" ||
+              (role === "admin" && (
+                <div
+                  onClick={() => setShowProject(!showProject)}
+                  className="sidebar-item"
+                >
+                  <GoProjectSymlink className="w-6 h-6" />
+                  {displayText && (
+                    <>
+                      <span className="flex items-center">Projects </span>
+                      {!showProject ? (
+                        <MdOutlineChevronRight className="w-6 h-6" />
+                      ) : (
+                        <IoChevronDownOutline className="w-6 h-6" />
+                      )}
+                    </>
+                  )}
+                </div>
+              ))}
+
+            <AnimatePresence>
+              {showProject && (
+                <motion.ul
+                  className={dropdownStyle}
+                  variants={dropdownVariants}
+                  initial={"closed"}
+                  animate={"opened"}
+                  exit={"closed"}
+                >
+                  <div>
+                    <CiViewList className="w-6 h-6" />
+                    {displayText && <Link to="/project">Project Details</Link>}
+                  </div>
+                  <div>
+                    <HiOutlineFolderAdd className="w-6 h-6" />
+                    {displayText && (
+                      <Link to="/project/add">Create a Project</Link>
+                    )}
+                  </div>
+                  <div>
+                    <HiOutlineFolderAdd className="w-6 h-6" />
+                    {displayText && (
+                      <Link to="/project/task/add">Add A Task</Link>
+                    )}
+                  </div>
+                </motion.ul>
+              )}
+            </AnimatePresence>
 
             <div className="sidebar-item">
               <LuSettings className="w-6 h-6" />

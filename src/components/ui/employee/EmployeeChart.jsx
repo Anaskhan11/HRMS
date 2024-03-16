@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Chart } from "react-chartjs-2";
 
 import {
@@ -21,6 +21,28 @@ ChartJS.register(
 );
 
 export default function EmployeeChart() {
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      const chart = chartRef.current;
+
+      // Assuming your datasets are not dynamically changing.
+      // Else, you should recreate the gradients whenever your data changes.
+      const ctx = chart.ctx;
+      const gradient = ctx.createLinearGradient(0, 0, 0, chart.height);
+      gradient.addColorStop(0, "#fc6173"); // Start color
+      gradient.addColorStop(1, "#ff902f"); // End color
+
+      // Apply the gradient to the datasets' backgroundColor property
+      chart.data.datasets.forEach((dataset) => {
+        dataset.backgroundColor = gradient;
+      });
+
+      chart.update(); // Update the chart to reflect the changes
+    }
+  }, []);
+
   const options = {
     responsive: true,
     plugins: {
@@ -98,16 +120,16 @@ export default function EmployeeChart() {
         label: "John",
         data: [10, 5],
         backgroundColor: "#4E8397",
-        borderColor: "#4E8397",
+        borderColor: "orange",
       },
       {
         label: "Alexa",
         data: [20, 12],
         backgroundColor: "#4E8397",
-        borderColor: "#4E8397",
+        borderColor: "#orange",
       },
     ],
   };
 
-  return <Chart type="bar" options={options} data={data} />;
+  return <Chart ref={chartRef} type="bar" options={options} data={data} />;
 }

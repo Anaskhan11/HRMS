@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -65,21 +65,46 @@ const options = {
   },
 };
 
-const data = {
-  labels: ["20-29", "30-39", "40-49", "50-59", "60+"],
-  datasets: [
-    {
-      label: "Age Distribution",
-      data: [20, 30, 25, 15, 10],
-      fill: true, // Required for the area under the line to be filled
-      backgroundColor: "#4E8397", // Purple with 70% opacity
-      borderColor: "#4E8397",
-    },
-  ],
-};
-
 const EmployeeAgeAreaChart = () => {
-  return <Line options={options} data={data} />;
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      const chart = chartRef.current;
+      const ctx = chart.ctx;
+
+      const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        chart.chartArea.bottom
+      );
+      gradient.addColorStop(0, "#fc6173"); // Top color
+      gradient.addColorStop(1, "#ff902f"); // Bottom color
+
+      chart.data.datasets.forEach((dataset) => {
+        dataset.backgroundColor = gradient; // Apply the gradient here
+      });
+
+      chart.update();
+    }
+  }, []);
+
+  const data = {
+    labels: ["20-29", "30-39", "40-49", "50-59", "60+"],
+    datasets: [
+      {
+        label: "Age Distribution",
+        data: [20, 30, 25, 15, 10],
+        fill: true,
+        borderColor: "orange",
+        // backgroundColor will be set by the useEffect
+      },
+    ],
+  };
+
+  // <Line> instead of <Chart type='line'> for simplicity
+  return <Line ref={chartRef} options={options} data={data} />;
 };
 
 export default EmployeeAgeAreaChart;

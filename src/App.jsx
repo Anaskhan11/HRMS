@@ -30,6 +30,10 @@ import AttendanceDetails from "./components/ui/attendance/AttendanceDetails";
 import RequestLeave from "./components/ui/leaves/RequestLeave";
 import Leave from "./components/ui/leaves/Leave";
 import ManagerDashboard from "./components/ui/Dashboard/ManagerDashboard";
+import EmployeeLeaveDetails from "./components/ui/leaves/EmployeeLeaveDetails";
+import AddProject from "./components/ui/projects/AddProject";
+import Projects from "./components/ui/projects/Projects";
+import AddTask from "./components/ui/projects/AddTask";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -67,8 +71,16 @@ function App() {
             <Route path="position/add" element={<AddPosition />} />
             <Route path="attendance" element={<Attendance />} />
             <Route path="attendance/details" element={<AttendanceDetails />} />
-            <Route path="/leave/details" element={<Leave />} />
-            <Route path="/leave" element={<RequestLeave />} />
+            <Route path="leave/details" element={<Leave />} />
+            <Route path="leave" element={<RequestLeave />} />
+            <Route
+              path="leave/employeeleavedetail"
+              element={<EmployeeLeaveDetails />}
+            />
+
+            <Route path="project" element={<Projects />} />
+            <Route path="project/add" element={<AddProject />} />
+            <Route path="/project/task/add" element={<AddTask />} />
           </Route>
         </Route>
         <Route
@@ -86,18 +98,25 @@ function App() {
 }
 
 function MainLayout() {
+  // const sectionStyle = {
+  //   width: "100%", // Adjust '16rem' to match your sidebar's width
+  //   height: "100%",
+  //   overflowY: "scroll",
+  //   scrollbarWidth: "thin",
+  //   scrollbarColor: "transparent transparent", // Set the scrollbar color to transparent
+  // };
   const sectionStyle = {
-    width: "100%", // Adjust '16rem' to match your sidebar's width
+    width: "100%", // Consider the total width calculation with the sidebar
     height: "100%",
-    overflowY: "scroll",
+    overflowY: "auto", // Only show the scrollbar when needed
     scrollbarWidth: "thin",
-    scrollbarColor: "transparent transparent", // Set the scrollbar color to transparent
+    scrollbarColor: "orange transparent", // Consider the effect on layout
   };
 
   return (
     <main className="flex h-screen">
       {<Sidebar />}
-      <section style={sectionStyle} className="flex flex-col">
+      <section style={sectionStyle} className="main-scroll flex flex-col">
         <Topbar />
         <Outlet /> {/* This is where nested routes will be rendered */}
       </section>

@@ -39,13 +39,13 @@ const Topbar = () => {
             <RiMenu3Line className="text-white w-8 h-8" />
           </span>
         )}
-        <RxCodesandboxLogo className="w-8 h-8 text-primary" />
-        <span className="text-primary">HRMS</span>
+        <RxCodesandboxLogo className="w-8 h-8 text-white" />
+        <span className="text-white">HRMS</span>
       </h3>
 
       <div className="flex items-center gap-4 ">
-        <span className="hidden sm:flex items-center gap-2 p-2 font-bold rounded-md border border-primary text-primary">
-          Hello! 👋 {user?.email} <FaRegUser className="text-primary w-6 h-6" />
+        <span className="hidden sm:flex items-center gap-2 p-2 font-bold rounded-md border border-white text-white">
+          Hello! 👋 {user?.email} <FaRegUser className="text-white w-6 h-6" />
         </span>
         <span
           className="px-4 py-2 rounded-md bg-primary text-white font-semibold cursor-pointer hover:shadow hover:shadow-lg"

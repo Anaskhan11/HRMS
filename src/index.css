@@ -3,14 +3,21 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#e7e0d8];
+  @apply bg-[#f5f5f5] w-screen;
+  font-family: "Poppins";
 }
 input,
 textarea {
   @apply block w-full rounded-md border border-slate-300 p-2 bg-slate-100;
 }
 .sidebar {
-  @apply z-20 h-screen text-white bg-primary;
+  @apply z-20 h-screen text-white;
+  /*
+* Created with https://www.css-gradient.com
+* Gradient link: https://www.css-gradient.com/?c1=bf6d39&c2=fce497&gt=l&gd=dtl
+*/
+  background: #bf6d39;
+  background: linear-gradient(135deg, #fc6173, #ff902f);
 }
 
 .sidebar > ul {
@@ -22,21 +29,23 @@ textarea {
 }
 
 .sidebar-item {
-  @apply p-2 hover:text-black hover:bg-stone-300 hover:rounded-ss-full hover:rounded-es-full;
+  @apply p-2 hover:text-black hover:bg-white hover:rounded-ss-full hover:rounded-es-full;
 }
 
 .topbar {
-  @apply p-4 flex items-center justify-between sticky top-0 right-0 z-10 bg-[#e7e0d8];
+  @apply p-4 flex items-center justify-between sticky top-0 right-0 z-10;
   position: sticky; /* Ensuring position is sticky */
   top: 0; /* Sticks to the top */
   z-index: 10; /* Higher z-index */
+  background: #bf6d39;
+  background: linear-gradient(135deg, #fc6173, #ff902f);
 }
 
 .chart-container {
   padding: 20px;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0);
-  @apply shadow shadow-sm;
+  background-color: rgb(247, 247, 247);
+  @apply shadow shadow-md shadow-gray-500;
 }
 
 .login-form {
@@ -81,10 +90,51 @@ table {
   overflow: hidden; /* Ensures the rounded corners are visible */
 }
 
-tbody > tr:hover {
-  background-color: #f2f2f2; /* Light grey */
-  cursor: pointer;
+tbody > tr {
+  @apply text-base font-medium text-black;
 }
+
+tbody > tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light grey */
+}
+
+tbody > tr:nth-child(odd) {
+  background-color: #ffffff; /* White */
+}
+
 table {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 0px; /* for vertical scrollbars */
+  height: 0px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; /* or any desired color */
+}
+
+.main-scroll::-webkit-scrollbar {
+  display: none; /* Use this to hide scrollbar completely */
+}
+
+/* Alternative: set width to 0; for a similar effect */
+.main-scroll::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Optional: Just to make sure the scrollbar is completely transparent */
+}
+
+.main-scroll {
+  scrollbar-width: none; /* or use `thin` to make it less obtrusive instead of completely hiding it */
+}
+
+/* WebKit-based browsers */
+.main-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Firefox */
+.main-scroll {
+  scrollbar-width: thin;
 }
