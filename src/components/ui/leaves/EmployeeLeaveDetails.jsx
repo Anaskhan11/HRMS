@@ -1,3 +1,4 @@
+// Libs
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
@@ -7,6 +8,8 @@ import secureLocalStorage from "react-secure-storage";
 
 // Icons
 import { LuTrash } from "react-icons/lu";
+import { FaRegCalendarPlus } from "react-icons/fa";
+import { FaRegCalendarMinus } from "react-icons/fa";
 
 const EmployeeLeaveDetails = () => {
   const getAllLeaves = async () => {
@@ -40,12 +43,12 @@ const EmployeeLeaveDetails = () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold text-primary">Your Leaves</h1>
+      <h1 className="text-3xl font-semibold text-secondary">Your Leaves</h1>
       <div className="my-6 w-full flex items-center flex-wrap gap-2">
         {leaves.map((leave) => (
           <div
             key={leave.leave_id}
-            className="p-2 flex flex-col items-center gap-4 rounded-md shadow shadow-md shadow-gray-400 bg-white text-secondary "
+            className="p-2 flex flex-col items-center gap-4 rounded-md shadow shadow-sm shadow-gray-400 bg-white text-secondary "
           >
             <div className="flex items-center self-start justify-between w-full">
               <h1
@@ -65,15 +68,17 @@ const EmployeeLeaveDetails = () => {
                 </button>
               )}
             </div>
-            <p className="bg-secondary py-1 px-2 text-white rounded-full font-bold w-fit self-start">
+            <p className="font-bold w-fit self-start">
               {leave.leave_type.slice(0, 20)}
             </p>
-            <div className="flex items-center justify-between gap-3">
-              <p className="font-bold text-secondary bg-yellow-400 p-1 rounded-md">
-                From :{leave.start_date}
+            <div className="flex items-center gap-3">
+              <p className="font-bold text-secondary flex items-center gap-1">
+                <FaRegCalendarMinus className="text-green-500" />
+                <span>{leave.start_date}</span>
               </p>
-              <p className="font-bold text-secondary bg-yellow-400 p-1 rounded-md">
-                To:{leave.end_date}
+              <p className="font-bold text-secondary flex items-center gap-1">
+                <FaRegCalendarPlus className="text-red-500" />
+                <span>{leave.end_date}</span>
               </p>
             </div>
           </div>

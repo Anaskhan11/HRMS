@@ -34,6 +34,7 @@ import EmployeeLeaveDetails from "./components/ui/leaves/EmployeeLeaveDetails";
 import AddProject from "./components/ui/projects/AddProject";
 import Projects from "./components/ui/projects/Projects";
 import AddTask from "./components/ui/projects/AddTask";
+import ProjectDetails from "./components/ui/projects/ProjectDetails";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -80,7 +81,8 @@ function App() {
 
             <Route path="project" element={<Projects />} />
             <Route path="project/add" element={<AddProject />} />
-            <Route path="/project/task/add" element={<AddTask />} />
+            <Route path="project/task/add" element={<AddTask />} />
+            <Route path="project/detail/:id" element={<ProjectDetails />} />
           </Route>
         </Route>
         <Route
@@ -108,13 +110,13 @@ function MainLayout() {
   const sectionStyle = {
     width: "100%", // Consider the total width calculation with the sidebar
     height: "100%",
-    overflowY: "auto", // Only show the scrollbar when needed
+    overflowY: "scroll", // Only show the scrollbar when needed
     scrollbarWidth: "thin",
-    scrollbarColor: "orange transparent", // Consider the effect on layout
+    scrollbarColor: "transparent transparent", // Consider the effect on layout
   };
 
   return (
-    <main className="flex h-screen">
+    <main className="flex h-screen w-full overflow-hidden">
       {<Sidebar />}
       <section style={sectionStyle} className="main-scroll flex flex-col">
         <Topbar />

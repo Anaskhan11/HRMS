@@ -1,26 +1,48 @@
 // Libs
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
+import gsap from "gsap"; // Import GSAP
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 // Icons
-import { TbEdit } from "react-icons/tb";
+
+import { Link } from "react-router-dom";
 
 const Projects = () => {
   const getAllProjects = async () => {
     const response = await axiosInstance.get("/api/project/getProjects");
-    console.log("projects", response.data);
     return response.data;
   };
 
   const {
-    data: employees,
+    data: projects,
     isLoading,
     error,
     isError,
   } = useQuery("projects", getAllProjects);
+
+  const projectRefs = useRef([]);
+  projectRefs.current = [];
+
+  // Function to add elements to refs array
+  const addToRefs = (el) => {
+    if (el && !projectRefs.current.includes(el)) {
+      projectRefs.current.push(el);
+    }
+  };
+
+  useEffect(() => {
+    // Animate all project cards
+    gsap.from(projectRefs.current, {
+      duration: 0.5,
+      autoAlpha: 0,
+      ease: "back",
+      y: 50,
+      stagger: 0.2,
+    });
+  }, [projects]);
 
   if (isLoading) {
     return (
@@ -37,83 +59,53 @@ const Projects = () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold text-primary">Projects</h1>
-      <div className="my-6 overflow-x-auto rounded-md table-scroll">
-        {/* Wrap the table in a div with the class "table-scroll" */}
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          {/* Table contents */}
-
-          <thead className="text-xs text-white uppercase bg-primary h-8">
-            <tr>
-              <th scope="col" className="py-3 px-6">
-                Name
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Email
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Role
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Father Name
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Gender
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Religion
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Address
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Phone Number
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Emergency Contact
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Action
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {projects.result.map((employee) => (
-              <tr
-                className="bg-white border-b light:bg-gray-200 light:border-gray-200"
-                key={employee.employee_id}
-              >
-                <td className="py-4 px-6">{employee.name}</td>
-                <td className="py-4 px-6">{employee.email}</td>
-                <td className="py-4 px-6">{employee.role}</td>
-                <td className="py-4 px-6">{employee.father_name}</td>
-                <td className="py-4 px-6">{employee.gender}</td>
-                <td className="py-4 px-6">{employee.religion}</td>
-                <td className="py-4 px-6">{employee.address}</td>
-                <td className="py-4 px-6">{employee.phone_number}</td>
-                <td className="py-4 px-6">{employee.emergency_contact}</td>
-                <td className="py-4 px-6">
+      <h1 className="text-3xl font-semibold text-secondary mb-4">Projects</h1>
+      <div className="flex flex-wrap -mx-2">
+        {projects?.data.map((project, index) => (
+          <div
+            className="px-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 cursor-pointer"
+            key={project.project_id}
+            ref={addToRefs} // Attach ref
+          >
+            <Link to={`/project/detail/${project.project_id}`}>
+              <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="p-5">
+                  <h2 className="font-bold text-lg text-primary mb-3">
+                    {project.project_name}
+                  </h2>
+                  <p className="text-sm text-gray-700 mb-3">
+                    {project.project_description}
+                  </p>
+                  <span
+                    className={`inline-block py-1 px-3 rounded-full text-xs font-medium ${
+                      project.status === "active"
+                        ? "bg-green-200 text-green-800"
+                        : "bg-red-200 text-red-800"
+                    }`}
+                  >
+                    {project.status.toUpperCase()}
+                  </span>
+                </div>
+                <div className="px-5 py-4 bg-gray-50">
+                  <div className="text-sm text-gray-600">
+                    Start: {project.start_date}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    End: {project.end_date}
+                  </div>
+                </div>
+                <div className="px-5 py-4 bg-gray-100 text-right">
                   <a
                     href="#"
-                    className="font-medium text-primary hover:underline"
+                    className="text-primary hover:underline inline-block"
                   >
-                    <TbEdit className="w-6 h-6" />
+                    Edit
                   </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
       </div>
     </section>
   );

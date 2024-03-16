@@ -36,13 +36,15 @@ const Attendance = () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold text-primary">Employee Attedance</h1>
+      <h1 className="text-3xl font-semibold text-secondary">
+        Employee Attedance
+      </h1>
       <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           {/* Table contents */}
 
-          <thead className="text-xs text-white uppercase bg-primary">
+          <thead className="text-base font-bold uppercase text-gray-700 h-8">
             <tr>
               <th scope="col" className="py-3 px-6">
                 Name

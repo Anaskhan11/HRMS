@@ -13,7 +13,7 @@ const EmployeeDashboard = () => {
   return (
     <section className="p-4 h-[86vh]">
       <IsScrollable>
-        <h1 className="text-xl font-semibold text-primary">
+        <h1 className="text-3xl font-semibold text-primary">
           Employee Dashboard
         </h1>
         <div className="my-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-white">

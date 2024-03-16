@@ -76,7 +76,7 @@ const Sidebar = () => {
   return (
     <>
       <motion.div
-        className={`sidebar z-10`}
+        className={`sidebar  z-10`}
         animate={displayText ? "open" : "closed"}
         variants={sidebarVariants}
         initial={false}
@@ -84,7 +84,7 @@ const Sidebar = () => {
         <IsScrollable>
           <div
             onClick={() => setDisplayText(!displayText)}
-            className="my-2 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2 cursor-pointer"
+            className="my-6 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2 cursor-pointer"
           >
             {displayText && <span>Close</span>}
             {!displayText ? (
@@ -96,15 +96,17 @@ const Sidebar = () => {
           {/* Adjust ul and div structure for proper rendering */}
           <ul className="my-12">
             {/* Example entry with conditional rendering based on displayText */}
-            <div className="sidebar-item">
-              <RxDashboard className="w-6 h-6" />
-              {((displayText && role === "admin") || role === "manager") && (
-                <Link to="/">Dashboard</Link>
-              )}
-              {displayText && role === "employee" && (
-                <Link to="/">Employee Dashboard</Link>
-              )}
-            </div>
+            <Link to="/">
+              <div className="sidebar-item">
+                <RxDashboard className="w-6 h-6" />
+                {((displayText && role === "admin") || role === "manager") && (
+                  <p>Dashboard</p>
+                )}
+                {displayText && role === "employee" && (
+                  <p>Employee Dashboard</p>
+                )}
+              </div>
+            </Link>
             {/* Extend the same conditional rendering approach to other list items */}
 
             {(role === "admin" || role === "manager") && (
@@ -135,22 +137,24 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  <div>
-                    <CiViewList className="w-6 h-6" />
-                    {displayText && <Link to="/employee">Employee List</Link>}
-                  </div>
-                  <div>
-                    <TbListDetails className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/employee/details">Employee Details</Link>
-                    )}
-                  </div>
-                  <div>
-                    <IoPersonAddOutline className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/employee/add">Add Employee</Link>
-                    )}
-                  </div>
+                  <Link to="/employee">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Employee List</p>}
+                    </div>
+                  </Link>
+                  <Link to="/employee/details">
+                    <div>
+                      <TbListDetails className="w-6 h-6" />
+                      {displayText && <p>Employee Details</p>}
+                    </div>
+                  </Link>
+                  <Link to="/employee/add">
+                    <div>
+                      <IoPersonAddOutline className="w-6 h-6" />
+                      {displayText && <p>Add Employee</p>}
+                    </div>
+                  </Link>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -182,18 +186,18 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  <div>
-                    <CiViewList className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/department">Departments List</Link>
-                    )}
-                  </div>
-                  <div>
-                    <BsBuildings className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/department/add">Add Department</Link>
-                    )}
-                  </div>
+                  <Link to="/department">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Departments List</p>}
+                    </div>
+                  </Link>
+                  <Link to="/department/add">
+                    <div>
+                      <BsBuildings className="w-6 h-6" />
+                      {displayText && <p>Add Department</p>}
+                    </div>
+                  </Link>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -226,16 +230,18 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  <div>
-                    <CiViewList className="w-6 h-6" />
-                    {displayText && <Link to="/position">Position List</Link>}
-                  </div>
-                  <div>
-                    <HiOutlineFolderAdd className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/position/add">Add Position</Link>
-                    )}
-                  </div>
+                  <Link to="/position">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Position List</p>}
+                    </div>
+                  </Link>
+                  <Link to="/position/add">
+                    <div>
+                      <HiOutlineFolderAdd className="w-6 h-6" />
+                      {displayText && <p>Add Position</p>}
+                    </div>
+                  </Link>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -273,18 +279,18 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  <div>
-                    <CiViewList className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/attendance/details">Attendance Details</Link>
-                    )}
-                  </div>
-                  <div>
-                    <HiOutlineFolderAdd className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/attendance">Mark Attendance</Link>
-                    )}
-                  </div>
+                  <Link to="/attendance/details">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Attendance Details</p>}
+                    </div>
+                  </Link>
+                  <Link to="/attendance">
+                    <div>
+                      <HiOutlineFolderAdd className="w-6 h-6" />
+                      {displayText && <p>Mark Attendance</p>}
+                    </div>
+                  </Link>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -319,29 +325,27 @@ const Sidebar = () => {
                     <>
                       {role === "manager" ||
                         (role === "admin" && (
-                          <div>
-                            <CiViewList className="w-6 h-6" />
-                            {displayText && (
-                              <Link to="/leave/details">Leave Details</Link>
-                            )}
-                          </div>
+                          <Link to="/leave/details">
+                            <div>
+                              <CiViewList className="w-6 h-6" />
+                              {displayText && <p>Leave Details</p>}
+                            </div>
+                          </Link>
                         ))}
                       {role === "employee" && (
-                        <div>
-                          <LuTableProperties className="w-6 h-6" />
-                          {displayText && (
-                            <Link to="/leave/employeeleavedetail">
-                              Employee Leaves
-                            </Link>
-                          )}
-                        </div>
+                        <Link to="/leave/employeeleavedetail">
+                          <div>
+                            <LuTableProperties className="w-6 h-6" />
+                            {displayText && <p>Employee Leaves</p>}
+                          </div>
+                        </Link>
                       )}
                     </>
                   }
                   {role === "employee" && (
                     <div>
                       <HiOutlineFolderAdd className="w-6 h-6" />
-                      {displayText && <Link to="/leave">Request Leave</Link>}
+                      {displayText && <p>Request Leave</p>}
                     </div>
                   )}
                 </motion.ul>
@@ -377,22 +381,24 @@ const Sidebar = () => {
                   animate={"opened"}
                   exit={"closed"}
                 >
-                  <div>
-                    <CiViewList className="w-6 h-6" />
-                    {displayText && <Link to="/project">Project Details</Link>}
-                  </div>
-                  <div>
-                    <HiOutlineFolderAdd className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/project/add">Create a Project</Link>
-                    )}
-                  </div>
-                  <div>
-                    <HiOutlineFolderAdd className="w-6 h-6" />
-                    {displayText && (
-                      <Link to="/project/task/add">Add A Task</Link>
-                    )}
-                  </div>
+                  <Link to="/project">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Project Details</p>}
+                    </div>
+                  </Link>
+                  <Link to="/project/add">
+                    <div>
+                      <HiOutlineFolderAdd className="w-6 h-6" />
+                      {displayText && <p>Create a Project</p>}
+                    </div>
+                  </Link>
+                  <Link to="/project/task/add">
+                    <div>
+                      <HiOutlineFolderAdd className="w-6 h-6" />
+                      {displayText && <p>Add A Task</p>}
+                    </div>
+                  </Link>
                 </motion.ul>
               )}
             </AnimatePresence>

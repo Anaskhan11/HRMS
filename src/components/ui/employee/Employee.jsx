@@ -38,24 +38,9 @@ const Employee = () => {
   }
 
   return (
-    <section
-      className="p-4"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "calc(100vh - var(--header-height, 64px))",
-      }}
-    >
-      <h1 className="text-3xl font-bold text-primary">Employee</h1>
-      <div
-        className="my-6"
-        style={{
-          marginBottom: 0,
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+    <section className="p-4">
+      <h1 className="text-3xl font-semibold text-secondary">Employee</h1>
+      <div className="my-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
           <div className="border border-slate-500 rounded-md p-4">
             <input

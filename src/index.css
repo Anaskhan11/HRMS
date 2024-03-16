@@ -5,6 +5,7 @@
 body {
   @apply bg-[#f5f5f5] w-screen;
   font-family: "Poppins";
+  overflow: hidden;
 }
 input,
 textarea {
@@ -12,10 +13,6 @@ textarea {
 }
 .sidebar {
   @apply z-20 h-screen text-white;
-  /*
-* Created with https://www.css-gradient.com
-* Gradient link: https://www.css-gradient.com/?c1=bf6d39&c2=fce497&gt=l&gd=dtl
-*/
   background: #bf6d39;
   background: linear-gradient(135deg, #fc6173, #ff902f);
 }
@@ -33,12 +30,10 @@ textarea {
 }
 
 .topbar {
-  @apply p-4 flex items-center justify-between sticky top-0 right-0 z-10;
+  @apply p-2 bg-[#f5f5f5] flex items-center justify-between sticky top-0 right-0 z-10 border-b border-b-2;
   position: sticky; /* Ensuring position is sticky */
   top: 0; /* Sticks to the top */
   z-index: 10; /* Higher z-index */
-  background: #bf6d39;
-  background: linear-gradient(135deg, #fc6173, #ff902f);
 }
 
 .chart-container {
@@ -56,10 +51,10 @@ textarea {
   background-position: center;
 }
 
-.table-scroll {
+/* .table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-}
+} */
 
 .success {
   margin-top: 8px;
@@ -104,37 +99,4 @@ tbody > tr:nth-child(odd) {
 
 table {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar {
-  width: 0px; /* for vertical scrollbars */
-  height: 0px; /* for horizontal scrollbars */
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent; /* or any desired color */
-}
-
-.main-scroll::-webkit-scrollbar {
-  display: none; /* Use this to hide scrollbar completely */
-}
-
-/* Alternative: set width to 0; for a similar effect */
-.main-scroll::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* Optional: Just to make sure the scrollbar is completely transparent */
-}
-
-.main-scroll {
-  scrollbar-width: none; /* or use `thin` to make it less obtrusive instead of completely hiding it */
-}
-
-/* WebKit-based browsers */
-.main-scroll::-webkit-scrollbar {
-  width: 2px;
-}
-
-/* Firefox */
-.main-scroll {
-  scrollbar-width: thin;
 }

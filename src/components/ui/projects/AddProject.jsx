@@ -58,7 +58,7 @@ const AddProject = () => {
   };
   return (
     <section className="p-4 md:p-8">
-      <h1 className="text-2xl md:text-3xl font-bold text-primary">
+      <h1 className="text-3xl md:text-3xl font-semibold text-secondary">
         Add A New Project
       </h1>
       <motion.div

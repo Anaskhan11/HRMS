@@ -13,7 +13,9 @@ const Dashboard = () => {
   return (
     <section className="p-4 h-[86vh]">
       <IsScrollable>
-        <h1 className="text-xl font-semibold text-primary">Admin Dashboard</h1>
+        <h1 className="text-3xl font-semibold text-secondary">
+          Admin Dashboard
+        </h1>
         <div className="my-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-primary">
           <div className="bg-white rounded-md shadow-md flex gap-4 flex-col items-center justify-center p-4">
             <h2 className="text-md font-semibold">Total Admins</h2>
