@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+// libs
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
-import axiosInstance from "../../../api/axios";
 import { Modal } from "../common/Model";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../api/axios";
+import Searchbars from "../common/Searchbars";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { toast } from "react-toastify";
 
 // Icons
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { FaRegCalendarPlus } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 
 const ProjectDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +20,8 @@ const ProjectDetails = () => {
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [selectPositionValues, setSelectPositionValues] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const { id } = useParams();
 
   const searchEmployee = async (data) => {
@@ -27,6 +32,8 @@ const ProjectDetails = () => {
     return response.data;
   };
 
+  const mutation = useMutation(searchEmployee);
+
   const handleSearchEmployee = async (e) => {
     e.preventDefault();
     const data = {
@@ -34,10 +41,15 @@ const ProjectDetails = () => {
       department: department,
       position: position,
     };
-    const response = await searchEmployee(data);
-    setSearchResult(response.data);
-    console.log("searchEmployee response: ", response);
-    const mutation = useMutation(searchEmployee);
+
+    mutation.mutate(data, {
+      onSuccess: (data) => {
+        setSearchResult(data.data);
+      },
+      onError: (error) => {
+        console.log("error: ", error);
+      },
+    });
   };
 
   const getProject = async () => {
@@ -46,6 +58,18 @@ const ProjectDetails = () => {
     );
     return response.data;
   };
+
+  // useEffect hook to get all the positions
+
+  useEffect(() => {
+    const getAllPositions = async () => {
+      const response = await axiosInstance.get("/api/position/getAllPositions");
+      if (response.data) {
+        setSelectPositionValues(response.data.data);
+      }
+    };
+    getAllPositions();
+  }, []);
 
   const {
     data: project,
@@ -89,6 +113,7 @@ const ProjectDetails = () => {
           <h1 className="text-3xl font-semibold text-primary mb-4">
             {project.data[0].project_name}
           </h1>
+
           <p className="text-lg font-light text-slate-500 mb-4">
             {project.data[0].project_description.toLowerCase()}
           </p>
@@ -103,59 +128,55 @@ const ProjectDetails = () => {
               {project.data[0].end_date}
             </p>
           </div>
-          <p
-            className="text-lg font-semibold text-slate-500 mb-4 p-2 rounded-md bg-slate-100 w-max shadow shadow-gray-500 shadow-sm"
-            style={{
-              color: project.data[0].status === "active" ? "green" : "red",
-            }}
-          >
-            {project.data[0].status}
-          </p>
+          <span className="flex items-center justify-end">
+            <p
+              className="text-lg font-semibold text-slate-500 mb-2 "
+              style={{
+                color: project.data[0].status === "active" ? "green" : "red",
+              }}
+            >
+              {project.data[0].status}
+            </p>
+          </span>
         </div>
       </section>
       <Modal isOpen={isModalOpen} close={toggleModal}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
-          <div className="border border-slate-500 rounded-md p-4">
-            <input
-              type="text"
-              placeholder="employee name"
-              className="border-none outline-none px-0 py-0 w-full bg-transparent"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="border border-slate-500 rounded-md p-4">
-            <input
-              type="text"
-              placeholder="Department Name"
-              className="border-none outline-none px-0 py-0 w-full bg-transparent"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-            />
-          </div>
-
-          <select
-            name="position"
-            id="position"
-            className="px-4 py-4 rounded-md border border-slate-500 outline-none w-full"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-          >
-            <option value="position">Position</option>
-            <option value="position">Position</option>
-            <option value="position">Position</option>
-          </select>
-
-          <button
-            onClick={handleSearchEmployee}
-            className="bg-primary text-white px-4 py-3 rounded-md"
-          >
-            Search Employees
-          </button>
+        <Searchbars
+          name={name}
+          department={department}
+          position={position}
+          setName={setName}
+          setDepartment={setDepartment}
+          setPosition={setPosition}
+          handleSearchEmployee={handleSearchEmployee}
+          positionValues={selectPositionValues}
+        />
+        {/*All the employee you want to assign the project to goes below*/}
+        <div className="p-2 my-2 flex items-center flex-wrap gap-1 max-w-md">
+          {[...new Set(employees)].map((employee) => (
+            <div
+              key={employee}
+              className="flex items-center gap-1 bg-slate-50 p-2 rounded-md shadow shadow-sm shadow-slate-300"
+            >
+              <span>{employee}</span>
+              <MdCancel
+                className="h-6 w-6 cursor-pointer hover:scale-110 transition-all"
+                onClick={() => {
+                  setEmployees((prevEmployees) =>
+                    prevEmployees.filter((emp) => emp !== employee)
+                  );
+                }}
+              />
+            </div>
+          ))}
         </div>
+        {/* The result of the Above Searchbars component goes here */}
         <div className="overflow-auto max-h-80">
           {searchResult.map((employee) => (
-            <div className="flex items-center justify-between p-4 border border-slate-500 rounded-md my-4">
+            <div
+              key={employee.employee_id}
+              className="flex items-center justify-between p-4 border border-slate-500 rounded-md my-4"
+            >
               <div>
                 <h1 className="text-lg font-semibold text-primary">
                   {employee.name}
@@ -163,11 +184,20 @@ const ProjectDetails = () => {
                 <p className="text-md font-light text-slate-500">
                   {employee.department_name}
                 </p>
+                <p className="text-md font-light text-slate-500">
+                  {employee.title}
+                </p>
               </div>
               <button
                 onClick={() => {
-                  toast.success("Employee Assigned Successfully");
-                  toggleModal();
+                  if (employees.includes(employee.name)) {
+                    toast.warning("Employee already added", {
+                      backgroundColor: "yellow",
+                    });
+                  } else {
+                    toast.success("Employee Assigned Successfully");
+                    setEmployees((prev) => [...prev, employee.name]);
+                  }
                 }}
                 className="bg-primary text-white px-4 py-3 rounded-md"
               >

@@ -100,19 +100,11 @@ function App() {
 }
 
 function MainLayout() {
-  // const sectionStyle = {
-  //   width: "100%", // Adjust '16rem' to match your sidebar's width
-  //   height: "100%",
-  //   overflowY: "scroll",
-  //   scrollbarWidth: "thin",
-  //   scrollbarColor: "transparent transparent", // Set the scrollbar color to transparent
-  // };
   const sectionStyle = {
-    width: "100%", // Consider the total width calculation with the sidebar
-    height: "100%",
-    overflowY: "scroll", // Only show the scrollbar when needed
+    width: "100%",
+    overflowY: "scroll",
     scrollbarWidth: "thin",
-    scrollbarColor: "transparent transparent", // Consider the effect on layout
+    scrollbarColor: "transparent transparent",
   };
 
   return (
