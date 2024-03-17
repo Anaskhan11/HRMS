@@ -343,10 +343,12 @@ const Sidebar = () => {
                     </>
                   }
                   {role === "employee" && (
-                    <div>
-                      <HiOutlineFolderAdd className="w-6 h-6" />
-                      {displayText && <p>Request Leave</p>}
-                    </div>
+                    <Link to="/leave">
+                      <div>
+                        <HiOutlineFolderAdd className="w-6 h-6" />
+                        {displayText && <p>Request Leave</p>}
+                      </div>
+                    </Link>
                   )}
                 </motion.ul>
               )}
