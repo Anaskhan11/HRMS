@@ -13,6 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { FaRegCalendarPlus } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
 
 const ProjectDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +57,7 @@ const ProjectDetails = () => {
     const response = await axiosInstance.get(
       `/api/project/getProjectById/${id}`
     );
+    console.log("project data", response.data);
     return response.data;
   };
 
@@ -80,6 +82,28 @@ const ProjectDetails = () => {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleAssignProject = async (employee) => {
+    const data = {
+      project_id: id,
+      employee_id: employee.employee_id,
+      role: employee.title,
+    };
+
+    const response = await axiosInstance.post(
+      "/api/project/createAssignment",
+      data
+    );
+
+    console.log("assignment result", response.data);
+
+    if (response.status === 200) {
+      toast.success("Project assigned successfully");
+    }
+    if (response.status !== 200) {
+      toast.error("Project assigned failed");
+    }
   };
 
   if (isLoading) {
@@ -138,6 +162,22 @@ const ProjectDetails = () => {
               {project.data[0].status}
             </p>
           </span>
+          <div>
+            <h1 className="text-2xl font-semibold">Employees</h1>
+            <ul className="flex items-center flex-wrap overlap-children">
+              {project.data.map((employee, index) => (
+                <span
+                  className="border border-2 border-primary p-2 h-10 w-10 flex items-center justify-center bg-slate-100 rounded-full shadow shadow-md shadow-slate-400"
+                  style={{ marginLeft: index !== 0 ? "-10px" : undefined }}
+                >
+                  <FaRegUser
+                    className="text-primary h-8 w-8"
+                    key={employee.employee_id}
+                  />
+                </span>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       <Modal isOpen={isModalOpen} close={toggleModal}>
@@ -151,25 +191,7 @@ const ProjectDetails = () => {
           handleSearchEmployee={handleSearchEmployee}
           positionValues={selectPositionValues}
         />
-        {/*All the employee you want to assign the project to goes below*/}
-        <div className="p-2 my-2 flex items-center flex-wrap gap-1 max-w-md">
-          {[...new Set(employees)].map((employee) => (
-            <div
-              key={employee}
-              className="flex items-center gap-1 bg-slate-50 p-2 rounded-md shadow shadow-sm shadow-slate-300"
-            >
-              <span>{employee}</span>
-              <MdCancel
-                className="h-6 w-6 cursor-pointer hover:scale-110 transition-all"
-                onClick={() => {
-                  setEmployees((prevEmployees) =>
-                    prevEmployees.filter((emp) => emp !== employee)
-                  );
-                }}
-              />
-            </div>
-          ))}
-        </div>
+
         {/* The result of the Above Searchbars component goes here */}
         <div className="overflow-auto max-h-80">
           {searchResult.map((employee) => (
@@ -189,16 +211,7 @@ const ProjectDetails = () => {
                 </p>
               </div>
               <button
-                onClick={() => {
-                  if (employees.includes(employee.name)) {
-                    toast.warning("Employee already added", {
-                      backgroundColor: "yellow",
-                    });
-                  } else {
-                    toast.success("Employee Assigned Successfully");
-                    setEmployees((prev) => [...prev, employee.name]);
-                  }
-                }}
+                onClick={() => handleAssignProject(employee)}
                 className="bg-primary text-white px-4 py-3 rounded-md"
               >
                 Assign

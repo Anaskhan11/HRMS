@@ -11,7 +11,7 @@ import IsScrollable from "../common/Scrollable";
 
 const Dashboard = () => {
   return (
-    <section className="p-4 h-[86vh]">
+    <section className="p-4 h-[100dvh]">
       <IsScrollable>
         <h1 className="text-3xl font-semibold text-secondary">
           Admin Dashboard

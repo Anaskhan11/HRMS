@@ -53,7 +53,7 @@ const dropdownVariants = {
 };
 
 // Example for good contrast styling (feel free to adjust)
-const dropdownStyle = "bg-[#ff902f] text-white p-2 mt-2 rounded-md";
+const dropdownStyle = "bg-[#ff902f] text-white mt-2 rounded-md";
 
 const Sidebar = () => {
   const [showEmployees, setShowEmployees] = useState(false);
@@ -69,14 +69,13 @@ const Sidebar = () => {
     const user = secureLocalStorage.getItem("user");
     if (user) {
       setRole(user.role);
-      console.log("sidebar role: ", user.role);
     }
   }, []);
 
   return (
     <>
       <motion.div
-        className={`sidebar  z-10`}
+        className={`sidebar z-10`}
         animate={displayText ? "open" : "closed"}
         variants={sidebarVariants}
         initial={false}

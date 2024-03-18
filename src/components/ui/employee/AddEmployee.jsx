@@ -360,7 +360,10 @@ const AddEmployee = () => {
                         Select a Department
                       </option>
                       {departments.map((department) => (
-                        <option value={department.department_id}>
+                        <option
+                          key={department.department_id}
+                          value={department.department_id}
+                        >
                           {department.name}
                         </option>
                       ))}

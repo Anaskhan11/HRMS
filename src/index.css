@@ -100,3 +100,7 @@ tbody > tr:nth-child(odd) {
 table {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.overlap-children > *:not(:first-child) {
+  margin-left: -8px; /* Adjust this value based on your design needs */
+}

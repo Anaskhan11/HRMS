@@ -1,14 +1,10 @@
-// Libs
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
-import gsap from "gsap"; // Import GSAP
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-// Icons
-
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const Projects = () => {
   const getAllProjects = async () => {
@@ -23,26 +19,26 @@ const Projects = () => {
     isError,
   } = useQuery("projects", getAllProjects);
 
-  const projectRefs = useRef([]);
-  projectRefs.current = [];
-
-  // Function to add elements to refs array
-  const addToRefs = (el) => {
-    if (el && !projectRefs.current.includes(el)) {
-      projectRefs.current.push(el);
-    }
+  const initialAnimation = {
+    hidden: { opacity: 0, y: 50 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
   };
 
-  useEffect(() => {
-    // Animate all project cards
-    gsap.from(projectRefs.current, {
-      duration: 0.5,
-      autoAlpha: 0,
-      ease: "back",
-      y: 50,
-      stagger: 0.2,
-    });
-  }, [projects]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  const hoverEffect = {
+    scale: 1.05,
+    transition: { type: "spring", stiffness: 300 },
+  };
 
   if (isLoading) {
     return (
@@ -58,14 +54,20 @@ const Projects = () => {
   }
 
   return (
-    <section className="p-4">
+    <motion.section
+      className="p-4"
+      variants={initialAnimation}
+      initial="hidden"
+      animate="show"
+    >
       <h1 className="text-3xl font-semibold text-secondary mb-4">Projects</h1>
       <div className="flex flex-wrap -mx-2">
         {projects?.data.map((project, index) => (
-          <div
+          <motion.div
             className="px-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 cursor-pointer"
             key={project.project_id}
-            ref={addToRefs} // Attach ref
+            variants={itemVariants}
+            whileHover={hoverEffect} // Apply hover effect
           >
             <Link to={`/project/detail/${project.project_id}`}>
               <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -104,10 +106,10 @@ const Projects = () => {
                 </div>
               </div>
             </Link>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 };
 
