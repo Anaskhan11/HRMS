@@ -403,11 +403,12 @@ const Sidebar = () => {
                 </motion.ul>
               )}
             </AnimatePresence>
-
-            <div className="sidebar-item">
-              <LuSettings className="w-6 h-6" />
-              {displayText && <li>Settings</li>}
-            </div>
+            <Link to="/settings">
+              <div className="sidebar-item">
+                <LuSettings className="w-6 h-6" />
+                {displayText && <li>Settings</li>}
+              </div>
+            </Link>
           </ul>
         </IsScrollable>
       </motion.div>
