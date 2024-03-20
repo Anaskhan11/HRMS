@@ -103,14 +103,14 @@ function App() {
 
 function MainLayout() {
   const sectionStyle = {
-    width: "100%",
+    flex: "1",
     overflowY: "scroll",
     scrollbarWidth: "thin",
     scrollbarColor: "transparent transparent",
   };
 
   return (
-    <main className="flex h-screen w-full overflow-hidden">
+    <main className="flex h-screen w-screen overflow-hidden">
       {<Sidebar />}
       <section style={sectionStyle} className="main-scroll flex flex-col">
         <Topbar />

@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion"; // Import framer-motion
 
 // Icons
 import { CgProfile } from "react-icons/cg";
@@ -12,15 +13,23 @@ const FormStates = ({ activeState, setActiveState }) => {
     "Employment Information",
   ];
 
-  // Adjust these based on the visual gap you want to maintain from the icons.
   const offsetFromIcon = 4; // Adjust based on your CSS.
+
+  // Define the animation for the progress lines
+  const lineAnimation = {
+    hidden: { width: 0 },
+    visible: {
+      width: `calc(${92 / (states.length - 1)}% - ${offsetFromIcon}px)`,
+      transition: { duration: 0.5 }, // Customize the animation duration
+    },
+  };
 
   return (
     <div className="flex items-center justify-between mb-8 w-full relative">
       {states.map((state, index) => (
         <React.Fragment key={index}>
           {index > 0 && (
-            <div
+            <motion.div
               className={`absolute top-1/2 h-1 transform -translate-y-1/2 ${
                 activeState >= index ? "bg-yellow-400" : "bg-gray-200"
               }`}
@@ -28,11 +37,11 @@ const FormStates = ({ activeState, setActiveState }) => {
                 left: `${
                   (index - 1) * (100 / (states.length - 1)) + offsetFromIcon / 2
                 }%`,
-                width: `calc(${
-                  92 / (states.length - 1)
-                }% - ${offsetFromIcon}px)`,
               }}
-            ></div>
+              variants={lineAnimation} // Use the defined animation variants
+              initial="hidden"
+              animate={activeState >= index ? "visible" : "hidden"}
+            ></motion.div>
           )}
           <button
             className={`p-2 rounded-full font-medium text-sm flex items-center gap-1 ${

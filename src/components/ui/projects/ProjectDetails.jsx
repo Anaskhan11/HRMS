@@ -121,22 +121,22 @@ const ProjectDetails = () => {
   return (
     <>
       <section className="p-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold text-secondary mb-4">
-            Project Details
-          </h1>
-          <button
-            onClick={toggleModal}
-            className="bg-primary text-white px-4 py-3 rounded-md"
-          >
-            Assign Project
-          </button>
-        </div>
+        <h1 className="text-3xl font-semibold text-secondary mb-4">
+          Project Details
+        </h1>
 
         <div className="p-4 rounded-md bg-white my-6 w-fit shadow shadow-sm shadow-gray-400">
-          <h1 className="text-3xl font-semibold text-primary mb-4">
-            {project.data[0].project_name}
-          </h1>
+          <div className="flex items-center justify-between my-2">
+            <h1 className="text-3xl font-semibold text-primary">
+              {project.data[0].project_name}
+            </h1>
+            <button
+              onClick={toggleModal}
+              className="bg-primary text-white px-4 py-2 rounded-md"
+            >
+              Assign Employees
+            </button>
+          </div>
 
           <p className="text-lg font-light text-slate-500 mb-4">
             {project.data[0].project_description.toLowerCase()}
@@ -163,17 +163,26 @@ const ProjectDetails = () => {
             </p>
           </span>
           <div>
-            <h1 className="text-2xl font-semibold">Employees</h1>
+            <h1 className="text-2xl font-semibold mb-4">Employees</h1>
             <ul className="flex items-center flex-wrap overlap-children">
               {project.data.map((employee, index) => (
                 <span
-                  className="border border-2 border-primary p-2 h-10 w-10 flex items-center justify-center bg-slate-100 rounded-full shadow shadow-md shadow-slate-400"
+                  className=" h-12 w-12 flex items-center justify-center bg-slate-100 rounded-full shadow shadow-md shadow-slate-400"
                   style={{ marginLeft: index !== 0 ? "-10px" : undefined }}
                 >
-                  <FaRegUser
-                    className="text-primary h-8 w-8"
-                    key={employee.employee_id}
-                  />
+                  {employee.image ? (
+                    <img
+                      src={`${import.meta.env.VITE_APP_BASE_URL}/${
+                        employee.image
+                      }`}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <FaRegUser
+                      className="text-primary h-8 w-8"
+                      key={employee.employee_id}
+                    />
+                  )}
                 </span>
               ))}
             </ul>

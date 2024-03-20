@@ -4,6 +4,7 @@ import axiosInstance from "../../../api/axios";
 import { FaRegUser, FaEdit } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const updateUser = async ({ userId, formData }) => {
   const response = await axiosInstance.put(`/api/auth/updateuser`, formData, {
@@ -56,7 +57,34 @@ const Settings = () => {
     formData.append("image", fileInputRef.current.files[0]);
 
     const userId = user.user_id;
-    updateUserMutation({ userId, formData });
+    updateUserMutation(
+      { userId, formData },
+      {
+        onSuccess: () => {
+          toast.success("Profile updated successfully");
+
+          fetchUserImage(userId);
+        },
+        onError: (error) => {
+          toast.error("Error updating profile");
+        },
+      }
+    );
+  };
+
+  const fetchUserImage = async (userId) => {
+    try {
+      const response = await axiosInstance.get(`/api/auth/getimage/${userId}`);
+      console.log("Fetched user image data:", response.data);
+      secureLocalStorage.setItem("user", {
+        ...secureLocalStorage.getItem("user"),
+        image: response.data.image,
+      });
+      // Additional logic to handle the fetched data, e.g., updating state, can go here
+    } catch (error) {
+      console.error("Failed to fetch user image:", error);
+      // Handle error, e.g., show notification or error message
+    }
   };
 
   return (
@@ -66,13 +94,13 @@ const Settings = () => {
       </h1>
 
       <motion.section
-        className="flex flex-wrap p-4 space-x-8"
+        className="flex flex-wrap p-4 space-x-8 p-4 rounded-md bg-stone-200 shadow shadow-sm shadow-slate-50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         {/* Image section */}
-        <div className="flex-none">
+        <div className="flex-none ">
           <div className="relative" onClick={handleEditImage}>
             {image || userProfileImage ? (
               <img
@@ -146,7 +174,7 @@ const Settings = () => {
             </div>
             <button
               type="submit"
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-darker"
+              className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-darker"
             >
               Update Profile
             </button>
