@@ -85,7 +85,7 @@ const Projects = () => {
                         : "bg-red-200 text-red-800"
                     }`}
                   >
-                    {project.status.toUpperCase()}
+                    {project && project.status?.toUpperCase()}
                   </span>
                 </div>
                 <div className="px-5 py-4 bg-gray-50">
@@ -97,12 +97,9 @@ const Projects = () => {
                   </div>
                 </div>
                 <div className="px-5 py-4 bg-gray-100 text-right">
-                  <a
-                    href="#"
-                    className="text-primary hover:underline inline-block"
-                  >
+                  <span className="text-primary hover:underline inline-block">
                     Edit
-                  </a>
+                  </span>
                 </div>
               </div>
             </Link>

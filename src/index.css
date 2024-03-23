@@ -37,10 +37,10 @@ textarea {
 }
 
 .chart-container {
-  padding: 20px;
-  border-radius: 20px;
-  background-color: rgb(247, 247, 247);
-  @apply shadow shadow-md shadow-gray-500;
+  /* This makes it responsive and applies a uniform padding and shadow */
+  @apply p-5 rounded-lg bg-gray-50 shadow-md;
+  /* Example fixed height - adjust as necessary or make it responsive */
+  @apply h-auto;
 }
 
 .login-form {
@@ -103,4 +103,113 @@ table {
 
 .overlap-children > *:not(:first-child) {
   margin-left: -8px; /* Adjust this value based on your design needs */
+}
+
+/* Calendar Header Background */
+.react-datepicker__header {
+  @apply bg-primary;
+}
+
+/* Header Text Color */
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: white !important;
+}
+
+/* Rounded Corners for Days */
+.react-datepicker__day {
+  border-radius: 9999px !important; /* TailwindCSS utility class for fully rounded corners translated to CSS */
+}
+
+/* Background for Days in Selected Range */
+.react-datepicker__day--in-range,
+.react-datepicker__day--selected {
+  @apply bg-primary text-white;
+}
+
+/* Increase the overall size of the calendar */
+.react-datepicker {
+  font-size: 1.25rem; /* Adjust base font size, affects overall dimensions */
+}
+
+/* Adjust the header size */
+.react-datepicker__header {
+  padding-top: 1rem; /* Larger header padding */
+  padding-bottom: 1rem; /* Larger header padding */
+}
+
+/* Adjust day size */
+.react-datepicker__day,
+.react-datepicker__day-name {
+  margin: 0.4rem; /* More space around each day */
+  width: 2.5rem; /* Wider day cells */
+  line-height: 2.5rem; /* Taller day cells for a square look */
+}
+
+/* Adjust month-year dropdown size */
+.react-datepicker__month-select,
+.react-datepicker__year-select {
+  padding: 0.5rem; /* Larger dropdowns */
+  font-size: 1rem; /* Larger text in dropdowns */
+}
+
+/* Adjust the navigation arrows size */
+.react-datepicker__navigation {
+  top: 22px; /* Adjust based on new header size */
+  width: 34px; /* Larger arrow icon */
+  height: 34px; /* Larger arrow icon */
+  border-width: 0.45rem; /* Thicker arrow */
+}
+
+/* Specific adjustments for the navigation icons */
+.react-datepicker__navigation--previous {
+  border-right-color: #3490dc; /* Example: use your primary color here */
+}
+.react-datepicker__navigation--next {
+  border-left-color: #3490dc; /* Example: use your primary color here */
+}
+
+/* Small screen adjustments */
+@media (max-width: 600px) {
+  .react-datepicker {
+    font-size: 1rem; /* Adjust base font size for small screens */
+  }
+
+  .react-datepicker__day,
+  .react-datepicker__day-name {
+    margin: 0.2rem; /* Less space around each day for small screens */
+    width: 2rem; /* Narrower day cells for small screens */
+    line-height: 2rem; /* Shorter day cells for small screens */
+  }
+}
+
+/* ToggleSwitch.css */
+.toggle-switch {
+  margin-top: 8px;
+  display: flex;
+  justify-content: start;
+  gap: 5px;
+}
+
+.toggle-option {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: lightgray;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-option.active {
+  background-color: dodgerblue;
+  color: white;
+}
+.toggle-option.inactive {
+  background-color: red;
+  color: white;
+}
+
+.toggle-option.completed {
+  background-color: green;
+  color: white;
 }

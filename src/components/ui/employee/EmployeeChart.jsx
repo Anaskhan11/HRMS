@@ -45,6 +45,7 @@ export default function EmployeeChart() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",

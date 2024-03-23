@@ -1,13 +1,25 @@
 // libs
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../api/axios";
 import secureLocalStorage from "react-secure-storage";
 
 // Icons
 import { IoSearch } from "react-icons/io5";
+import { IoPersonAdd } from "react-icons/io5";
+
+// get all projects
+const getAllProjects = async () => {
+  const response = await axiosInstance.get(
+    `/api/project/getProjectsByManagerId/${
+      secureLocalStorage.getItem("user").employee_id
+    }`
+  );
+  return response.data;
+};
 
 // create User & Employee function
 const createTask = async (data) => {
@@ -38,7 +50,24 @@ const AddTask = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
+  const [projectId, setProjectId] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
   const navigate = useNavigate();
+
+  // const handleAssignEmployee function
+  const handleAssignEmployee = (employee_id) => {
+    setEmployeeId(employee_id);
+  };
+  // Search Employee function
+  const searchEmployee = async () => {
+    const response = await axiosInstance.post(
+      `/api/project/searchEmployeesInAssignment/${projectId}/${searchTerm}`
+    );
+    return response.data;
+  };
+
+  const { data } = useQuery("projects", getAllProjects);
 
   const mutation = useMutation(createTask, {
     onSuccess: () => {
@@ -46,18 +75,51 @@ const AddTask = () => {
     },
   });
 
+  const searchMutation = useMutation(searchEmployee);
+
+  const handleEmployeeSearch = (e) => {
+    e.preventDefault();
+    searchMutation.mutate(
+      {
+        project_id: projectId,
+        searchTerm,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          console.log("error: ", error);
+        },
+      }
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({
-      project_id: 1,
-      task_title: taskTitle,
-      task_description: taskDescription,
-      employee_id: secureLocalStorage.getItem("user").employee_id,
-      start_date,
-      end_date,
-      status: "active",
-    });
+    mutation.mutate(
+      {
+        project_id: 1,
+        task_title: taskTitle,
+        task_description: taskDescription,
+        employee_id: employeeId,
+        start_date,
+        end_date,
+        status: "active",
+      },
+      {
+        onSuccess: () => {
+          toast.success(
+            `Task Assigned to employee with employee_id ${employeeId} Successfully`
+          );
+        },
+        onError: () => {
+          toast.error("Error assigning the task.");
+        },
+      }
+    );
   };
+
   return (
     <section className="p-4 md:p-8">
       <h1 className="text-3xl md:text-3xl font-semibold text-secondary">
@@ -70,28 +132,71 @@ const AddTask = () => {
         className="my-6 rounded-lg"
       >
         <div className="p-6 md:p-8 shadow shadow-sm rounded-md shadow-gray-400 bg-slate-50">
+          <form
+            onSubmit={handleEmployeeSearch}
+            className="flex items-center gap-4"
+          >
+            <select
+              name="project_name"
+              id="project_name"
+              className=" px-6 py-4 rounded-md border border-gray-500"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+            >
+              <option value="">Select Project</option>
+              {data &&
+                data.data.map((project) => (
+                  <option value={project.project_id} key={project.project_id}>
+                    {project.project_name}
+                  </option>
+                ))}
+            </select>
+            <div className="w-full flex items-center gap-2 px-4 py-4 rounded-md border border-gray-500">
+              <IoSearch className="text-gray-500 h-6 w-6" />
+              <input
+                type="text"
+                placeholder="Enter Employee Names to select"
+                className="border-none bg-transparent outline-none p-0 w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </form>
+          <div className="flex flex-wrap gap-4">
+            {searchMutation.isLoading && <p>Loading...</p>}
+            {searchMutation.isSuccess && (
+              <div className="w-full">
+                <h2 className="text-lg font-semibold text-gray-600 my-2">
+                  Search Results
+                </h2>
+                <div className="grid grid-cols-1 gap-4 mt-4 max-h-[300px] overflow-y-auto">
+                  {searchMutation.data.result.map((employee) => (
+                    <div className="flex items-center justify-between p-4 bg-white rounded-md shadow shadow-sm">
+                      <div key={employee.employee_id} className="">
+                        <h3 className="text-lg font-semibold text-gray-600">
+                          {employee.name}
+                        </h3>
+                        <p className="text-gray-500">{employee.email}</p>
+                      </div>
+                      <span
+                        className="px-2 py-2 flex items-center gap-1 text-white rounded-md bg-primary cursor-pointer hover:text-white hover:bg-black transition-all"
+                        onClick={() =>
+                          handleAssignEmployee(employee.employee_id)
+                        }
+                      >
+                        <IoPersonAdd className="text-white h-6 w-6" />
+                        <p>Assign Task </p>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="grid p-2 grid-cols-1 gap-6 mb-6">
               {/** Input fields are encapsulated within their individual div for layout */}
-              <div className="flex items-center gap-4">
-                <select
-                  name="project_name"
-                  id="project_name"
-                  className=" px-6 py-4 rounded-md border border-gray-500 "
-                >
-                  <option value="project_name">Project Name</option>
-                  <option value="project_name">Project Name</option>
-                  <option value="project_name">Project Name</option>
-                </select>
-                <div className="w-full flex items-center gap-2 px-4 py-4 rounded-md border border-gray-500">
-                  <IoSearch className="text-gray-500 h-6 w-6" />
-                  <input
-                    type="text"
-                    placeholder="Enter Employee Names to select"
-                    className="border-none bg-transparent outline-none p-0 w-full"
-                  />
-                </div>
-              </div>
+
               <div>
                 <label className="text-gray-600 font-medium" htmlFor="name">
                   Name

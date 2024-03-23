@@ -121,6 +121,10 @@ const AddProject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!project_name || !project_description || !start_date || !end_date) {
+      toast.error("Please fill in all the fields.");
+      return;
+    }
 
     if (assignedEmployees.length === 0) {
       toast.error(

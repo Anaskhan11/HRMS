@@ -6,14 +6,14 @@ import { Modal } from "../common/Model";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../api/axios";
 import Searchbars from "../common/Searchbars";
+import ToggleSwitch from "./ToggleSwitch";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 // Icons
-import { FaRegCalendarMinus } from "react-icons/fa";
-import { FaRegCalendarPlus } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
+import { FaRegCalendarAlt, FaRegListAlt } from "react-icons/fa";
+import ModernCalendar from "../common/ModernCalendar";
 
 const ProjectDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,8 +22,39 @@ const ProjectDetails = () => {
   const [position, setPosition] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [selectPositionValues, setSelectPositionValues] = useState([]);
-  const [employees, setEmployees] = useState([]);
   const { id } = useParams();
+
+  const updateTaskStatus = async ({ taskId, newStatus }) => {
+    const response = await axiosInstance.put(
+      `/api/project/${taskId}/updateTaskStatus`,
+      {
+        status: newStatus,
+      }
+    );
+    return response.data;
+  };
+
+  const StatusMutation = useMutation(updateTaskStatus, {
+    onSuccess: () => {
+      // Optionally refetch tasks data or handle success
+      getAllTasks();
+    },
+    onError: (error) => {
+      // Handle error
+      console.error("Failed to update task status", error);
+    },
+  });
+
+  const handleStatusChange = (taskId, newStatus) => {
+    StatusMutation.mutate({ taskId, newStatus });
+  };
+
+  const getAllTasks = async () => {
+    const response = await axiosInstance.get(
+      `/api/project/getProjectTasks/${id}`
+    );
+    return response.data;
+  };
 
   const searchEmployee = async (data) => {
     const response = await axiosInstance.post(
@@ -32,6 +63,8 @@ const ProjectDetails = () => {
     );
     return response.data;
   };
+
+  const { data } = useQuery("tasks", getAllTasks);
 
   const mutation = useMutation(searchEmployee);
 
@@ -121,71 +154,136 @@ const ProjectDetails = () => {
   return (
     <>
       <section className="p-4">
-        <h1 className="text-3xl font-semibold text-secondary mb-4">
-          Project Details
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-semibold text-secondary mb-4">
+            Project Details
+          </h1>
+          <button
+            onClick={toggleModal}
+            className="bg-primary text-white px-4 py-2 rounded-md"
+          >
+            Assign Employees
+          </button>
+        </div>
 
-        <div className="p-4 rounded-md bg-white my-6 w-fit shadow shadow-sm shadow-gray-400">
-          <div className="flex items-center justify-between my-2">
-            <h1 className="text-3xl font-semibold text-primary">
-              {project.data[0].project_name}
-            </h1>
-            <button
-              onClick={toggleModal}
-              className="bg-primary text-white px-4 py-2 rounded-md"
-            >
-              Assign Employees
-            </button>
-          </div>
-
-          <p className="text-lg font-light text-slate-500 mb-4">
-            {project.data[0].project_description.toLowerCase()}
-          </p>
-          <div className="flex items-center gap-4">
-            <p className="text-lg font-semibold text-slate-500 mb-4 flex items-center gap-1">
-              <FaRegCalendarMinus className="text-green-500" />
-              {project.data[0].start_date}
-            </p>
-
-            <p className="text-lg font-semibold text-slate-500 mb-4 flex items-center gap-1">
-              <FaRegCalendarPlus className="text-red-500" />
-              {project.data[0].end_date}
-            </p>
-          </div>
-          <span className="flex items-center justify-end">
-            <p
-              className="text-lg font-semibold text-slate-500 mb-2 "
-              style={{
-                color: project.data[0].status === "active" ? "green" : "red",
-              }}
-            >
-              {project.data[0].status}
-            </p>
-          </span>
+        <div className="flex flex-col md:flex-row gap-2 p-4 rounded-md bg-white my-6 shadow shadow-sm shadow-gray-400">
           <div>
-            <h1 className="text-2xl font-semibold mb-4">Employees</h1>
-            <ul className="flex items-center flex-wrap overlap-children">
-              {project.data.map((employee, index) => (
-                <span
-                  className=" h-12 w-12 flex items-center justify-center bg-slate-100 rounded-full shadow shadow-md shadow-slate-400"
-                  style={{ marginLeft: index !== 0 ? "-10px" : undefined }}
+            <h1 className="text-2xl font-semibold text-primary">
+              {project && project.data[0].project_name}
+            </h1>
+            <span className="flex items-center justify-start">
+              <p
+                className="text-lg font-semibold text-slate-500 mb-2 "
+                style={{
+                  color: project.data[0].status === "active" ? "green" : "red",
+                }}
+              >
+                {project.data[0].status}
+              </p>
+            </span>
+            <p className="text-lg font-light text-slate-500 mb-4 w-[350px]">
+              {project.data[0].project_description.toLowerCase()}
+            </p>
+            <div className="flex-1">
+              <h1 className="text-2xl font-semibold mb-4">Employees</h1>
+              <ul className="flex items-center flex-wrap overlap-children mb-4">
+                {project.data.map((employee, index) => (
+                  <span
+                    key={employee.assignment_id}
+                    className=" h-12 w-12 flex items-center justify-center bg-slate-100 rounded-full shadow shadow-md shadow-slate-400"
+                    style={{ marginLeft: index !== 0 ? "-10px" : undefined }}
+                  >
+                    {employee.image ? (
+                      <img
+                        src={`${import.meta.env.VITE_APP_BASE_URL}/${
+                          employee.image
+                        }`}
+                        className="h-full w-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <FaRegUser
+                        className="text-primary h-8 w-8"
+                        key={employee.employee_id}
+                      />
+                    )}
+                  </span>
+                ))}
+              </ul>
+              <ModernCalendar
+                startDate={project.data[0].start_date}
+                endDate={project.data[0].end_date}
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 w-full">
+            <h1 className="text-2xl font-semibold mb-4">Tasks</h1>
+
+            {data &&
+              data.result.map((task) => (
+                <div
+                  key={task.task_id}
+                  className="mb-5 p-4 rounded-lg bg-white hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md cursor-pointer"
                 >
-                  {employee.image ? (
-                    <img
-                      src={`${import.meta.env.VITE_APP_BASE_URL}/${
-                        employee.image
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold flex items-center space-x-2 mb-2">
+                        <FaRegListAlt className="text-primary" />
+                        <span>{task.task_title}</span>
+                      </h3>
+                      <p className="text-gray-600">{task.task_description}</p>
+                      <div className="mt-2 text-sm text-gray-500">
+                        <span className="flex items-center">
+                          <FaRegCalendarAlt className="mr-2" />{" "}
+                          {task.start_date} - {task.end_date}
+                        </span>
+                      </div>
+                    </div>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                        task.status === "active"
+                          ? "bg-blue-500"
+                          : task.status === "completed"
+                          ? "bg-green-500"
+                          : "bg-red-500"
                       }`}
-                      className="h-full w-full rounded-full object-cover"
-                    />
-                  ) : (
-                    <FaRegUser
-                      className="text-primary h-8 w-8"
-                      key={employee.employee_id}
-                    />
-                  )}
-                </span>
+                    >
+                      {task.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center mt-4">
+                    <div className="flex-shrink-0">
+                      {task.image ? (
+                        <img
+                          src={`${import.meta.env.VITE_APP_BASE_URL}/${
+                            task.image
+                          }`}
+                          alt={task.name}
+                          className="h-12 w-12 rounded-full object-cover mr-4"
+                        />
+                      ) : (
+                        <FaRegUser className="mr-4 bg-gray-200 text-primary h-12 w-12 p-2 rounded-full" />
+                      )}
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold text-gray-800">
+                        {task.name}
+                      </h2>
+                      <p className="text-gray-600">{task.email}</p>
+                    </div>
+                  </div>
+                  <ToggleSwitch
+                    initialState={task.status}
+                    taskId={task.task_id}
+                    onStatusChange={handleStatusChange}
+                  />
+                </div>
               ))}
-            </ul>
+            {data.result.length === 0 && (
+              <p className="text-lg font-semibold text-slate-500">
+                No tasks available
+              </p>
+            )}
           </div>
         </div>
       </section>
