@@ -1,7 +1,7 @@
 // libs
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Modal } from "../common/Model";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../api/axios";
@@ -24,6 +24,8 @@ const ProjectDetails = () => {
   const [selectPositionValues, setSelectPositionValues] = useState([]);
   const { id } = useParams();
 
+  const queryClient = useQueryClient();
+
   const updateTaskStatus = async ({ taskId, newStatus }) => {
     const response = await axiosInstance.put(
       `/api/project/${taskId}/updateTaskStatus`,
@@ -31,13 +33,15 @@ const ProjectDetails = () => {
         status: newStatus,
       }
     );
+
+    toast.success("Task status updated successfully");
     return response.data;
   };
 
   const StatusMutation = useMutation(updateTaskStatus, {
     onSuccess: () => {
-      // Optionally refetch tasks data or handle success
-      getAllTasks();
+      // This line tells React Query to invalidate and refetch 'tasks' query
+      queryClient.invalidateQueries("tasks");
     },
     onError: (error) => {
       // Handle error

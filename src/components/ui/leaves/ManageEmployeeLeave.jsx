@@ -53,6 +53,7 @@ const ManageEmployeeLeave = ({ leave_id }) => {
         id="leave"
         value={leave}
         onChange={(e) => setLeave(e.target.value)}
+        disabled={leave === "Accepted" || leave === "Rejected"}
         required
       >
         <option className="bg-white text-black" value="" disabled>
@@ -70,7 +71,12 @@ const ManageEmployeeLeave = ({ leave_id }) => {
       </select>
       <button
         onClick={handleSubmit}
-        className="bg-primary px-3 py-2 rounded-md flex items-center gap-1 text-white"
+        className={`bg-primary px-3 py-2 rounded-md flex items-center gap-1 text-white ${
+          leave === "Accepted" || leave === "Rejected"
+            ? "opacity-50 cursor-not-allowed"
+            : ""
+        }`}
+        disabled={leave === "Accepted" || leave === "Rejected"}
       >
         <TiChevronRight className="w-6 h-6" />
       </button>

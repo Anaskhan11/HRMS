@@ -187,7 +187,7 @@ table {
 .toggle-switch {
   margin-top: 8px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 5px;
 }
 

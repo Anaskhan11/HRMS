@@ -94,8 +94,18 @@ const Leave = () => {
                 <td className="py-4 px-6">{leave.position_name}</td>
                 <td className="py-4 px-6">{leave.start_date}</td>
                 <td className="py-4 px-6">{leave.end_date}</td>
-                <td className="py-4 px-6">{leave.leave_type}</td>
-                <td className="py-4 px-6">{leave.status}</td>
+                <td className={`py-4 px-6`}>{leave.leave_type}</td>
+                <td
+                  className={`py-4 px-6 ${
+                    leave.status === "Accepted"
+                      ? "text-green-500"
+                      : leave.status === "Rejected"
+                      ? "text-red-500"
+                      : "text-yellow-500"
+                  }`}
+                >
+                  {leave.status}
+                </td>
                 <td>
                   <ManageEmployeeLeave leave_id={leave.leave_id} />
                 </td>

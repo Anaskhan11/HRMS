@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSidebarContext } from "../../../context/SidebarContext";
 import { motion } from "framer-motion";
+import { useTheme } from "../../../context/ThemeContext";
 import secureLocalStorage from "react-secure-storage";
 
 // Icons
@@ -12,6 +13,7 @@ import { RiMenu3Line } from "react-icons/ri";
 import { IoMdSunny, IoMdMoon } from "react-icons/io";
 
 const Topbar = () => {
+  const { toggleTheme } = useTheme();
   const { state, dispatch } = useSidebarContext();
   const [user, setUser] = useState(secureLocalStorage.getItem("user"));
   const [isDarkMode, setIsDarkMode] = useState(false); // Default theme state
@@ -31,8 +33,9 @@ const Topbar = () => {
     navigate("/login");
   };
 
-  const toggleTheme = () => {
+  const toggleWebsiteTheme = () => {
     setIsDarkMode(!isDarkMode);
+    toggleTheme();
     // Here you would also switch CSS or class names for real theme implementation
   };
 
@@ -59,7 +62,7 @@ const Topbar = () => {
           className={`flex items-center justify-between w-12 h-6 ${
             isDarkMode ? "bg-gray-800" : "bg-gray-300"
           } rounded-full p-1 cursor-pointer`}
-          onClick={toggleTheme}
+          onClick={toggleWebsiteTheme}
           whileTap={{ scale: 0.9 }}
         >
           <motion.div

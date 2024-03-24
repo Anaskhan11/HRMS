@@ -11,7 +11,7 @@ import IsScrollable from "../common/Scrollable";
 
 const Dashboard = () => {
   return (
-    <section className="p-4 h-[100dvh]">
+    <section className="p-4 h-[100vh] dark:bg-gray-800 dark:text-gray-200">
       <IsScrollable>
         <h1 className="text-3xl font-semibold text-secondary">
           Admin Dashboard
@@ -38,11 +38,11 @@ const Dashboard = () => {
             <h2 className="text-3xl font-bold text-center">20 Departments</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 h-[450px]">
-          <div className="flex items-center justify-center h-full p-4 rounded shadow shadow-mdbg-white">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 h-52 sm:h-52 md:h-72 lg:h-96">
+          <div className="flex items-center justify-center h-60 sm:h-auto p-4 rounded shadow shadow-md bg-white">
             <EmployeeChart />
           </div>
-          <div className="flex items-center justify-center h-full p-4 rounded shadow shadow-md bg-white">
+          <div className="flex items-center justify-center h-60 sm:h-auto p-4 rounded shadow shadow-md bg-white">
             <EmployeeAgePieChart />
           </div>
         </div>
