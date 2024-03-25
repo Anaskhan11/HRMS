@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 // Icons
 import { TiChevronRight } from "react-icons/ti";
 
-const ManageEmployeeLeave = ({ leave_id }) => {
+const ManageEmployeeLeave = ({ leave_id, initialState, refetchLeaves }) => {
   const [leave, setLeave] = useState("");
 
   const handleLeave = async (data) => {
-    if (leave === "") return alert("Please select leave first");
+    if (leave === "" && initialState === "isPending")
+      return alert("Please select leave first");
 
     const response = await fetch(
       `${import.meta.env.VITE_APP_BASE_URL}/api/leave/updateLeaves`,
@@ -35,10 +36,17 @@ const ManageEmployeeLeave = ({ leave_id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({
-      id: leave_id,
-      status: leave,
-    });
+    mutation.mutate(
+      {
+        id: leave_id,
+        status: leave,
+      },
+      {
+        onSuccess: () => {
+          refetchLeaves();
+        },
+      }
+    );
   };
 
   return (
@@ -53,10 +61,10 @@ const ManageEmployeeLeave = ({ leave_id }) => {
         id="leave"
         value={leave}
         onChange={(e) => setLeave(e.target.value)}
-        disabled={leave === "Accepted" || leave === "Rejected"}
+        disabled={initialState !== "isPending"}
         required
       >
-        <option className="bg-white text-black" value="" disabled>
+        <option className="bg-white text-black" selected>
           Mark Leave
         </option>
         <option className="bg-white text-black" value="Accepted">
@@ -72,11 +80,9 @@ const ManageEmployeeLeave = ({ leave_id }) => {
       <button
         onClick={handleSubmit}
         className={`bg-primary px-3 py-2 rounded-md flex items-center gap-1 text-white ${
-          leave === "Accepted" || leave === "Rejected"
-            ? "opacity-50 cursor-not-allowed"
-            : ""
+          initialState !== "isPending" ? "opacity-50 cursor-not-allowed" : ""
         }`}
-        disabled={leave === "Accepted" || leave === "Rejected"}
+        disabled={initialState !== "isPending"}
       >
         <TiChevronRight className="w-6 h-6" />
       </button>

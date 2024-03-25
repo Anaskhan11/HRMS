@@ -17,6 +17,7 @@ const Leave = () => {
     isLoading,
     error,
     isError,
+    refetch,
   } = useQuery("leaves", getAllLeaves);
 
   if (isLoading) {
@@ -107,7 +108,11 @@ const Leave = () => {
                   {leave.status}
                 </td>
                 <td>
-                  <ManageEmployeeLeave leave_id={leave.leave_id} />
+                  <ManageEmployeeLeave
+                    initialState={leave.status}
+                    leave_id={leave.leave_id}
+                    refetchLeaves={refetch}
+                  />
                 </td>
               </tr>
             ))}
