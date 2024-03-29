@@ -20,6 +20,7 @@ import { RxCross2 } from "react-icons/rx";
 import { LiaNewspaperSolid } from "react-icons/lia";
 import { HiOutlineFolderAdd } from "react-icons/hi";
 import { LuTableProperties } from "react-icons/lu";
+import { RiMoneyCnyCircleLine } from "react-icons/ri";
 
 // Adjust these variants according to your desired stiffness and damping for a bouncy effect
 const sidebarVariants = {
@@ -62,6 +63,7 @@ const Sidebar = () => {
   const [showAttendance, setShowAttendance] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
   const [showProject, setShowProject] = useState(false);
+  const [showPayroll, setShowPayroll] = useState(false);
   const [displayText, setDisplayText] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -409,6 +411,48 @@ const Sidebar = () => {
                 {displayText && <li>Settings</li>}
               </div>
             </Link>
+            {(role === "admin" || role === "manager") && (
+              <div
+                className="sidebar-item"
+                onClick={(e) => setShowPayroll(!showPayroll)}
+              >
+                <RiMoneyCnyCircleLine className="w-6 h-6" />
+                {displayText && (
+                  <>
+                    <span className="flex items-center">Payroll </span>
+                    {!showPayroll ? (
+                      <MdOutlineChevronRight className="w-6 h-6" />
+                    ) : (
+                      <IoChevronDownOutline className="w-6 h-6" />
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+            <AnimatePresence>
+              {showPayroll && (
+                <motion.ul
+                  className={dropdownStyle}
+                  variants={dropdownVariants}
+                  initial={"closed"}
+                  animate={"opened"}
+                  exit={"closed"}
+                >
+                  <Link to="/payroll">
+                    <div>
+                      <CiViewList className="w-6 h-6" />
+                      {displayText && <p>Payroll Details</p>}
+                    </div>
+                  </Link>
+                  <Link to="/payroll/add">
+                    <div>
+                      <HiOutlineFolderAdd className="w-6 h-6" />
+                      {displayText && <p>Generate Payroll</p>}
+                    </div>
+                  </Link>
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </ul>
         </IsScrollable>
       </motion.div>
