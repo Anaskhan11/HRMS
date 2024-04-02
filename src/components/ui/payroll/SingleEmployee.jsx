@@ -1,6 +1,6 @@
 // Libs
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation } from "react-query";
 import axiosInstance from "../../../api/axios";
 import { toast } from "react-toastify";
 
@@ -12,11 +12,14 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 const SingleEmployee = ({ employee }) => {
   const [dropDown, setDropDown] = useState(false);
   const [active, setActive] = useState("salary");
+  const [salaryExist, setSalaryExist] = useState(null);
 
   // States for backend
   const [salary, setSalary] = useState(0);
   const [deductionType, setDeductionType] = useState("");
   const [deductionAmount, setDeductionAmount] = useState(0);
+  const [allowanceType, setAllowanceType] = useState("");
+  const [allowanceAmount, setAllowanceAmount] = useState(0);
   const [payStartDate, setPayStartDate] = useState("");
   const [payEndDate, setPayEndDate] = useState("");
   const [totalAllowances, setTotalAllowances] = useState(0);
@@ -26,6 +29,21 @@ const SingleEmployee = ({ employee }) => {
   const showDropdown = () => {
     setDropDown(!dropDown);
   };
+
+  useEffect(() => {
+    const getSalaryForEmployee = async () => {
+      const response = await axiosInstance.get(
+        `/api/payroll/getsalary/${employee.employee_id}`
+      );
+
+      if (response.data.result.length > 0) {
+        setSalaryExist(response.data.result[0]);
+        console.log(response.data.result[0]);
+      }
+    };
+
+    getSalaryForEmployee();
+  }, []);
 
   // handle Add Salary
   const addSalary = async (data) => {
@@ -85,9 +103,69 @@ const SingleEmployee = ({ employee }) => {
     });
   };
 
+  // handle Add Allowance
+  const addAllowance = async (data) => {
+    const response = await axiosInstance.post(
+      "/api/payroll/createallowence",
+      data
+    );
+    return response.data;
+  };
+
+  const AllowanceMutation = useMutation(addAllowance);
+
+  const handleAddAllowance = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      employee_id: employee.employee_id,
+      allowance_type: allowanceType,
+      amount: allowanceAmount,
+    };
+
+    AllowanceMutation.mutate(data, {
+      onSuccess: () => {
+        toast.success("Allowance added successfully");
+      },
+      onError: () => {
+        toast.error("Failed to add allowance");
+      },
+    });
+  };
+
   // handle Add Payroll
+
+  const addPayroll = async (data) => {
+    const response = await axiosInstance.post(
+      "/api/payroll/createpayroll",
+      data
+    );
+    return response.data;
+  };
+
+  const PayrollMutation = useMutation(addPayroll);
+
   const handleAddPayroll = async (e) => {
     e.preventDefault();
+
+    const data = {
+      employee_id: employee.employee_id,
+      salary_id: salaryExist.salary_id,
+      pay_period_start: payStartDate,
+      pay_period_end: payEndDate,
+      total_allowances: totalAllowances,
+      total_deductions: totalDeductions,
+      net_pay: netPay,
+    };
+
+    PayrollMutation.mutate(data, {
+      onSuccess: () => {
+        toast.success("Payroll added successfully");
+      },
+      onError: () => {
+        toast.error("Failed to add payroll");
+      },
+    });
   };
 
   return (
@@ -122,7 +200,7 @@ const SingleEmployee = ({ employee }) => {
       </tr>
       {dropDown && (
         <div className="absolute top-0 left-0 w-screen h-full bg-slate-900 bg-opacity-30 flex items-center justify-center z-0">
-          <div className="bg-white p-4 shadow-md w-96 z-10 rounded-md">
+          <div className="bg-white p-4 shadow-md z-10 rounded-md">
             <button
               className="px-2 py-1 bg-red-500 text-white ml-auto rounded-md"
               onClick={showDropdown}
@@ -148,12 +226,22 @@ const SingleEmployee = ({ employee }) => {
               </button>
               <button
                 className={`px-3 py-2 rounded-md bg-primary text-white ${
-                  active === "payroll" && "active bg-primaryDark"
+                  active === "allowance" && "active bg-primaryDark"
                 }`}
-                onClick={() => setActive("payroll")}
+                onClick={() => setActive("allowance")}
               >
-                Payroll
+                Allowance
               </button>
+              {salaryExist && (
+                <button
+                  className={`px-3 py-2 rounded-md bg-primary text-white ${
+                    active === "payroll" && "active bg-primaryDark"
+                  }`}
+                  onClick={() => setActive("payroll")}
+                >
+                  Payroll
+                </button>
+              )}
             </div>
 
             {/* ----------- SALARY FORM ----------- */}
@@ -218,6 +306,45 @@ const SingleEmployee = ({ employee }) => {
 
                 <button className="px-4 py-3 w-full rounded-md bg-primary my-2 text-white">
                   Add Deduction
+                </button>
+              </form>
+            )}
+
+            {/* ----------- ALLOWANCE FORM ----------- */}
+            {active === "allowance" && (
+              <form onSubmit={handleAddAllowance}>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Allowance Type
+                  </label>
+                  <textarea
+                    type="text"
+                    name="allowance_type"
+                    id="allowance_type"
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    value={allowanceType}
+                    onChange={(e) => setAllowanceType(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Amount
+                  </label>
+                  <div className="flex items-center gap-2 rounded-md px-2 py-1 border border-2 mt-1 border-slate-400">
+                    <RiMoneyDollarCircleFill className="h-8 w-8" />
+                    <input
+                      type="number"
+                      name="allowance_amount"
+                      id="allowance_amount"
+                      className="w-full border-none bg-transparent outline-none"
+                      value={allowanceAmount}
+                      onChange={(e) => setAllowanceAmount(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <button className="px-4 py-3 w-full rounded-md bg-primary my-2 text-white">
+                  Add Allowance
                 </button>
               </form>
             )}
