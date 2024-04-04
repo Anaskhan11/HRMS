@@ -405,12 +405,7 @@ const Sidebar = () => {
                 </motion.ul>
               )}
             </AnimatePresence>
-            <Link to="/settings">
-              <div className="sidebar-item">
-                <LuSettings className="w-6 h-6" />
-                {displayText && <li>Settings</li>}
-              </div>
-            </Link>
+
             {(role === "admin" || role === "manager") && (
               <div
                 className="sidebar-item"
@@ -453,6 +448,13 @@ const Sidebar = () => {
                 </motion.ul>
               )}
             </AnimatePresence>
+
+            <Link to="/settings">
+              <div className="sidebar-item">
+                <LuSettings className="w-6 h-6" />
+                {displayText && <li>Settings</li>}
+              </div>
+            </Link>
           </ul>
         </IsScrollable>
       </motion.div>

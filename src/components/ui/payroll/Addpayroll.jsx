@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import Searchbars from "../common/Searchbars";
 import axiosInstance from "../../../api/axios";
 import SingleEmployee from "./SingleEmployee";
+import { ImCross } from "react-icons/im";
 
 const Addpayroll = () => {
   const [department, setDepartment] = useState("");
@@ -56,7 +57,7 @@ const Addpayroll = () => {
         positionValues={positionValues}
         handleSearchEmployee={handleSearchEmployee}
       />
-      <div>
+      <div className="rounded-md p-2">
         {searchResult.length > 0 ? (
           <div style={{ flex: 1, overflowX: "auto" }}>
             <table className="w-full text-sm text-left text-gray-800 dark:text-gray-400">
