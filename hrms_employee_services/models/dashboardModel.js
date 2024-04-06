@@ -4,10 +4,10 @@ const { promisePool } = require("../config/DBConnection");
 const getDashboardData = async () => {
   return new Promise((resolve, reject) => {
     const query = `SELECT 
-            (SELECT COUNT(*) FROM employees) as totalEmployees,
-            (SELECT COUNT(*) FROM employees WHERE role='admin') as totalAdmins,
-            (SELECT COUNT(*) FROM departments) as totalDepartments,
-            (SELECT COUNT(*) FROM projects) as totalProjects`;
+            (SELECT COUNT(*) FROM hrms_employeeservices.employee_details) as totalEmployees,
+            (SELECT COUNT(*) FROM hrms_userservices.user_profiles WHERE role='admin') as totalAdmins,
+            (SELECT COUNT(*) FROM hrms_departmentservices.department_detail) as totalDepartments,
+            (SELECT COUNT(*) FROM hrms_projectservices.project_details) as totalProjects`;
     promisePool.query(query, (err, result) => {
       if (err) {
         reject(err);
