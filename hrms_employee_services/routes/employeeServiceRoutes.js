@@ -14,6 +14,8 @@ const {
   deleteAssets,
 } = require("../controller/assetsController");
 
+const { getDashboardData } = require("../controller/dashboardController");
+
 const { verifyAdminOrManagerToken } = require("../../middleware/middleware");
 
 const router = express.Router();
@@ -33,4 +35,8 @@ router.get("/getAllAssets", getAllAssets);
 router.get("/getAssetsById/:id", getAssetsById);
 router.put("/updateAssets/:id", updateAssets);
 router.delete("/deleteAssets/:id", deleteAssets);
+
+// Dashboard Routes
+router.get("/getDashboardData", getDashboardData);
+
 module.exports = router;
