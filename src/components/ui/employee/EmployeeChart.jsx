@@ -31,8 +31,8 @@ export default function EmployeeChart() {
       // Else, you should recreate the gradients whenever your data changes.
       const ctx = chart.ctx;
       const gradient = ctx.createLinearGradient(0, 0, 0, chart.height);
-      gradient.addColorStop(0, "#fc6173"); // Start color
-      gradient.addColorStop(1, "#ff902f"); // End color
+      gradient.addColorStop(0, "#004e92"); // Start color
+      gradient.addColorStop(1, "#004e92"); // End color
 
       // Apply the gradient to the datasets' backgroundColor property
       chart.data.datasets.forEach((dataset) => {
@@ -71,7 +71,7 @@ export default function EmployeeChart() {
         enabled: true,
         mode: "index",
         intersect: false,
-        backgroundColor: "#fc6173",
+        backgroundColor: "#004e92",
         titleFont: {
           size: 14,
           weight: "bold",
@@ -105,7 +105,7 @@ export default function EmployeeChart() {
     elements: {
       bar: {
         borderWidth: 1,
-        backgroundColor: "#fc6173",
+        backgroundColor: "#004e92",
         borderRadius: 50,
       },
     },
@@ -120,14 +120,14 @@ export default function EmployeeChart() {
       {
         label: "John",
         data: [10, 5],
-        backgroundColor: "#fc6173",
-        borderColor: "orange",
+        backgroundColor: "#004e92",
+        borderColor: "#000428",
       },
       {
         label: "Alexa",
         data: [20, 12],
-        backgroundColor: "#fc6173",
-        borderColor: "#orange",
+        backgroundColor: "#004e92",
+        borderColor: "#000428",
       },
     ],
   };

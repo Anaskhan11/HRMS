@@ -402,7 +402,7 @@ const AddEmployee = () => {
             {activeState === 2 && (
               <button
                 disabled={mutation.isLoading}
-                className="w-fit px-4 py-3 mt-6 text-white bg-yellow-400 rounded-lg"
+                className="w-fit px-4 py-3 mt-6 text-white bg-primary rounded-lg"
                 type="submit"
               >
                 Create Employee

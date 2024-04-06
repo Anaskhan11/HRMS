@@ -80,8 +80,8 @@ const EmployeeAgeAreaChart = () => {
         0,
         chart.chartArea.bottom
       );
-      gradient.addColorStop(0, "#fc6173"); // Top color
-      gradient.addColorStop(1, "#ff902f"); // Bottom color
+      gradient.addColorStop(0, "#004e92"); // Top color
+      gradient.addColorStop(1, "#000428"); // Bottom color
 
       chart.data.datasets.forEach((dataset) => {
         dataset.backgroundColor = gradient; // Apply the gradient here
@@ -98,7 +98,7 @@ const EmployeeAgeAreaChart = () => {
         label: "Age Distribution",
         data: [20, 30, 25, 15, 10],
         fill: true,
-        borderColor: "orange",
+        borderColor: "#000428",
         // backgroundColor will be set by the useEffect
       },
     ],

@@ -30,7 +30,7 @@ const FormStateForProject = ({ currentStage, setCurrentStage }) => {
           {index > 0 && (
             <motion.div
               className={`absolute top-1/2 h-1 transform -translate-y-1/2 ${
-                currentStage >= index ? "bg-yellow-400" : "bg-gray-200"
+                currentStage >= index ? "bg-primary" : "bg-gray-200"
               }`}
               style={{
                 left: `${

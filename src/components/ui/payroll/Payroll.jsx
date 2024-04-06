@@ -11,8 +11,6 @@ const Payroll = () => {
 
   const { data, isLoading, error } = useQuery("payrolls", getAllPayrolls);
 
-  console.log("data", data);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

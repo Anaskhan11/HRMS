@@ -14,7 +14,7 @@ textarea {
 .sidebar {
   @apply z-20 h-screen text-white;
   background: #bf6d39;
-  background: linear-gradient(135deg, #fc6173, #ff902f);
+  background: linear-gradient(135deg, #000428, #004e92);
 }
 
 .sidebar > ul {
@@ -99,6 +99,15 @@ tbody > tr:nth-child(odd) {
 
 table {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+td {
+  white-space: nowrap;
+  overflow: hidden;
+}
+th {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .overlap-children > *:not(:first-child) {

@@ -19,8 +19,8 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "orange", // Default, used in light mode
-          dark: "#eab308", // An adjusted orange for dark mode, as an example
+          DEFAULT: "#004e92", // Default, used in light mode
+          dark: "##000428", // An adjusted orange for dark mode, as an example
         },
         secondary: {
           DEFAULT: "#002738",

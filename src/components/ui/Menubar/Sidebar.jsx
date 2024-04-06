@@ -54,7 +54,7 @@ const dropdownVariants = {
 };
 
 // Example for good contrast styling (feel free to adjust)
-const dropdownStyle = "bg-[#ff902f] text-white mt-2 rounded-md";
+const dropdownStyle = "bg-[#000428] text-white mt-2 rounded-md";
 
 const Sidebar = () => {
   const [showEmployees, setShowEmployees] = useState(false);

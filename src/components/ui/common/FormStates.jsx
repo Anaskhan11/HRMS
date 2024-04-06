@@ -31,7 +31,7 @@ const FormStates = ({ activeState, setActiveState }) => {
           {index > 0 && (
             <motion.div
               className={`absolute top-1/2 h-1 transform -translate-y-1/2 ${
-                activeState >= index ? "bg-yellow-400" : "bg-gray-200"
+                activeState >= index ? "bg-primary" : "bg-gray-200"
               }`}
               style={{
                 left: `${
@@ -46,7 +46,7 @@ const FormStates = ({ activeState, setActiveState }) => {
           <button
             className={`p-2 rounded-full font-medium text-sm flex items-center gap-1 ${
               activeState >= index
-                ? "bg-yellow-400 text-white"
+                ? "bg-primary text-white"
                 : "bg-gray-200 text-gray-700"
             } mx-2 focus:outline-none relative z-10`}
             onClick={() => setActiveState(index)}

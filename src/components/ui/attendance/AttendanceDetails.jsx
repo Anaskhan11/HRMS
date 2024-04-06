@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
@@ -7,6 +7,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { GoDotFill } from "react-icons/go";
 
 const AttendanceDetails = () => {
+  const [date, setDate] = useState("");
+
   const getAllAttendance = async () => {
     const response = await axiosInstance.get(
       "/api/attendance/getAllEmployeeAttendance"
@@ -40,6 +42,18 @@ const AttendanceDetails = () => {
       <h1 className="text-3xl font-semibold text-secondary">
         Attedance Details
       </h1>
+      <div className="flex items-center gap-2 justify-end">
+        <input
+          type="date"
+          className="
+          w-1/4 p-2 border-2 border-green-500 rounded-lg"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+        <button className="px-6 py-3 rounded-md bg-primary text-white">
+          Search
+        </button>
+      </div>
       <div className="my-6 overflow-x-auto relative sm:rounded-lg table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -67,6 +81,10 @@ const AttendanceDetails = () => {
                 Position
               </th>
 
+              <th scope="col" className="py-3 px-6">
+                Date
+              </th>
+
               <th>Attendance Status</th>
             </tr>
           </thead>
@@ -82,19 +100,31 @@ const AttendanceDetails = () => {
                 <td className="py-4 px-6">{attendance.father_name}</td>
                 <td className="py-4 px-6">{attendance.departmentName}</td>
                 <td className="py-4 px-6">{attendance.title}</td>
+                <td className="py-4 px-6">{attendance.date}</td>
                 <td className="text-center min-w-16">
-                  <span
-                    style={{ width: "62px", padding: "4px" }}
-                    className={`${
+                  <p
+                    style={{ width: "100px", padding: "4px" }}
+                    className={`border-2 ${
                       attendance.status === "present"
-                        ? "bg-green-500"
+                        ? "border-green-500 text-green-500"
                         : attendance.status === "absent"
-                        ? "bg-red-500"
-                        : "bg-yellow-500"
-                    } flex items-center rounded-full justify-center text-white`}
+                        ? "border-red-500 text-red-500"
+                        : "border-yellow-500 text-yellow-500"
+                    } flex items-center rounded-full justify-center cursor-pointer`}
                   >
-                    {attendance.status}
-                  </span>
+                    <span
+                      className={`${
+                        attendance.status === "present"
+                          ? "text-green-500 animate-pulse"
+                          : attendance.status === "absent"
+                          ? "text-red-500"
+                          : "text-yellow-500"
+                      }`}
+                    >
+                      <GoDotFill />
+                    </span>
+                    <span>{attendance.status}</span>
+                  </p>
                 </td>
               </tr>
             ))}
