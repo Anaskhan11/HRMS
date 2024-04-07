@@ -32,7 +32,7 @@ router.get(
 // assets Routes
 router.post("/createAsset", createAsset);
 router.get("/getAllAssets", getAllAssets);
-router.get("/getAssetsById/:id", getAssetsById);
+router.get("/getAssetsById/:employee_id", getAssetsById);
 router.put("/updateAssets/:id", updateAssets);
 router.delete("/deleteAssets/:id", deleteAssets);
 

@@ -1,9 +1,14 @@
 const assetsModel = require("../models/assetsModel");
 
 exports.createAsset = async (req, res) => {
-  const { assetName, assetValue } = req.body;
+  const data = req.body;
+
   try {
-    const result = await assetsModel.createAsset(assetName, assetValue);
+    const result = await Promise.all(
+      data.map((asset) =>
+        assetsModel.createAsset(asset.asset.asset_id, asset.employee_id)
+      )
+    );
     res.status(201).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -20,9 +25,9 @@ exports.getAllAssets = async (req, res) => {
 };
 
 exports.getAssetsById = async (req, res) => {
-  const { id } = req.params;
+  const { employee_id } = req.params;
   try {
-    const result = await assetsModel.getAssetsById(id);
+    const result = await assetsModel.getAssetsByEmployeeId(employee_id);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });

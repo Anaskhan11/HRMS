@@ -12,7 +12,7 @@ const getDashboardData = async () => {
       if (err) {
         reject(err);
       } else {
-        resolve(result);
+        resolve(result[0]);
       }
     });
   });
