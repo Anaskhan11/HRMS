@@ -85,7 +85,7 @@ const Sidebar = () => {
         <IsScrollable>
           <div
             onClick={() => setDisplayText(!displayText)}
-            className="my-6 flex items-center gap-2 ml-auto p-2 bg-slate-800 w-fit rounded-md mx-2 cursor-pointer"
+            className="my-6 flex items-center gap-2 ml-auto p-2 bg-red-500 w-fit rounded-md mx-2 cursor-pointer"
           >
             {displayText && <span>Close</span>}
             {!displayText ? (
@@ -144,10 +144,10 @@ const Sidebar = () => {
                       {displayText && <p>Employee List</p>}
                     </div>
                   </Link>
-                  <Link to="/employee/details">
+                  <Link to="/assign/assets">
                     <div>
                       <TbListDetails className="w-6 h-6" />
-                      {displayText && <p>Employee Details</p>}
+                      {displayText && <p>Assign Assets</p>}
                     </div>
                   </Link>
                   <Link to="/employee/add">

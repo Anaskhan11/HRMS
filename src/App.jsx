@@ -38,6 +38,7 @@ import ProjectDetails from "./components/ui/projects/ProjectDetails";
 import Settings from "./components/ui/settings/Setting";
 import Payroll from "./components/ui/payroll/Payroll";
 import Addpayroll from "./components/ui/payroll/Addpayroll";
+import AssignAssets from "./components/ui/employee/AssignAssets";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -69,6 +70,7 @@ function App() {
             />
             <Route path="employee" element={<Employee />} />
             <Route path="employee/add" element={<AddEmployee />} />
+            <Route path="assign/assets" element={<AssignAssets />} />
             <Route path="department" element={<Department />} />
             <Route path="department/add" element={<AddDepartment />} />
             <Route path="position" element={<Position />} />

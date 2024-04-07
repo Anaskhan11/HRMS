@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
@@ -8,6 +8,7 @@ import { GoDotFill } from "react-icons/go";
 
 const AttendanceDetails = () => {
   const [date, setDate] = useState("");
+  const [filteredAttendances, setFilteredAttendances] = useState([]);
 
   const getAllAttendance = async () => {
     const response = await axiosInstance.get(
@@ -24,6 +25,10 @@ const AttendanceDetails = () => {
     isError,
   } = useQuery("attendances", getAllAttendance);
 
+  useEffect(() => {
+    setFilteredAttendances(attendances || []);
+  }, [attendances]);
+
   if (isLoading) {
     return (
       <section className="p-4 my-6 h-screen">
@@ -36,6 +41,21 @@ const AttendanceDetails = () => {
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
+
+  const handleSearch = () => {
+    if (date) {
+      const selectedDate = new Date(date);
+      const formattedDate = `${
+        selectedDate.getMonth() + 1
+      }/${selectedDate.getDate()}/${selectedDate.getFullYear()}`;
+      const filtered = attendances.filter(
+        (attendance) => attendance.date === formattedDate
+      );
+      setFilteredAttendances(filtered);
+    } else {
+      setFilteredAttendances(attendances);
+    }
+  };
 
   return (
     <section className="p-4">
@@ -50,7 +70,10 @@ const AttendanceDetails = () => {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <button className="px-6 py-3 rounded-md bg-primary text-white">
+        <button
+          className="px-6 py-3 rounded-md bg-primary text-white"
+          onClick={handleSearch}
+        >
           Search
         </button>
       </div>
@@ -90,9 +113,9 @@ const AttendanceDetails = () => {
           </thead>
 
           <tbody>
-            {attendances.map((attendance) => (
+            {filteredAttendances.map((attendance, index) => (
               <tr
-                key={attendance.employee_id}
+                key={index}
                 className="bg-white border-b light:bg-gray-200 light:border-gray-200"
               >
                 <td className="py-4 px-6">{attendance.userName}</td>

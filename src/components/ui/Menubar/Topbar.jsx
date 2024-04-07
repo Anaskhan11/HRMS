@@ -93,7 +93,7 @@ const Topbar = () => {
           )}
         </span>
         <span
-          className="px-4 py-2 rounded-md bg-black text-white font-semibold cursor-pointer hover:shadow hover:shadow-lg"
+          className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold cursor-pointer hover:shadow hover:shadow-lg"
           onClick={handleLogout}
         >
           Logout

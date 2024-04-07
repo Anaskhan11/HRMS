@@ -222,3 +222,8 @@ th {
   background-color: green;
   color: white;
 }
+
+.neomorph {
+  background: #e0e0e0;
+  box-shadow: 20px 20px 40px #bebebe, -20px -20px 80px #ffffff;
+}
