@@ -3,16 +3,26 @@ const { promisePool } = require("../config/DBConnection");
 // create Assetes Model
 const createAsset = async (asset_id, employee_id) => {
   return new Promise((resolve, reject) => {
-    // First, check if the asset already exists for the employee
+    // Check if the asset already exists for the employee
     const checkQuery =
       "SELECT * FROM assets_details WHERE asset_id = ? AND employee_id = ?";
     promisePool.query(checkQuery, [asset_id, employee_id], (err, results) => {
       if (err) {
         reject(err);
       } else if (results.length > 0) {
-        // If the asset already exists for the employee, reject the promise
-        reject(
-          new Error("The asset has already been assigned to this employee.")
+        // If the asset already exists for the employee, update it
+        const updateQuery =
+          "UPDATE assets_details SET asset_id = ?, employee_id = ? WHERE asset_id = ? AND employee_id = ?";
+        promisePool.query(
+          updateQuery,
+          [asset_id, employee_id, asset_id, employee_id],
+          (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          }
         );
       } else {
         // If the asset does not exist for the employee, insert it
@@ -52,7 +62,7 @@ const getAllAssets = async () => {
 const getAssetsByEmployeeId = async (employee_id) => {
   return new Promise((resolve, reject) => {
     const query =
-      "SELECT ai.asset_name, ai.asset_value ,ad.employee_id FROM asset_information as ai JOIN assets_details as ad ON ai.asset_id = ad.asset_id WHERE employee_id = ?";
+      "SELECT ai.asset_id,ai.asset_name, ai.asset_value ,ad.employee_id FROM asset_information as ai JOIN assets_details as ad ON ai.asset_id = ad.asset_id WHERE employee_id = ?";
     promisePool.query(query, employee_id, (err, result) => {
       if (err) {
         reject(err);

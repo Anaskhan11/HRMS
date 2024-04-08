@@ -2,11 +2,12 @@ const assetsModel = require("../models/assetsModel");
 
 exports.createAsset = async (req, res) => {
   const data = req.body;
+  console.log("data asset", data);
 
   try {
     const result = await Promise.all(
       data.map((asset) =>
-        assetsModel.createAsset(asset.asset.asset_id, asset.employee_id)
+        assetsModel.createAsset(asset.asset, asset.employee_id)
       )
     );
     res.status(201).json(result);
@@ -35,11 +36,14 @@ exports.getAssetsById = async (req, res) => {
 };
 // update Assets
 exports.updateAssets = async (req, res) => {
-  const { id } = req.params;
-  const { assetName, assetValue } = req.body;
+  const data = req.body;
   try {
-    const result = await assetsModel.updateAssets(id, assetName, assetValue);
-    res.status(200).json(result);
+    const result = await Promise.all(
+      data.map((asset) =>
+        assetsModel.updateAssets(asset.asset, asset.employee_id)
+      )
+    );
+    res.status(201).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
