@@ -83,19 +83,21 @@ const Sidebar = () => {
         initial={false}
       >
         <IsScrollable>
-          <div
-            onClick={() => setDisplayText(!displayText)}
-            className="my-6 flex items-center gap-2 ml-auto p-2 bg-red-500 w-fit rounded-md mx-2 cursor-pointer"
-          >
-            {displayText && <span>Close</span>}
-            {!displayText ? (
-              <MenuBar />
-            ) : (
-              <RxCross2 className="w-6 h-6 text-white" />
-            )}
+          <div className="fixed top-0 left-0 flex items-center justify-center p-2">
+            <div
+              onClick={() => setDisplayText(!displayText)}
+              className="my-6 flex items-center gap-2 ml-auto p-2 bg-red-500 w-fit rounded-md mx-2 cursor-pointer"
+            >
+              {displayText && <span>Close</span>}
+              {!displayText ? (
+                <MenuBar />
+              ) : (
+                <RxCross2 className="w-6 h-6 text-white" />
+              )}
+            </div>
           </div>
           {/* Adjust ul and div structure for proper rendering */}
-          <ul className="my-12">
+          <ul className="my-20">
             {/* Example entry with conditional rendering based on displayText */}
             <Link to="/">
               <div className="sidebar-item">
@@ -139,19 +141,19 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/employee">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Employee List</p>}
                     </div>
                   </Link>
                   <Link to="/assign/assets">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <TbListDetails className="w-6 h-6" />
                       {displayText && <p>Assign Assets</p>}
                     </div>
                   </Link>
                   <Link to="/employee/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <IoPersonAddOutline className="w-6 h-6" />
                       {displayText && <p>Add Employee</p>}
                     </div>
@@ -188,13 +190,13 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/department">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Departments List</p>}
                     </div>
                   </Link>
                   <Link to="/department/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <BsBuildings className="w-6 h-6" />
                       {displayText && <p>Add Department</p>}
                     </div>
@@ -232,13 +234,13 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/position">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Position List</p>}
                     </div>
                   </Link>
                   <Link to="/position/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <p>Add Position</p>}
                     </div>
@@ -281,13 +283,13 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/attendance/details">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Attendance Details</p>}
                     </div>
                   </Link>
                   <Link to="/attendance">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <p>Mark Attendance</p>}
                     </div>
@@ -327,7 +329,7 @@ const Sidebar = () => {
                       {role === "manager" ||
                         (role === "admin" && (
                           <Link to="/leave/details">
-                            <div>
+                            <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                               <CiViewList className="w-6 h-6" />
                               {displayText && <p>Leave Details</p>}
                             </div>
@@ -335,7 +337,7 @@ const Sidebar = () => {
                         ))}
                       {role === "employee" && (
                         <Link to="/leave/employeeleavedetail">
-                          <div>
+                          <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                             <LuTableProperties className="w-6 h-6" />
                             {displayText && <p>Employee Leaves</p>}
                           </div>
@@ -345,7 +347,7 @@ const Sidebar = () => {
                   }
                   {role === "employee" && (
                     <Link to="/leave">
-                      <div>
+                      <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                         <HiOutlineFolderAdd className="w-6 h-6" />
                         {displayText && <p>Request Leave</p>}
                       </div>
@@ -385,19 +387,19 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/project">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Project Details</p>}
                     </div>
                   </Link>
                   <Link to="/project/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <p>Create a Project</p>}
                     </div>
                   </Link>
                   <Link to="/project/task/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <p>Add A Task</p>}
                     </div>
@@ -434,13 +436,13 @@ const Sidebar = () => {
                   exit={"closed"}
                 >
                   <Link to="/payroll">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <CiViewList className="w-6 h-6" />
                       {displayText && <p>Payroll Details</p>}
                     </div>
                   </Link>
                   <Link to="/payroll/add">
-                    <div>
+                    <div className="hover:bg-white hover:text-primary rounded-s-full rounded-ss-full">
                       <HiOutlineFolderAdd className="w-6 h-6" />
                       {displayText && <p>Generate Payroll</p>}
                     </div>

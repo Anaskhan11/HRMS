@@ -43,13 +43,29 @@ const AssignAssets = () => {
 
   const { data: AllAssets } = useQuery("assets", getAllAssets);
 
+  const AllAssetsForEmployee =
+    AllAssets &&
+    AllAssets.map((asset) => ({
+      ...asset,
+      employee_id: currentEmployee,
+    }));
+
+  // Handle Asset Click
   const handleAssetClick = (asset) => {
-    if (selectedAssets.includes(asset.asset_name)) {
+    if (
+      selectedAssets.some(
+        (selectedAsset) => selectedAsset.asset_id === asset.asset_id
+      )
+    ) {
+      // If the asset is already selected, deselect it
       setSelectedAssets((prev) =>
-        prev.filter((item) => item !== asset.asset_name)
+        prev.filter((item) => item.asset_id !== asset.asset_id)
       );
+      console.log(selectedAssets);
     } else {
-      setSelectedAssets((prev) => [...prev, asset.asset_name]);
+      // If the asset is not selected, select it
+      setSelectedAssets((prev) => [...prev, asset]);
+      console.log(selectedAssets);
     }
   };
   // Handle Assets Submit
@@ -74,7 +90,7 @@ const AssignAssets = () => {
   const handleAssetsSubmit = () => {
     // Perform further actions with the selected assets data
     const data = selectedAssets.map((asset) => ({
-      asset: asset,
+      asset: asset.asset_id,
       employee_id: currentEmployee,
     }));
 
@@ -87,17 +103,10 @@ const AssignAssets = () => {
   const handleModalOpen = async (employee_id) => {
     setIsOpen(true);
     setCurrentEmployee(employee_id);
-    console.log("Current Employee", employee_id);
 
     try {
       const employeeAssets = await getAssetByEmployeeId(employee_id);
-      setSelectedAssets(employeeAssets.map((asset) => asset.asset_name)); // Update this line
-      console.log(
-        "Employee Assets for employee ",
-        employee_id,
-        employeeAssets,
-        selectedAssets
-      );
+      setSelectedAssets(employeeAssets.map((asset) => asset)); // Update this line
     } catch (error) {
       console.error("Failed to fetch employee assets:", error);
     }
@@ -198,12 +207,15 @@ const AssignAssets = () => {
         <div>
           <div className="grid grid-cols-4 gap-4">
             {AllAssets &&
-              AllAssets.map((asset) => (
+              AllAssetsForEmployee.map((asset) => (
                 <div
                   className={`p-4 flex flex-col items-center rounded-lg ${
-                    selectedAssets.includes(asset.asset_name)
-                      ? "bg-[#ffd60a] text-white"
-                      : "neomorph cursor-pointer"
+                    selectedAssets.find(
+                      (selectedAsset) =>
+                        selectedAsset.asset_id === asset.asset_id
+                    )
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200"
                   }`}
                   onClick={() => handleAssetClick(asset)}
                   key={asset.asset_id}
@@ -236,7 +248,8 @@ const AssignAssets = () => {
                       <FaDesktop className="w-8 h-8" />
                     )
                   }
-                  <span>{asset.assetName}</span>
+
+                  <span>{asset.asset_name}</span>
                 </div>
               ))}
 
