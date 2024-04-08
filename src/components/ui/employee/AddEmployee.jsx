@@ -32,6 +32,7 @@ const AddEmployee = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [age, setAge] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
@@ -86,6 +87,7 @@ const AddEmployee = () => {
       email,
       password,
       role,
+      age,
       fatherName,
       gender,
       address,
@@ -102,6 +104,7 @@ const AddEmployee = () => {
       password,
       role,
       fatherName,
+      age,
       gender,
       address,
       date_of_birth,
@@ -211,6 +214,20 @@ const AddEmployee = () => {
 
               {activeState === 1 && (
                 <>
+                  <div>
+                    <label className="text-gray-700 font-medium" htmlFor="age">
+                      Age
+                    </label>
+                    <input
+                      className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      type="number"
+                      id="age"
+                      name="age"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
+                      required
+                    />
+                  </div>
                   <div>
                     <label
                       className="text-gray-700 font-medium"

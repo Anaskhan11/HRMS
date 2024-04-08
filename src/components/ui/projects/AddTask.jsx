@@ -270,7 +270,7 @@ const AddTask = () => {
               className="w-fit px-4 py-3 mt-6 text-white bg-primary rounded-lg"
               type="submit"
             >
-              Create Project
+              Create Task
             </button>
           </form>
           {mutation && (

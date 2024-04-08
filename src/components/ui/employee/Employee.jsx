@@ -81,6 +81,10 @@ const Employee = () => {
                 </th>
 
                 <th scope="col" className="py-3 px-6">
+                  Age
+                </th>
+
+                <th scope="col" className="py-3 px-6">
                   Email
                 </th>
 
@@ -121,9 +125,20 @@ const Employee = () => {
                   key={employee.employee_id}
                 >
                   <td className="py-4 px-6">
-                    <FaRegUser className="w-6 h-6" />
+                    {employee.image ? (
+                      <img
+                        src={`${import.meta.env.VITE_APP_BASE_URL}/${
+                          employee.image
+                        }`}
+                        alt="pfp"
+                        className="w-10 h-10 rounded-full"
+                      />
+                    ) : (
+                      <FaRegUser className="w-10 h-10" />
+                    )}
                   </td>
                   <td className="py-4 px-6">{employee.name}</td>
+                  <td className="py-4 px-6">{employee.age}</td>
                   <td className="py-4 px-6">{employee.email}</td>
                   <td className="py-4 px-6">{employee.role}</td>
                   <td className="py-4 px-6">{employee.father_name}</td>

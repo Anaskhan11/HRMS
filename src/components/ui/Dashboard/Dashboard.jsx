@@ -17,7 +17,6 @@ const Dashboard = () => {
   // Get Dashboard Related Data
   const getDashboardData = async () => {
     const response = await axiosInstance.get("/api/employee/getDashboardData");
-    console.log("get dashboard date", response.data);
     return response.data;
   };
 
@@ -25,6 +24,14 @@ const Dashboard = () => {
     "dashboardData",
     getDashboardData
   );
+
+  const getAllAges = async () => {
+    const response = await axiosInstance.get("/api/employee/getallages");
+    return response.data;
+  };
+
+  const { data: ages } = useQuery("ages", getAllAges);
+  const agesArray = ages && ages.map((age) => age.age);
 
   return (
     <section className="p-4 h-[100vh] dark:bg-gray-800 dark:text-gray-200">
@@ -67,7 +74,7 @@ const Dashboard = () => {
             <EmployeeChart />
           </div>
           <div className="flex items-center justify-center h-60 sm:h-auto p-4 rounded shadow shadow-md bg-white">
-            <EmployeeAgePieChart />
+            <EmployeeAgePieChart agesArray={agesArray} />
           </div>
         </div>
       </IsScrollable>

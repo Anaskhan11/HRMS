@@ -66,7 +66,7 @@ const options = {
   },
 };
 
-const EmployeeAgeAreaChart = () => {
+const EmployeeAgeAreaChart = ({ agesArray }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const EmployeeAgeAreaChart = () => {
     datasets: [
       {
         label: "Age Distribution",
-        data: [20, 30, 25, 15, 10],
+        data: agesArray,
         fill: true,
         borderColor: "#000428",
         // backgroundColor will be set by the useEffect
