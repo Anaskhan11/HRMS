@@ -1,6 +1,7 @@
 const { promisePool } = require("../config/DBConnection");
 
 const createEmployee = (
+  age,
   fatherName,
   gender,
   address,
@@ -8,13 +9,13 @@ const createEmployee = (
   religion,
   phoneNumber,
   emergencyContact,
-
   user_id
 ) => {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO employee_details (father_name, gender, address, date_of_birth,religion, phone_number, emergency_contact,user_id) VALUES ( ?, ?,?, ?, ?, ? , ?,?)";
+      "INSERT INTO employee_details (age, father_name, gender, address, date_of_birth,religion, phone_number, emergency_contact,user_id) VALUES ( ?,?, ?,?, ?, ?, ? , ?,?)";
     const employeeValues = [
+      age,
       fatherName,
       gender,
       address,
@@ -39,7 +40,7 @@ const createEmployee = (
 const getAllEmployees = () => {
   return new Promise((resolve, reject) => {
     const query =
-      "SELECT ed.*, up.name, up.email, up.role FROM hrms_employeeservices.employee_details AS ed JOIN hrms_userservices.user_profiles AS up ON ed.user_id = up.user_id";
+      "SELECT ed.*, up.name, up.email, up.image, up.role FROM hrms_employeeservices.employee_details AS ed JOIN hrms_userservices.user_profiles AS up ON ed.user_id = up.user_id";
     promisePool.query(query, (err, result) => {
       if (err) {
         reject(err);
@@ -55,7 +56,7 @@ const getAllEmployees = () => {
 const getEmployeeDepartmentAndPosition = (employee_id) => {
   return new Promise((resolve, reject) => {
     const query =
-      "SELECT ed.*, up.name, up.email, up.role, d.department_id,d.name AS department_name , p.position_id,p.title FROM hrms_employeeservices.employee_details AS ed JOIN hrms_employeeservices.employment_details AS emp ON ed.employee_id = emp.employee_id JOIN hrms_userservices.user_profiles AS up ON ed.user_id = up.user_id JOIN hrms_departmentservices.department_detail as d ON emp.department_id = d.department_id JOIN hrms_postionservices.position_details as p ON emp.position_id = p.position_id; ";
+      "SELECT ed.*, up.name, up.email, up.image, up.role, d.department_id,d.name AS department_name , p.position_id,p.title FROM hrms_employeeservices.employee_details AS ed JOIN hrms_employeeservices.employment_details AS emp ON ed.employee_id = emp.employee_id JOIN hrms_userservices.user_profiles AS up ON ed.user_id = up.user_id JOIN hrms_departmentservices.department_detail as d ON emp.department_id = d.department_id JOIN hrms_postionservices.position_details as p ON emp.position_id = p.position_id; ";
     promisePool.query(query, (err, result) => {
       if (err) {
         reject(err);

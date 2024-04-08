@@ -18,6 +18,57 @@ const getDashboardData = async () => {
   });
 };
 
+const getEmployeeDashboardData = async (employee_id) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        p.title, 
+        d.name, 
+        CONCAT('[', GROUP_CONCAT(JSON_OBJECT('project_name', IFNULL(pd.project_name, 'NULL'), 'project_id', IFNULL(pd.project_id, 0), 'employee_id', emp.employee_id)), ']') AS projects,
+        CONCAT('[', GROUP_CONCAT(JSON_OBJECT('leave_id', l.leave_id, 'start_date', l.start_date, 'end_date', l.end_date, 'leave_type', l.leave_type, "status", l.status)), ']') AS leave_requests
+      FROM 
+        hrms_employeeservices.employment_details AS emp 
+        JOIN hrms_departmentservices.department_detail AS d ON d.department_id = emp.department_id AND emp.employee_id = ${employee_id} 
+        JOIN hrms_postionservices.position_details AS p ON p.position_id = emp.position_id AND emp.employee_id = ${employee_id} 
+        LEFT JOIN hrms_projectservices.project_assignment AS pa ON pa.employee_id = emp.employee_id 
+        LEFT JOIN hrms_projectservices.project_details AS pd ON pa.project_id = pd.project_id
+        LEFT JOIN hrms_leavemanagementservices.leave_request AS l ON l.employee_id = emp.employee_id
+      WHERE
+        emp.employee_id = ${employee_id}
+      GROUP BY
+        emp.employee_id, p.title, d.name;`;
+
+    promisePool.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        // Parse projects array
+        result.forEach((row) => {
+          row.projects = JSON.parse(row.projects);
+          // Parse leave_requests array
+          row.leave_requests = JSON.parse(row.leave_requests);
+        });
+        resolve(result[0]);
+      }
+    });
+  });
+};
+
+const getAllAges = async () => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT age FROM hrms_employeeservices.employee_details`;
+    promisePool.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 module.exports = {
   getDashboardData,
+  getEmployeeDashboardData,
+  getAllAges,
 };

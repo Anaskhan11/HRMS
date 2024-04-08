@@ -14,7 +14,11 @@ const {
   deleteAssets,
 } = require("../controller/assetsController");
 
-const { getDashboardData } = require("../controller/dashboardController");
+const {
+  getDashboardData,
+  getEmployeeDashboardData,
+  getAllAges,
+} = require("../controller/dashboardController");
 
 const { verifyAdminOrManagerToken } = require("../../middleware/middleware");
 
@@ -38,5 +42,7 @@ router.delete("/deleteAssets/:id", deleteAssets);
 
 // Dashboard Routes
 router.get("/getDashboardData", getDashboardData);
+router.get("/getEmployeeDashboardData/:employee_id", getEmployeeDashboardData);
+router.get("/getallages", getAllAges);
 
 module.exports = router;

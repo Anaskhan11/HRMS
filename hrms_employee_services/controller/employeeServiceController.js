@@ -8,6 +8,7 @@ exports.createEmployee = async (req, res) => {
     email,
     password,
     role,
+    age,
     fatherName,
     gender,
     address,
@@ -32,6 +33,7 @@ exports.createEmployee = async (req, res) => {
 
     const user_id = user.user_id;
     const result = await employeeServiceModel.createEmployee(
+      age,
       fatherName,
       gender,
       address,
@@ -60,6 +62,7 @@ exports.createEmployee = async (req, res) => {
         name,
         email,
         role,
+        age,
         fatherName,
         gender,
         address,
