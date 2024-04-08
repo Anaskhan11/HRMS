@@ -32,6 +32,23 @@ const EmployeeDashboard = () => {
   const maxLeavesPerMonth = 4;
   const leaveProgress = (totalLeaves / maxLeavesPerMonth) * 100;
 
+  const projects = data?.projects || [];
+  const projectTasks = data?.project_tasks || [];
+
+  const getProjectName = (projectId) => {
+    const project = projects.find(
+      (project) => project.project_id === projectId
+    );
+    return project ? project.project_name : "Unknown Project";
+  };
+
+  const completedTasks = projectTasks.filter(
+    (task) => task.status === "Completed"
+  );
+  const pendingTasks = projectTasks.filter(
+    (task) => task.status !== "Completed"
+  );
+
   return (
     <section className="p-4 h-[86vh]">
       <IsScrollable>
@@ -57,15 +74,7 @@ const EmployeeDashboard = () => {
             <h2 className="text-md font-semibold ">Total Projects</h2>
             <GoProject className="w-8 h-8" />
             <h2 className="text-3xl font-bold text-center">
-              {data &&
-                data.projects &&
-                data.projects.map((project) => (
-                  <div key={project.project_id}>
-                    {project.project_name !== "NULL"
-                      ? project.project_name
-                      : "No projects"}
-                  </div>
-                ))}
+              {data && data.projects.length}
             </h2>
           </div>
           <div className="bg-primary rounded-md shadow-md shadow-primary flex gap-4 flex-col items-center justify-center p-4">
@@ -113,6 +122,36 @@ const EmployeeDashboard = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-primary mb-4">
+            Project Tasks
+          </h2>
+          <div className="timeline">
+            {projectTasks.map((task, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-date bg-blue-500 text-white rounded-full p-2">
+                  <span>{task.start_date}</span>
+                </div>
+                <div className="timeline-content">
+                  <h3 className="text-lg font-semibold">{task.task_title}</h3>
+                  <p>{task.task_description}</p>
+                  <p>Project: {getProjectName(task.project_id)}</p>
+                  <p>Status: {task.status}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-green-500 rounded-md shadow-md p-4 text-white">
+              <h3 className="text-lg font-semibold">Completed Tasks</h3>
+              <p className="text-3xl font-bold">{completedTasks.length}</p>
+            </div>
+            <div className="bg-yellow-500 rounded-md shadow-md p-4 text-white">
+              <h3 className="text-lg font-semibold">Pending Tasks</h3>
+              <p className="text-3xl font-bold">{pendingTasks.length}</p>
             </div>
           </div>
         </div>

@@ -99,7 +99,7 @@ const AddTask = () => {
     e.preventDefault();
     mutation.mutate(
       {
-        project_id: 1,
+        project_id: projectId,
         task_title: taskTitle,
         task_description: taskDescription,
         employee_id: employeeId,
