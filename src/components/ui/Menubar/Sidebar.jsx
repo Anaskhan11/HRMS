@@ -9,7 +9,13 @@ import MenuBar from "../common/MenuBar";
 //Icons
 import { RxDashboard } from "react-icons/rx";
 import { GrUserWorker } from "react-icons/gr";
-import { TbReportAnalytics, TbNotebook, TbListDetails } from "react-icons/tb";
+import {
+  TbReportAnalytics,
+  TbNotebook,
+  TbListDetails,
+  TbAsset,
+  TbEyeDollar,
+} from "react-icons/tb";
 import { GoProjectSymlink } from "react-icons/go";
 import { LuSettings } from "react-icons/lu";
 import { CiViewList } from "react-icons/ci";
@@ -83,7 +89,7 @@ const Sidebar = () => {
         initial={false}
       >
         <IsScrollable>
-          <div className="fixed top-0 left-0 flex items-center justify-center p-2">
+          <div className="fixed top-0 left-0 flex items-center justify-center p-2 ">
             <div
               onClick={() => setDisplayText(!displayText)}
               className="my-6 flex items-center gap-2 ml-auto p-2 bg-red-500 w-fit rounded-md mx-2 cursor-pointer"
@@ -248,11 +254,6 @@ const Sidebar = () => {
                 </motion.ul>
               )}
             </AnimatePresence>
-
-            <div className="sidebar-item">
-              <TbReportAnalytics className="w-6 h-6" />
-              {displayText && <li>Reports</li>}
-            </div>
 
             {(role === "admin" || role === "manager") && (
               <div
@@ -450,6 +451,25 @@ const Sidebar = () => {
                 </motion.ul>
               )}
             </AnimatePresence>
+
+            <Link to="/employeeassets">
+              <div className="sidebar-item">
+                <TbAsset className="w-6 h-6" />
+                {displayText && <li>Assets</li>}
+              </div>
+            </Link>
+
+            <Link to="/salaryinformation">
+              <div className="sidebar-item">
+                <TbEyeDollar className="w-6 h-6" />
+                {displayText && <li>Salary Information</li>}
+              </div>
+            </Link>
+
+            <div className="sidebar-item">
+              <TbReportAnalytics className="w-6 h-6" />
+              {displayText && <li>Reports</li>}
+            </div>
 
             <Link to="/settings">
               <div className="sidebar-item">

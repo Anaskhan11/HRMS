@@ -45,11 +45,7 @@ const Payroll = () => {
               </th>
 
               <th scope="col" className="py-3 px-6">
-                Pay Period Start
-              </th>
-
-              <th scope="col" className="py-3 px-6">
-                Pay Period End
+                Month Year
               </th>
 
               <th scope="col" className="py-3 px-6">
@@ -80,8 +76,8 @@ const Payroll = () => {
                 <td className="py-4 px-6">{payroll.email}</td>
                 <td className="py-4 px-6">{payroll.department}</td>
                 <td className="py-4 px-6">{payroll.title}</td>
-                <td className="py-4 px-6">{payroll.pay_period_start}</td>
-                <td className="py-4 px-6">{payroll.pay_period_end}</td>
+
+                <td className="py-4 px-6">{payroll.month_year}</td>
                 <td className="py-4 px-6">{payroll.total_allowances}</td>
                 <td className={`py-4 px-6`}>{payroll.total_deductions}</td>
                 <td className={`py-4 px-6`}>{payroll.net_pay}</td>

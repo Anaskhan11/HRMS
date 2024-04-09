@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { FaRegUser } from "react-icons/fa6";
 import { TbEdit } from "react-icons/tb";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import MonthSelector from "../common/MonthSelector";
 
 const SingleEmployee = ({ employee }) => {
   const [dropDown, setDropDown] = useState(false);
@@ -20,8 +21,7 @@ const SingleEmployee = ({ employee }) => {
   const [deductionAmount, setDeductionAmount] = useState(0);
   const [allowanceType, setAllowanceType] = useState("");
   const [allowanceAmount, setAllowanceAmount] = useState(0);
-  const [payStartDate, setPayStartDate] = useState("");
-  const [payEndDate, setPayEndDate] = useState("");
+  const [monthYear, setMonthYear] = useState("");
   const [totalAllowances, setTotalAllowances] = useState(0);
   const [totalDeductions, setTotalDeductions] = useState(0);
   const [netPay, setNetPay] = useState(0);
@@ -44,6 +44,25 @@ const SingleEmployee = ({ employee }) => {
 
     getSalaryForEmployee();
   }, []);
+
+  // Fetch Payroll Details
+  const fetchPayrollDetails = async () => {
+    const response = await axiosInstance.get(
+      `/api/payroll/getallowanceanddeduction/${employee.employee_id}`
+    );
+    console.log("Total Allowance and Deduction", response.data.result[0]);
+    setTotalAllowances(
+      response.data.result[0].totalAllowance === "null"
+        ? 0
+        : response.data.result[0].totalAllowance
+    );
+    setTotalDeductions(
+      response.data.result[0].totalDeduction === "null"
+        ? 0
+        : response.data.result[0].totalDeduction
+    );
+    setNetPay(response.data.result[0].base_salary);
+  };
 
   // handle Add Salary
   const addSalary = async (data) => {
@@ -151,13 +170,14 @@ const SingleEmployee = ({ employee }) => {
     const data = {
       employee_id: employee.employee_id,
       salary_id: salaryExist.salary_id,
-      pay_period_start: payStartDate,
-      pay_period_end: payEndDate,
-      total_allowances: totalAllowances,
-      total_deductions: totalDeductions,
-      net_pay: netPay,
+      month_year: monthYear,
+      total_allowances: totalAllowances === null ? 0 : totalAllowances,
+      total_deductions: totalDeductions === null ? 0 : totalDeductions,
+      net_pay:
+        netPay === "null" ? 0 : netPay + totalAllowances - totalDeductions,
     };
 
+    console.log("Payroll data to send", data);
     PayrollMutation.mutate(data, {
       onSuccess: () => {
         toast.success("Payroll added successfully");
@@ -187,7 +207,7 @@ const SingleEmployee = ({ employee }) => {
         <td className="py-4 px-6">{employee.department_name}</td>
         <td className="py-4 px-6">{employee.position_title}</td>
         <td className="py-4 px-6">{employee.gender}</td>
-        <td className="py-4 px-6">
+        <td className="py-4 px-6" onClick={fetchPayrollDetails}>
           <span
             className={`font-medium text-primary hover:underline ${
               active === "salary" && "active"
@@ -353,32 +373,7 @@ const SingleEmployee = ({ employee }) => {
 
             {active === "payroll" && (
               <form onSubmit={handleAddPayroll}>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Pay period start
-                  </label>
-                  <input
-                    type="date"
-                    name="pay_period_start"
-                    id="pay_period_start"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    value={payStartDate}
-                    onChange={(e) => setPayStartDate(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Pay period End
-                  </label>
-                  <input
-                    type="date"
-                    name="pay_period_end"
-                    id="pay_period_end"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    value={payEndDate}
-                    onChange={(e) => setPayEndDate(e.target.value)}
-                  />
-                </div>
+                <MonthSelector setMonthYear={setMonthYear} />
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Total Allowances
@@ -390,8 +385,8 @@ const SingleEmployee = ({ employee }) => {
                       name="total_allowances"
                       id="total_allowances"
                       className="w-full border-none bg-transparent outline-none"
-                      value={totalAllowances}
-                      onChange={(e) => setTotalAllowances(e.target.value)}
+                      value={totalAllowances === "NULL" ? "0" : totalAllowances}
+                      disabled={true}
                     />
                   </div>
                 </div>
@@ -406,8 +401,8 @@ const SingleEmployee = ({ employee }) => {
                       name="total_deductions"
                       id="total_deductions"
                       className="w-full border-none bg-transparent outline-none"
-                      value={totalDeductions}
-                      onChange={(e) => setTotalDeductions(e.target.value)}
+                      value={totalDeductions === "NULL" ? "0" : totalDeductions}
+                      disabled={true}
                     />
                   </div>
                 </div>
@@ -422,8 +417,12 @@ const SingleEmployee = ({ employee }) => {
                       name="net_pay"
                       id="net_pay"
                       className="w-full border-none bg-transparent outline-none"
-                      value={netPay}
-                      onChange={(e) => setNetPay(e.target.value)}
+                      value={
+                        netPay === "NULL"
+                          ? "0"
+                          : netPay + totalAllowances - totalDeductions
+                      }
+                      disabled={true}
                     />
                   </div>
                 </div>
