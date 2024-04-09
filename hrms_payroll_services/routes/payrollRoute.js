@@ -14,6 +14,14 @@ router.get("/getsalary/:employee_id", salarycontroller.getSalaryById);
 // payroll routes
 router.post("/createpayroll", payrollController.createPayroll);
 router.get("/getpayroll", payrollController.getPayroll);
+router.get(
+  "/getallowanceanddeduction/:employee_id",
+  payrollController.getTotalDeductionsAndAllowances
+);
+router.get(
+  "/getpayroll/:employee_id",
+  payrollController.getPayrollByEmployeeId
+);
 
 // allowence routes
 router.post("/createallowence", allowenceController.createAllowence);

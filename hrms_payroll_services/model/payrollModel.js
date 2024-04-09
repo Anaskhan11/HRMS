@@ -4,20 +4,18 @@ const db = require("../config/DBConnection");
 const createpayroll = (
   employee_id,
   salary_id,
-  pay_period_start,
-  pay_period_end,
+  month_year,
   total_allowances,
   total_deductions,
   net_pay
 ) => {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO payroll_details (employee_id,salary_id,pay_period_start ,pay_period_end ,total_allowances ,total_deductions ,net_pay) VALUES (?, ?,?,?,?,?,?)";
+      "INSERT INTO payroll_details (employee_id,salary_id, month_year ,total_allowances ,total_deductions ,net_pay) VALUES (?, ?,?,?,?,?)";
     const values = [
       employee_id,
       salary_id,
-      pay_period_start,
-      pay_period_end,
+      month_year,
       total_allowances,
       total_deductions,
       net_pay,
@@ -47,4 +45,43 @@ const getPayroll = () => {
   });
 };
 
-module.exports = { createpayroll, getPayroll };
+// get Total Deductions and Allowances
+const getTotalDeductionsAndAllowances = (employee_id) => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT 
+    (SELECT SUM(amount) FROM allowances_details WHERE employee_id = ${employee_id}) AS totalAllowance,
+    (SELECT SUM(amount) FROM deduction_details WHERE employee_id = ${employee_id}) AS totalDeduction,
+    base_salary
+FROM 
+    salaries_services
+WHERE 
+    employee_id = ${employee_id}`;
+    db.query(query, employee_id, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+const getPayrollByEmployeeId = (employee_id) => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT * FROM payroll_details WHERE employee_id = ${employee_id}`;
+    db.query(query, employee_id, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+module.exports = {
+  createpayroll,
+  getPayroll,
+  getTotalDeductionsAndAllowances,
+  getPayrollByEmployeeId,
+};
