@@ -12,6 +12,7 @@ import { BsBuildings } from "react-icons/bs";
 import EmployeeAgePieChart from "../employee/EmployeeAgePieChart";
 import IsScrollable from "../common/Scrollable";
 import EmployeeAttendanceDonutChart from "../common/AttendanceDonutChart";
+import DashboardSkeleton from "../common/DashboardSkeleton";
 
 const Dashboard = () => {
   // Get Dashboard Related Data
@@ -47,6 +48,9 @@ const Dashboard = () => {
     getAttendanceDataForChart
   );
 
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
   return (
     <section className="p-4 h-[100vh] dark:bg-gray-800 dark:text-gray-200">
       <IsScrollable>

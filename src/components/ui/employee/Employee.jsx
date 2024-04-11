@@ -10,6 +10,7 @@ import { TbEdit } from "react-icons/tb";
 import { FaRegUser } from "react-icons/fa6";
 import { GrDescend } from "react-icons/gr";
 import { GrAscend } from "react-icons/gr";
+import TableSkeleton from "../common/TableSkeleton";
 
 const Employee = () => {
   const getAllEmployees = async () => {
@@ -28,7 +29,9 @@ const Employee = () => {
     return (
       <section className="p-4 my-6 h-screen">
         <Skeleton height={40} />
-        <Skeleton count={5} />
+        <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
+          <TableSkeleton rows={10} columns={6} />
+        </div>
       </section>
     );
   }

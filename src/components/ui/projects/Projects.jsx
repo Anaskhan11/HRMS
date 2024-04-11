@@ -5,6 +5,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"; // Import Framer Motion
+import TableSkeleton from "../common/TableSkeleton";
 
 const Projects = () => {
   const getAllProjects = async () => {
@@ -44,7 +45,9 @@ const Projects = () => {
     return (
       <section className="p-4 my-6 h-screen">
         <Skeleton height={40} />
-        <Skeleton count={5} />
+        <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
+          <TableSkeleton rows={10} columns={6} />
+        </div>
       </section>
     );
   }

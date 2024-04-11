@@ -1,6 +1,8 @@
 import React from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
+import Skeleton from "react-loading-skeleton";
+import TableSkeleton from "../common/TableSkeleton";
 
 const Payroll = () => {
   const getAllPayrolls = async () => {
@@ -11,7 +13,14 @@ const Payroll = () => {
   const { data, isLoading, error } = useQuery("payrolls", getAllPayrolls);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className="p-4 my-6 h-screen">
+        <Skeleton height={40} />
+        <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
+          <TableSkeleton rows={10} columns={6} />
+        </div>
+      </section>
+    );
   }
 
   if (error) {

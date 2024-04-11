@@ -89,10 +89,16 @@ const Sidebar = () => {
         initial={false}
       >
         <IsScrollable>
-          <div className="fixed top-0 left-0 flex items-center justify-center p-2 ">
+          <div
+            className={`fixed top-0 left-0 flex items-center justify-center ${
+              displayText ? "w-64" : "w-16"
+            } bg-transparent backdrop-blur h-[81.63px]`}
+          >
             <div
               onClick={() => setDisplayText(!displayText)}
-              className="my-6 flex items-center gap-2 ml-auto p-2 bg-red-500 w-fit rounded-md mx-2 cursor-pointer"
+              className={`flex items-center gap-2 p-2 bg-red-500 w-fit rounded-md cursor-pointer ${
+                displayText ? "ml-auto mr-4" : ""
+              }`}
             >
               {displayText && <span>Close</span>}
               {!displayText ? (

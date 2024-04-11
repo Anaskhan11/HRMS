@@ -2,6 +2,8 @@ import React from "react";
 import axiosInstance from "../../../api/axios";
 import secureLocalStorage from "react-secure-storage";
 import { useQuery } from "react-query";
+import Skeleton from "react-loading-skeleton";
+import TableSkeleton from "../common/TableSkeleton";
 
 const SalaryInformation = () => {
   const fetchPayroll = async () => {
@@ -16,7 +18,14 @@ const SalaryInformation = () => {
   const { data, isLoading, error } = useQuery("payroll", fetchPayroll);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className="p-4 my-6 h-screen">
+        <Skeleton height={40} />
+        <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
+          <TableSkeleton rows={10} columns={6} />
+        </div>
+      </section>
+    );
   }
 
   return (
