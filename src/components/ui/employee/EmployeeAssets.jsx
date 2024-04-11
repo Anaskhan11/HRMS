@@ -31,7 +31,6 @@ const EmployeeAssets = () => {
     "employeeAssets",
     fetchEmployeeAssets
   );
-  console.log(data, "data");
 
   return (
     <section className="p-4">

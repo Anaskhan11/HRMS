@@ -26,6 +26,12 @@ const createProject = async (data) => {
     }
   );
   if (!response.ok) {
+    toast.error("Failed to add Project", {
+      style: {
+        background: "red",
+        color: "#ffffff",
+      },
+    });
     throw new Error("Something went wrong");
   }
   toast.success(`Project Created Successfully`, {
@@ -103,7 +109,12 @@ const AddProject = () => {
     );
 
     if (isAlreadyAssigned) {
-      toast.warning("This employee is already assigned to the project.");
+      toast.warning("This employee is already assigned to the project.", {
+        style: {
+          background: "yellow",
+          color: "#ffffff",
+        },
+      });
     } else {
       setAssignedEmployees((prevEmployees) => [...prevEmployees, employee]);
     }
@@ -111,11 +122,21 @@ const AddProject = () => {
 
   const mutation = useMutation(createProject, {
     onSuccess: () => {
-      toast.success("Project created & assigned successfully");
+      toast.success("Project created & assigned successfully", {
+        style: {
+          background: "#555",
+          color: "#ffffff",
+        },
+      });
       navigate("/project");
     },
     onError: () => {
-      toast.error("Project creation & assignment failed!");
+      toast.error("Project creation & assignment failed!", {
+        style: {
+          background: "red",
+          color: "#ffffff",
+        },
+      });
     },
   });
 
@@ -128,7 +149,13 @@ const AddProject = () => {
 
     if (assignedEmployees.length === 0) {
       toast.error(
-        "Please assign at least one employee to the project before submission."
+        "Please assign at least one employee to the project before submission.",
+        {
+          style: {
+            background: "red",
+            color: "#ffffff",
+          },
+        }
       );
       return;
     }

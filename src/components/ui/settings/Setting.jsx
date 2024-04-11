@@ -61,12 +61,22 @@ const Settings = () => {
       { userId, formData },
       {
         onSuccess: () => {
-          toast.success("Profile updated successfully");
+          toast.success("Profile updated successfully", {
+            style: {
+              background: "#555",
+              color: "#ffffff",
+            },
+          });
 
           fetchUserImage(userId);
         },
         onError: (error) => {
-          toast.error("Error updating profile");
+          toast.error("Error updating profile", {
+            style: {
+              background: "red",
+              color: "#ffffff",
+            },
+          });
         },
       }
     );

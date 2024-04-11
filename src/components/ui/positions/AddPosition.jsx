@@ -16,6 +16,12 @@ const createUser = async (data) => {
     }
   );
   if (!response.ok) {
+    toast.error("Failed to add Position", {
+      style: {
+        background: "red",
+        color: "#ffffff",
+      },
+    });
     throw new Error("Something went wrong");
   }
 

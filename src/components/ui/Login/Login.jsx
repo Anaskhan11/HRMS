@@ -45,7 +45,6 @@ const Login = () => {
       secureLocalStorage.setItem("accessToken", data.accessToken);
       secureLocalStorage.setItem("refreshToken", data.refreshToken);
       secureLocalStorage.setItem("user", data.user);
-      console.log("Login user data: ", data);
       setEmail("");
       setPassword("");
 

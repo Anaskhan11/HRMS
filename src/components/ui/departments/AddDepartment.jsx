@@ -17,7 +17,12 @@ const createUser = async (data) => {
     }
   );
   if (!response.ok) {
-    throw new Error("Something went wrong");
+    toast.error("Failed to add Department", {
+      style: {
+        background: "red",
+        color: "#ffffff",
+      },
+    });
   }
   toast.success(`Department Created Successfully`, {
     style: {

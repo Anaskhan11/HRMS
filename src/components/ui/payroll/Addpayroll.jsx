@@ -9,7 +9,6 @@ const Addpayroll = () => {
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
   const [positionValues, setPositionValues] = useState([]);
-  const [employee, setEmployee] = useState("");
   const [name, setName] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
@@ -29,7 +28,6 @@ const Addpayroll = () => {
       department,
       position,
     };
-    console.log(data, "data");
 
     SearchMutation.mutate(data, {
       onSuccess: (data) => {

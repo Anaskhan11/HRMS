@@ -17,7 +17,7 @@ const EmployeeLeaveDetails = () => {
       `/api/leave/getEmployeeLeave/` +
         secureLocalStorage.getItem("user").employee_id
     );
-    console.log(response.data);
+
     return response.data;
   };
 

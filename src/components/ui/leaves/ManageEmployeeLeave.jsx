@@ -25,10 +25,20 @@ const ManageEmployeeLeave = ({ leave_id, initialState, refetchLeaves }) => {
     );
 
     if (response.ok) {
-      toast.success(`Leave Operation Successful`);
+      toast.success(`Leave Operation Successful`, {
+        style: {
+          background: "#555",
+          color: "#ffffff",
+        },
+      });
     }
     if (!response.ok) {
-      toast.error(`Something went wrong while processing your request`);
+      toast.error(`Something went wrong while processing your request`, {
+        style: {
+          background: "red",
+          color: "#ffffff",
+        },
+      });
     }
   };
 

@@ -34,7 +34,12 @@ const ProjectDetails = () => {
       }
     );
 
-    toast.success("Task status updated successfully");
+    toast.success("Task status updated successfully", {
+      style: {
+        backgroundColor: "#34D399",
+        color: "#fff",
+      },
+    });
     return response.data;
   };
 

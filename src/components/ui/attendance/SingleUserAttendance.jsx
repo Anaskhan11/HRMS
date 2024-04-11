@@ -6,9 +6,8 @@ import { toast } from "react-toastify";
 // Icons
 import { TiChevronRight } from "react-icons/ti";
 
-const SingleUserAttendance = ({ employee_id }) => {
+const SingleUserAttendance = ({ employee_id, date }) => {
   const [attendance, setAttendance] = useState("");
-  console.log(employee_id, "employee");
 
   const handleAttendance = async (data) => {
     if (attendance === "") return alert("Please select attendance first");
@@ -25,10 +24,23 @@ const SingleUserAttendance = ({ employee_id }) => {
     );
 
     if (response.ok) {
-      toast.success(`Attendance Marked`);
+      toast.success(`Attendance Marked`, {
+        style: {
+          background: "#555",
+          color: "#ffffff",
+        },
+      });
     }
-    if (!response.ok) {
-      toast.error(`Failed to mark attendance`);
+    if (
+      (response.status === 500,
+      {
+        style: {
+          background: "red",
+          color: "#ffffff",
+        },
+      })
+    ) {
+      toast.error(`Attendance already marked for this date.`);
     }
   };
 
@@ -39,7 +51,7 @@ const SingleUserAttendance = ({ employee_id }) => {
     mutation.mutate({
       employee_id,
       status: attendance,
-      date: new Date().toLocaleDateString(),
+      date: date,
       time_in: new Date().toLocaleTimeString(),
       time_out: new Date().toLocaleTimeString(),
     });

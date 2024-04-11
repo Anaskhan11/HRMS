@@ -64,6 +64,7 @@ const AddEmployee = () => {
         const response = await axiosInstance.get(
           "/api/position/getAllPositions"
         );
+
         setPositions(response.data.data);
       } catch (error) {
         console.log(error);

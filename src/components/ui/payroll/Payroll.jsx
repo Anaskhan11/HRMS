@@ -5,7 +5,6 @@ import axiosInstance from "../../../api/axios";
 const Payroll = () => {
   const getAllPayrolls = async () => {
     const response = await axiosInstance.get("/api/payroll/getpayroll");
-    console.log(response.data);
     return response.data;
   };
 

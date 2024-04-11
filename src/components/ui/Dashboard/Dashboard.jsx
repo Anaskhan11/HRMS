@@ -9,9 +9,9 @@ import { GoProject } from "react-icons/go";
 import { BsBuildings } from "react-icons/bs";
 
 // Components
-import EmployeeChart from "../employee/EmployeeChart";
 import EmployeeAgePieChart from "../employee/EmployeeAgePieChart";
 import IsScrollable from "../common/Scrollable";
+import EmployeeAttendanceDonutChart from "../common/AttendanceDonutChart";
 
 const Dashboard = () => {
   // Get Dashboard Related Data
@@ -25,6 +25,7 @@ const Dashboard = () => {
     getDashboardData
   );
 
+  // Get all ages
   const getAllAges = async () => {
     const response = await axiosInstance.get("/api/employee/getallages");
     return response.data;
@@ -32,6 +33,19 @@ const Dashboard = () => {
 
   const { data: ages } = useQuery("ages", getAllAges);
   const agesArray = ages && ages.map((age) => age.age);
+
+  // get attendace data
+  const getAttendanceDataForChart = async () => {
+    const response = await axiosInstance.get(
+      "/api/attendance/getAttendanceDataForChart"
+    );
+    return response.data;
+  };
+
+  const { data: attendanceData } = useQuery(
+    "attendanceData",
+    getAttendanceDataForChart
+  );
 
   return (
     <section className="p-4 h-[100vh] dark:bg-gray-800 dark:text-gray-200">
@@ -71,7 +85,15 @@ const Dashboard = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 h-52 sm:h-52 md:h-72 lg:h-96">
           <div className="flex items-center justify-center h-60 sm:h-auto p-4 rounded shadow shadow-md bg-white">
-            <EmployeeChart />
+            <EmployeeAttendanceDonutChart
+              attendanceData={{
+                absents:
+                  attendanceData && Number(attendanceData[0].absent_count),
+                presents:
+                  attendanceData && Number(attendanceData[0].present_count),
+                leaves: attendanceData && Number(attendanceData[0].leave_count),
+              }}
+            />
           </div>
           <div className="flex items-center justify-center h-60 sm:h-auto p-4 rounded shadow shadow-md bg-white">
             <EmployeeAgePieChart agesArray={agesArray} />

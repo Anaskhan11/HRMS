@@ -14,7 +14,6 @@ const AttendanceDetails = () => {
     const response = await axiosInstance.get(
       "/api/attendance/getAllEmployeeAttendance"
     );
-    console.log(response.data);
     return response.data;
   };
 

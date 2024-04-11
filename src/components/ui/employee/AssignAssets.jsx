@@ -80,10 +80,20 @@ const AssignAssets = () => {
 
   const AssetMutation = useMutation(submitAssets, {
     onSuccess: () => {
-      toast.success("Assets Submitted Successfully");
+      toast.success("Assets Submitted Successfully", {
+        style: {
+          background: "#555",
+          color: "#ffffff",
+        },
+      });
     },
     onError: () => {
-      toast.error("Failed to submit assets");
+      toast.error("Failed to submit assets", {
+        style: {
+          background: "red",
+          color: "#ffffff",
+        },
+      });
     },
   });
 

@@ -19,7 +19,6 @@ const Topbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Default theme state
 
   useEffect(() => {
-    console.log("Topbar User:", secureLocalStorage.getItem("user"));
     setUser(secureLocalStorage.getItem("user"));
   }, []);
 

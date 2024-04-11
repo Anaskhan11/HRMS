@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
@@ -6,11 +6,18 @@ import "react-loading-skeleton/dist/skeleton.css";
 import SingleUserAttendance from "./SingleUserAttendance";
 
 const Attendance = () => {
+  const [date, setDate] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    const today = new Date().toLocaleDateString("mm", "dd", "yyyy");
+    setDate(today);
+  }, []);
+
   const getAllAttendance = async () => {
     const response = await axiosInstance.get(
       "/api/attendance/getAllAttendance"
     );
-    console.log(response.data);
     return response.data;
   };
 
@@ -39,6 +46,22 @@ const Attendance = () => {
       <h1 className="text-3xl font-semibold text-secondary">
         Employee Attedance
       </h1>
+      <div className="flex items-center gap-2 justify-end">
+        <input
+          type="date"
+          className="w-1/4 p-2 border-2 border-green-500 rounded-lg"
+          value={inputValue}
+          onChange={(e) => {
+            const date = new Date(e.target.value);
+            const formattedDate = `${
+              date.getMonth() + 1
+            }/${date.getDate()}/${date.getFullYear()}`;
+            setDate(formattedDate);
+            setInputValue(e.target.value);
+          }}
+        />
+      </div>
+      <span className="text-sm font-bold text-green-600">{date}</span>
       <div className="my-6 overflow-x-auto relative shadow-md sm:rounded-lg table-scroll">
         {/* Wrap the table in a div with the class "table-scroll" */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -82,7 +105,10 @@ const Attendance = () => {
                 <td className="py-4 px-6">{attendance.departmentName}</td>
                 <td className="py-4 px-6">{attendance.title}</td>
                 <td>
-                  <SingleUserAttendance employee_id={attendance.employee_id} />
+                  <SingleUserAttendance
+                    employee_id={attendance.employee_id}
+                    date={date}
+                  />
                 </td>
               </tr>
             ))}

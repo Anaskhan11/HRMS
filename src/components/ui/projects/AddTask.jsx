@@ -86,9 +86,21 @@ const AddTask = () => {
       },
       {
         onSuccess: (data) => {
+          toast.success("Employee Search Successful", {
+            style: {
+              background: "#555",
+              color: "#ffffff",
+            },
+          });
           console.log(data);
         },
         onError: (error) => {
+          toast.error("No Employees Found!", {
+            style: {
+              background: "#555",
+              color: "#ffffff",
+            },
+          });
           console.log("error: ", error);
         },
       }
@@ -110,11 +122,22 @@ const AddTask = () => {
       {
         onSuccess: () => {
           toast.success(
-            `Task Assigned to employee with employee_id ${employeeId} Successfully`
+            `Task Assigned to employee with employee_id ${employeeId} Successfully`,
+            {
+              style: {
+                background: "#555",
+                color: "#ffffff",
+              },
+            }
           );
         },
         onError: () => {
-          toast.error("Error assigning the task.");
+          toast.error("Error assigning the task.", {
+            style: {
+              background: "red",
+              color: "#ffffff",
+            },
+          });
         },
       }
     );

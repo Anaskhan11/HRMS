@@ -114,10 +114,20 @@ const SingleEmployee = ({ employee }) => {
 
     DeductionMutation.mutate(data, {
       onSuccess: () => {
-        toast.success("Deduction added successfully");
+        toast.success("Deduction added successfully", {
+          style: {
+            background: "#555",
+            color: "#ffffff",
+          },
+        });
       },
       onError: () => {
-        toast.error("Failed to add deduction");
+        toast.error("Failed to add deduction", {
+          style: {
+            background: "red",
+            color: "#ffffff",
+          },
+        });
       },
     });
   };
@@ -144,10 +154,20 @@ const SingleEmployee = ({ employee }) => {
 
     AllowanceMutation.mutate(data, {
       onSuccess: () => {
-        toast.success("Allowance added successfully");
+        toast.success("Allowance added successfully", {
+          style: {
+            background: "#555",
+            color: "#ffffff",
+          },
+        });
       },
       onError: () => {
-        toast.error("Failed to add allowance");
+        toast.error("Failed to add allowance", {
+          style: {
+            background: "red",
+            color: "#ffffff",
+          },
+        });
       },
     });
   };
@@ -177,13 +197,22 @@ const SingleEmployee = ({ employee }) => {
         netPay === "null" ? 0 : netPay + totalAllowances - totalDeductions,
     };
 
-    console.log("Payroll data to send", data);
     PayrollMutation.mutate(data, {
       onSuccess: () => {
-        toast.success("Payroll added successfully");
+        toast.success("Payroll added successfully", {
+          style: {
+            background: "#555",
+            color: "#ffffff",
+          },
+        });
       },
       onError: () => {
-        toast.error("Failed to add payroll");
+        toast.error("Failed to add payroll", {
+          style: {
+            background: "red",
+            color: "#ffffff",
+          },
+        });
       },
     });
   };

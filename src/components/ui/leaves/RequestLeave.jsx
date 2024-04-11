@@ -20,6 +20,12 @@ const requestLeave = async (data) => {
 
     return response.data;
   } catch (error) {
+    toast.error(`Failed to submit application. Please try again.`, {
+      style: {
+        background: "red",
+        color: "#ffffff",
+      },
+    });
     throw new Error("Failed to submit application. Please try again.");
   }
 };
