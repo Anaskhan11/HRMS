@@ -12,7 +12,7 @@ exports.createAttendance = async (req, res) => {
     );
     res.status(200).json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json(err.message);
   }
 };
 
@@ -33,5 +33,14 @@ exports.getAllAttendance = async (req, res) => {
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getAttendanceDataForChart = async (req, res) => {
+  try {
+    const result = await attendanceServiceModel.getAttendanceDataForChart();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

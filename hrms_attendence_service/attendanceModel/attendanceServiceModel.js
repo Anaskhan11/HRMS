@@ -73,10 +73,29 @@ const getAllAttendance = () => {
   });
 };
 
+const getAttendanceDataForChart = () => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT 
+    SUM(CASE WHEN status = 'present' THEN 1 ELSE 0 END) AS present_count,
+    SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) AS absent_count,
+    SUM(CASE WHEN status = 'leave' THEN 1 ELSE 0 END) AS leave_count
+FROM 
+    hrms_employeeservices.attendance_record;`;
+
+    promisePool.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
 // get ALL Atte
 
 module.exports = {
   createAttendance,
   getAllEmployeeAttendance,
   getAllAttendance,
+  getAttendanceDataForChart,
 };
