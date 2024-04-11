@@ -4,17 +4,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Modal } from "../common/Model";
 import { toast } from "react-toastify";
+import ModernCalendar from "../common/ModernCalendar";
 import axiosInstance from "../../../api/axios";
 import Searchbars from "../common/Searchbars";
 import ToggleSwitch from "./ToggleSwitch";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import TableSkeleton from "../common/TableSkeleton";
 
 // Icons
 import { FaRegUser } from "react-icons/fa";
 import { FaRegCalendarAlt, FaRegListAlt } from "react-icons/fa";
-import ModernCalendar from "../common/ModernCalendar";
-import TableSkeleton from "../common/TableSkeleton";
 
 const ProjectDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -6,6 +6,7 @@ import { GrUserAdmin } from "react-icons/gr";
 import { GoProject } from "react-icons/go";
 import { BsBuildings } from "react-icons/bs";
 import IsScrollable from "../common/Scrollable";
+import DashboardSkeleton from "../common/DashboardSkeleton";
 
 const EmployeeDashboard = () => {
   const getDashboardData = async () => {
@@ -48,6 +49,14 @@ const EmployeeDashboard = () => {
   const pendingTasks = projectTasks.filter(
     (task) => task.status !== "Completed"
   );
+
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <section className="p-4 h-[86vh]">

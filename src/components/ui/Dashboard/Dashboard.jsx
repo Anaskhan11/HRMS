@@ -51,6 +51,11 @@ const Dashboard = () => {
   if (isLoading) {
     return <DashboardSkeleton />;
   }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <section className="p-4 h-[100vh] dark:bg-gray-800 dark:text-gray-200">
       <IsScrollable>

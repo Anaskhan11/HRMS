@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
+import TableSkeleton from "../common/TableSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"; // Import Framer Motion
-import TableSkeleton from "../common/TableSkeleton";
 
 const Projects = () => {
   const getAllProjects = async () => {

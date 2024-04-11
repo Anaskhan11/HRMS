@@ -3,14 +3,12 @@ import React from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../../../api/axios";
 import Skeleton from "react-loading-skeleton";
+import TableSkeleton from "../common/TableSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 // Icons
 import { TbEdit } from "react-icons/tb";
 import { FaRegUser } from "react-icons/fa6";
-import { GrDescend } from "react-icons/gr";
-import { GrAscend } from "react-icons/gr";
-import TableSkeleton from "../common/TableSkeleton";
 
 const Employee = () => {
   const getAllEmployees = async () => {

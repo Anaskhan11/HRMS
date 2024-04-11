@@ -28,6 +28,10 @@ const SalaryInformation = () => {
     );
   }
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <section className="p-4">
       <h1 className="text-3xl md:text-3xl font-semibold text-secondary">
@@ -64,7 +68,7 @@ const SalaryInformation = () => {
           </thead>
 
           <tbody>
-            {data && (
+            {data.result.length > 0 && (
               <tr
                 className="border-b light:bg-gray-200 light:border-gray-200"
                 key={data.result[0].payroll_id}
